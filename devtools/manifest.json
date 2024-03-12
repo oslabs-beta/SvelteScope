@@ -3,9 +3,9 @@
   "name": "Svelte Component Explorer",
   "version": "1.0.0",
   "icons": {
-    "16": "src/assets/tuner.png",
-    "48": "src/assets/tuner.png",
-    "128": "src/assets/tuner.png"
+    "16": "assets/tuner.png",
+    "48": "assets/tuner.png",
+    "128": "assets/tuner.png"
   },
   "background:": {
     "service_worker": "background/background.js"
