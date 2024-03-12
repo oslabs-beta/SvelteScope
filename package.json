@@ -19,6 +19,7 @@
     "vite": "^5.1.6"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.263"
+    "@types/chrome": "^0.0.263",
+    "svelte-splitpanes": "^0.8.0"
   }
 }
