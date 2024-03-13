@@ -3,21 +3,20 @@
   "name": "Svelte Component Explorer",
   "version": "1.0.0",
   "icons": {
-    "16": "assets/tuner.png",
-    "48": "assets/tuner.png",
-    "128": "assets/tuner.png"
+    "16": "icons/tuner.png",
+    "48": "icons/tuner.png",
+    "128": "icons/tuner.png"
   },
   "devtools_page": "devtools.html",
-  "permissions": ["tabs, activeTab"],
   "background": {
-    "service_worker": "background/background.js",
+    "service_worker": "background.js",
     "type": "module",
     "minimum_chrome_version": "92"
-  },
+},
   "content_scripts": [
     {
       "matches": ["http://localhost/*"],
-      "js": ["content-scripts/contentScript.js"]
+      "js": ["contentScript.js"]
     }
   ]
 }

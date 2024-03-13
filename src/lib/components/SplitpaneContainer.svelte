@@ -5,12 +5,12 @@
 <Splitpanes style="height: 100%">
   <Pane size={50} minSize={20}>
     <div class="pane">
-      <p>selector pane</p>
+      <p>hello world!</p>
     </div>
   </Pane>
   <Pane size={50} minSize={20}>
     <div class="pane">
-      <p>editor pane</p>
+      <p>more edits!</p>
     </div>
   </Pane>
 </Splitpanes>

@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Svelte Component Explorer",
+  "version": "1.0.0",
+  "icons": {
+    "16": "icons/tuner.png",
+    "48": "icons/tuner.png",
+    "128": "icons/tuner.png"
+  },
+  "devtools_page": "devtools.html",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module",
+    "minimum_chrome_version": "92"
+},
+  "content_scripts": [
+    {
+      "matches": ["http://localhost/*"],
+      "js": ["contentScript.js"]
+    }
+  ]
+}
