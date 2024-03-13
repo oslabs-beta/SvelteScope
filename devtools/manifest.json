@@ -10,7 +10,9 @@
   "devtools_page": "devtools.html",
   "permissions": ["tabs, activeTab"],
   "background": {
-    "service_worker": "background/background.js"
+    "service_worker": "background/background.js",
+    "type": "module",
+    "minimum_chrome_version": "92"
   },
   "content_scripts": [
     {

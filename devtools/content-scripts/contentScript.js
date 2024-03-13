@@ -11,5 +11,4 @@
 
 chrome.runtime.sendMessage(null, 'readScripts', (response) => {
   console.log('logging from contentScript sendMessage');
-  
 });
