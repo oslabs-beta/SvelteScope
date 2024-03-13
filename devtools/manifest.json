@@ -7,9 +7,15 @@
     "48": "assets/tuner.png",
     "128": "assets/tuner.png"
   },
-  "background:": {
+  "devtools_page": "devtools.html",
+  "permissions": ["tabs, activeTab"],
+  "background": {
     "service_worker": "background/background.js"
   },
-  "devtools_page": "devtools.html",
-  "permissions": ["devtools", "panels", "tabs"]
+  "content_scripts": [
+    {
+      "matches": ["http://localhost/*"],
+      "js": ["content-scripts/contentScript.js"]
+    }
+  ]
 }
