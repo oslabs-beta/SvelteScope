@@ -76,11 +76,13 @@
     span:hover {
       border-color: #e9ecef #e9ecef #dee2e6;
       background-color: orangered;
+      color : black;
     }
 
-
-
-
+    .button {
+        background-color: black;
+        color: white;
+    }
     
     li.active > span {
       color: #495057;
