@@ -7,6 +7,11 @@
     "48": "icons/tuner.png",
     "128": "icons/tuner.png"
   },
+  "permissions": [
+    "tabs", 
+    "activeTab",
+    "scripting"
+  ],
   "devtools_page": "devtools.html",
   "background": {
     "service_worker": "background.js",

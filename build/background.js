@@ -1,18 +1,62 @@
-// empty for now, this is the bridge between the browser and our dev tools application
-// console.log('background.js is running');
+console.log('hello from background.js!');
 
-// chrome.runtime.onInstalled.addListener((details) => {
-//   console.log('details: ', details);
+// chrome.tabs.query(
+//   {
+//     active: true,
+//     currentWindow: true,
+//   },
+//   function (tabs) {
+//     let activeTab = tabs[0];
+//     console.log('active tab: ', activeTab.id);
+//     chrome.tabs.sendMessage(activeTab.id, { message: 'myMessage' }, () => {
+//       console.log('message sent!');
+//     });
+//   }
+// );
+
+// chrome.runtime.sendMessage({
+//   extensionId: 'kjodjbnochikcdomnmpmpooodienlhcn',
+//   message: 'myMessage',
+//   callback: () => {
+//     console.log('message sent from background.js');
+//   },
 // });
 
-// chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-//   console.log(msg, sender, sendResponse);
-//   sendResponse('im from the background script');
-//   chrome.tabs.sendMessage(sender.tab.id, 'got your message from background!');
+// chrome.runtime.onConnect.addListener(function (devToolsConnection) {
+//   const devToolsListener = function (message, sender, sendResponse) {
+//     chrome.scripting.executeScript({
+//       target: { tabId: message.tabId },
+//       files: [message.scriptToInject],
+//     });
+//   };
+
+//   devToolsConnection.onMessage.addListener(devToolsConnection);
+//   // devToolsConnection.onDisconnect.addListener(function () {
+//   //   devToolsConnection.onMessage.removeListener(devToolsListener);
+//   // });
 // });
 
-chrome.runtime.onMessage.addListener('readScripts', (details) => {
-  console.log('logging details from readScript message: ', details);
-});
+// chrome.devtools.onShown.addListener((panel) => {
+//   console.log('hello from background listener');
+//   panel.onShown.addListener(() => {
+//     const evaluateButton = document.querySelector('#evaluate-script');
 
-console.log('background script running');
+//     evaluateButton.addEventListener('click', () => {
+//       console.log('button clicked!');
+//     });
+//   });
+//   // const evaluateButton = document.querySelectorAll('#evaluate-script');
+//   // evaluateButton.addEventListener('click', () => {
+//   //   console.log('hello from line 7 bg.js');
+//     // const scriptToInject = `console.log('hello from bakground.js event listener!')`;
+
+//     // const tab = await chrome.tabs.query({
+//     //   active: true,
+//     //   currentWindow: true,
+//     // });
+
+//     // console.log('logging tab: ', tab);
+//     // const tabId = tab[0].id;
+//     // chrome.tabs.sendMessage(tabId, { scriptToInject });
+//   // });
+// });

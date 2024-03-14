@@ -24,23 +24,3 @@ export default defineConfig(() => {
     },
   };
 });
-
-
-// export default defineConfig({
-//   plugins: [
-//     svelte(),
-    // hotReloadExtension({
-    //   log: true,
-    //   backgroundPath: 'devtools/background/background.js'
-    // })
-//   ],
-//   build: {
-//     outDir: './devtools/dist',
-//     rollupOptions: {
-//       output: {
-//         entryFileNames: 'bundle.js',
-//         assetFileNames: 'bundle.css'
-//       }
-//     }
-//   }
-// })

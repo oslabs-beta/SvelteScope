@@ -1,14 +1,27 @@
-// console.log('hello from content script!');
+import { getSvelteVersion, getRootNodes } from 'svelte-listener';
 
-// chrome.runtime.sendMessage(null, 'landed on localhost!', (response) => {
-//   console.log('im from the send response function: ', response);
-// });
+console.log('hello from content script!');
 
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//   console.log(message);
-//   console.log(sender);
-// });
-
-chrome.runtime.sendMessage(null, 'readScripts', (response) => {
-  console.log('logging from contentScript sendMessage');
+let pageLoaded = false;
+window.addEventListener('load', (event) => {
+  pageLoaded = true;
+  console.log(event);
 });
+
+chrome.tabs.query(
+  {
+    active: true,
+    currentWindow: true,
+  },
+  function (tabs) {
+    console.log(tabs);
+    let activeTab = tabs[0];
+    console.log('active tab: ', activeTab.id);
+    chrome.tabs.sendMessage(activeTab.id, { message: 'myMessage' }, () => {
+      const version = getSvelteVersion();
+      const rootNodes = getRootNodes();
+      console.log('version: ', version);
+      console.log('root nodes: ', rootNodes);
+    });
+  }
+);
