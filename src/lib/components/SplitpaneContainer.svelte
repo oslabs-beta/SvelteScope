@@ -1,11 +1,13 @@
 <script lang="ts">
   import { Splitpanes, Pane } from 'svelte-splitpanes';
+  import Tree from './Tree.svelte'
 </script>
 
 <Splitpanes style="height: 100%">
   <Pane size={50} minSize={20}>
     <div class="pane">
       <p>hello world!</p>
+      <Tree />
     </div>
   </Pane>
   <Pane size={50} minSize={20}>
