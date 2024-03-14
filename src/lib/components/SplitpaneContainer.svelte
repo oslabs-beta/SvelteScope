@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Splitpanes, Pane } from 'svelte-splitpanes';
+  import Tree from './Tree.svelte'
   import Tabs from '../containers/Tabs.svelte';
 </script>
 
@@ -7,6 +8,7 @@
   <Pane size={50} minSize={20}>
     <div class="pane1">
       <p>hello world!</p>
+      <Tree />
     </div>
   </Pane>
   <Pane size={50} minSize={20}>
