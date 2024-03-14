@@ -1,26 +1,34 @@
 <script lang="ts">
   import { Splitpanes, Pane } from 'svelte-splitpanes';
+  import Tabs from '../containers/Tabs.svelte';
 </script>
 
 <Splitpanes style="height: 100%">
   <Pane size={50} minSize={20}>
-    <div class="pane">
+    <div class="pane1">
       <p>hello world!</p>
     </div>
   </Pane>
   <Pane size={50} minSize={20}>
-    <div class="pane">
-      <p>more edits!</p>
+    <div class="pane2">
+      <Tabs/>
     </div>
   </Pane>
 </Splitpanes>
 
 <style>
-  .pane {
+  .pane1 {
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+
+  .pane2 {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: black;
   }
 </style>
