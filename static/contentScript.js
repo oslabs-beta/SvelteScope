@@ -37,11 +37,12 @@ function sendRootNodeToExtension(message) {
     return;
   }
 
-  // const rootNotes = getRootNodes();
-  const svelteVersion = getSvelteVersion();
-  
+  const rootNotes = getRootNodes();
+  // const svelteVersion = getSvelteVersion();
+  // console.log('logging svelte version: ', svelteVersion);
+
   // console.log('logging root nodes from content script main: ', svelteVersion);
-  // console.log('logging root nodes: ', rootNodes);
+  console.log('logging root nodes: ', rootNodes);
 }
 
 // chrome.runtime.onMessage.addListener((obj, sender, response) => {

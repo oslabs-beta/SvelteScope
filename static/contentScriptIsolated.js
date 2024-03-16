@@ -2,7 +2,7 @@ console.log('hello from content script isolated!');
 
 window.addEventListener('message', async (msg) => {
   // console.log('msg.data.type: ', msg.data.type);
-  if (msg.data.type === 'getRootComponent') {
+  if (msg.data.message === 'getRootComponent') {
     console.log('getRootNode message found');
   }
 //   console.log('logging message from content script isolated: ', msg);

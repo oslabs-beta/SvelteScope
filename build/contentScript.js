@@ -25,11 +25,6 @@ const nodeMap = new Map();
 let _id = 0;
 let currentBlock;
 
-let svelteVersion = null;
-function getSvelteVersion() {
-  return svelteVersion
-}
-
 function addNode(node, target, anchor) {
   nodeMap.set(node.id, node);
   nodeMap.set(node.detail, node);
@@ -273,7 +268,7 @@ function svelteUpdateNode (e) {
 }
 
 function setup (root) {
-  root.addEventListener('SvelteRegisterBlock', e => svelteVersion = e.detail.version, { once: true });
+  root.addEventListener('SvelteRegisterBlock', e => e.detail.version, { once: true });
 
   root.addEventListener('SvelteRegisterComponent', svelteRegisterComponent);
   root.addEventListener('SvelteRegisterBlock', svelteRegisterBlock);
@@ -323,11 +318,11 @@ function sendRootNodeToExtension(message) {
     );
     return;
   }
+  // const svelteVersion = getSvelteVersion();
+  // console.log('logging svelte version: ', svelteVersion);
 
-  // const rootNotes = getRootNodes();
-  const svelteVersion = getSvelteVersion();
-  console.log('logging root nodes from content script main: ', svelteVersion);
-  // console.log('logging root nodes: ', rootNodes);
+  // console.log('logging root nodes from content script main: ', svelteVersion);
+  console.log('logging root nodes: ', rootNodes);
 }
 
 // chrome.runtime.onMessage.addListener((obj, sender, response) => {
