@@ -16,3 +16,5 @@ chrome.runtime.onMessage.addListener('readScripts', (details) => {
 });
 
 console.log('background script running');
+
+

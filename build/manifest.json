@@ -12,11 +12,36 @@
     "service_worker": "background.js",
     "type": "module",
     "minimum_chrome_version": "92"
-},
+  },
   "content_scripts": [
     {
-      "matches": ["http://localhost/*"],
-      "js": ["contentScript.js"]
+      "matches": [
+        "http://localhost/*"
+      ],
+      "js": [
+        "import-contentScript.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "http://localhost/*"
+      ],
+      "js": [
+        "import-contentScript2.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "chunks/*-*.js",
+        "contentScript.js",
+        "contentScript2.js"
+      ],
+      "matches": [
+        "http://localhost/*"
+      ]
     }
   ]
 }

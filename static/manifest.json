@@ -16,7 +16,12 @@
   "content_scripts": [
     {
       "matches": ["http://localhost/*"],
-      "js": ["contentScript.js"]
+      "js": ["contentScript.js"],
+      "run_at": "document_start"
+    },  
+    {
+      "matches": ["http://localhost/*"],
+      "js": ["contentScript2.js"]
     }
   ]
 }

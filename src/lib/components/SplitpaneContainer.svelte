@@ -1,17 +1,22 @@
 <script lang="ts">
   import { Splitpanes, Pane } from 'svelte-splitpanes';
+  import SnapShot from './SnapShot.svelte';
 </script>
 
 <Splitpanes style="height: 100%">
+
   <Pane size={50} minSize={20}>
     <div class="pane">
       <p>hello world!</p>
     </div>
   </Pane>
+
   <Pane size={50} minSize={20}>
     <div class="pane">
       <p>more edits!</p>
     </div>
+
+    <SnapShot />
   </Pane>
 </Splitpanes>
 
