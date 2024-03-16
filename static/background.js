@@ -1,5 +1,24 @@
 console.log('hello from background.js!');
 
+chrome.runtime.onMessage.addListener((request) => {
+  chrome.runtime.sendMessage({ message: 'handleClosedPanel' });
+});
+
+// chrome.tabs.onUpdated.addListener((tabId, tab) => {
+//   console.log('tab: ', tab, tabId);
+
+//   chrome.tabs.sendMessage(
+//     tabId,
+//     {
+//       type: 'NEW',
+//       tabId: tabId,
+//     },
+//     () => {
+//       console.log('message sent!');
+//     }
+//   );
+// });
+
 // chrome.tabs.query(
 //   {
 //     active: true,

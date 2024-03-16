@@ -94,8 +94,7 @@
         ],
       },
     ];
-    console.log(treeData, 'data');
-  
+      
     let isDragging = false;
     onMount(() => {
       //all components of the tree in in index 0
@@ -107,18 +106,12 @@
   
       // creating the tree Layout
       treeLayout(root);
-      
   
       // Select SVG Container
       let svg = d3.select('#demo1');
-  
-  
-  
-  
       
       //appending everything to g(a group element) serves as container for other SVG elements
       let treeGroup = svg.append('g');
-      console.log(root.links(), 'links');
   
       // These are how the linkes are created
       treeGroup
@@ -166,7 +159,7 @@
   
       //handle click everytime u click on the text of the node
       function handleClick() {
-        console.log('fuck ');
+        console.log('hello world!');
       }
   
       //  adding text to node
@@ -188,22 +181,13 @@
           event.preventDefault();
         })
       );
-      
-  
-  
+    
       //making sure it will always fix the whole tree
       let maxX = -Infinity;
       
      
       root.each(node => {
-  
-        console.log(node, 'node')
-        console.log(node.x, '')
-        if (Math.abs(node.x) > maxX) maxX = Math.abs(node.x);
-        console.log(maxX, 'hello')
-        
-  
-     
+        if (Math.abs(node.x) > maxX) maxX = Math.abs(node.x);       
       });
    
   

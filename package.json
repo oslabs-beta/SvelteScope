@@ -10,9 +10,13 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
     "@tsconfig/svelte": "^5.0.2",
     "hot-reload-extension-vite": "^1.0.13",
+    "rollup": "^4.13.0",
+    "rollup-plugin-chrome-extension": "^3.6.12",
     "svelte": "^4.2.12",
     "svelte-check": "^3.6.6",
     "svelte-listener": "git+https://github.com/RedHatter/svelte-listener.git",
@@ -21,10 +25,10 @@
     "vite": "^5.1.6"
   },
   "dependencies": {
+    "@rollup/plugin-json": "^6.1.0",
     "@types/chrome": "^0.0.263",
     "@types/node": "^20.11.27",
     "d3": "^7.9.0",
-    "rollup": "^4.13.0",
     "svelte-splitpanes": "^0.8.0"
   }
 }
