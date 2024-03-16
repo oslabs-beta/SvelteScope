@@ -17,7 +17,13 @@
       index++;
     };
 
-    // $:items;
+    const removeTab = (/** @type {number} */ tabValue) => () => {
+        //use splice method
+        items.splice(tabValue, 1);
+        items = items;
+
+      }
+
   </script>
   
   
@@ -25,9 +31,14 @@
   <ul>
       {#each items as item}
           <li class={activeTabValue === item.value ? 'active' : ''}>
-              <span on:click={handleClick(item.value)}>{item.label}</span>
+              <span on:click={handleClick(item.value)} >{item.label}</span>
+                  <!-- <button on:click={removeTab(item.value)}>X</button> -->
+        
+              
           </li>
       {/each}
+      <!-- <button on:click={removeTab(item.value)}>X</button> -->
+      <span class="button" on:click={removeTab()}>-</span>
       <span class="button" on:click={addTab()}>+</span>
   </ul>
   
