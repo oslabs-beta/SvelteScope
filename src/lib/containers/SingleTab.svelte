@@ -1,12 +1,8 @@
-<h1>Hello World</h1>
-<h1>Hello World</h1>
-<h1>Hello World</h1>
-<h1>Hello World</h1>
-<h1>Hello World</h1>
-<h1>Hello World</h1>
-<h1>Hello World</h1>
-<h1>Hello World</h1>
-<h1>Hello World</h1>
-<h1>Hello World</h1>
-<h1>Hello World</h1>
-<h1>Hello World</h1>
+<script>
+    import Editor from "../components/Editor.svelte";
+
+</script>
+
+<div>
+    <Editor/>
+</div>

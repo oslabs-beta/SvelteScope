@@ -1,40 +1,50 @@
-<script>
+<script >
     import SingleTab from "./SingleTab.svelte";
           /**
-     * @type {any[]}
+     * @type {any}
      */
-      export let items = [];
-      export let activeTabValue = 1;
-      let index = 2;
-      const handleClick = (/** @type {number} */ tabValue) => () => (activeTabValue = tabValue);
-      const addTab = (/** @type {number} */ tabValue) => () => {items.push({
-        label: `Editor ${index}`,
+    export let items = {};
+    export let activeTabValue = 1;
+    let index = 2;
+      
+    const handleClick = (/** @type {number} */ tabValue) => () => (activeTabValue = tabValue);
+      
+      
+    const addTab = (/** @type {number} */ tabValue) => () => {
+      const tab = `Editor${index}`
+      items[tab] = {
          value: index,
          component: SingleTab,
-      });
+      }
       activeTabValue = index;
       items = items;
       index++;
     };
 
-    // $:items;
+    
+    const removeTab = (/** @type {string} */ tabValue) => () => {
+        delete items[tabValue];
+        items = items;
+    };
+
   </script>
   
   
   
   <ul>
-      {#each items as item}
-          <li class={activeTabValue === item.value ? 'active' : ''}>
-              <span on:click={handleClick(item.value)}>{item.label}</span>
+      {#each Object.entries(items) as [key, value]}
+          <li class={activeTabValue === value.value ? 'active' : ''}>
+              <span on:click={handleClick(value.value)} >{key}</span>
           </li>
       {/each}
       <span class="button" on:click={addTab()}>+</span>
   </ul>
   
-  {#each items as item}
-    {#if activeTabValue == item.value}
+  {#each Object.entries(items) as [key, value]}
+    {#if activeTabValue == value.value}
     <div class="box">
-      <svelte:component this={item.component}/>
+      <button id ="delete" on:click={removeTab(key)}>Delete Tab</button>
+      <svelte:component this={value.component}/>
     </div>
     {/if}
   {/each}
@@ -43,14 +53,13 @@
   
   <style>
     .box {
-      /* margin-bottom: 10px; */
-      /* margin-top:5px;  */
       padding: 40px;
       border: solid white;
       border-radius: 0 0 .5rem .5rem;
       border-top: 5px;
       overflow: scroll;
     }
+    
     ul {
       display: flex;
       flex-wrap: wrap;
@@ -59,6 +68,7 @@
       list-style: none;
       border-bottom: 1px solid #dee2e6;
     }
+    
     li {
       margin-bottom: -1px;
     }
@@ -82,6 +92,17 @@
     .button {
         background-color: black;
         color: white;
+    }
+
+    #delete {
+      background-color: black;
+        color: white;
+        transition: 0.45s;
+    }
+    
+    #delete:hover{
+      background-color: orangered;
+      color : black;
     }
     
     li.active > span {
