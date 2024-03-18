@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
     // hardcoding the tree at the moment
+
     let treeData = [
       {
         name: 'App',
@@ -87,10 +88,6 @@
              
             ],
           },
-          // {
-          //   name: 'James',
-          //   children: [],
-          // },
         ],
       },
     ];
