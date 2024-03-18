@@ -1,0 +1,1 @@
+{"version":3,"file":"devtools.js","sources":["../static/devtools.js"],"sourcesContent":["chrome.devtools.panels.create(\n  'Svelte Component Explorer',\n  'icons/tuner.png',\n  'index.html'\n);\n"],"names":[],"mappings":"AAAA,MAAM,CAAC,QAAQ,CAAC,MAAM,CAAC,MAAM;AAC7B,EAAE,2BAA2B;AAC7B,EAAE,iBAAiB;AACnB,EAAE,YAAY;AACd,CAAC"}

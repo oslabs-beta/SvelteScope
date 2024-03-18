@@ -1,3 +1,6 @@
+
+
+
 /*
   This is the MAIN content script! This is the script that gets injected into
   whatever webpage you're on. This means it not only has the ability to access
@@ -8,7 +11,7 @@
 
 import { getNode, getSvelteVersion, getRootNodes } from 'svelte-listener';
 
-console.log('Welcome to Svelte DevTools+! Binh Here');
+console.log('Hello from contentScript!');
 
 /*
   TODO:
@@ -75,6 +78,8 @@ window.addEventListener('load', (event) => {
   pageLoaded = true;
 });
 
+
+
 // Gets the root component from svelte listener and returns
 // a component tree starting with the root component
 function traverseComponent(node) {
@@ -132,6 +137,9 @@ function sendRootNodeToExtension(messageType) {
     );
     return;
   }
+  
+  console.log(' I am in sendRootNodeToExtension Func')
+
   const rootNodes = getRootNodes();
   const newRootNodes = traverseComponent({
     children: rootNodes,
@@ -152,10 +160,12 @@ function sendRootNodeToExtension(messageType) {
 // Gets svelte version using svelte listener and sends it to
 // the Popup box
 function sendSvelteVersionToExtension() {
+  console.log('sendSvelteVersionToExtension(): getSvelteVersion()')
   const svelteVersion = getSvelteVersion();
   if (!svelteVersion) {
     return;
-  }
+  }  
+  console.log('svelteVersion:', svelteVersion)
   // Sends a message to ContentScriptIsolated/index.js
   window.postMessage({
     type: 'returnSvelteVersion',
@@ -215,6 +225,8 @@ function injectSnapshot(snapshot) {
   }, 0);
 }
 
+
+//--------------------------------------------------------------------------------------
 let readyForUpdates = false;
 // Listens to events from ContentScriptIsolated/index.js and responds based on
 // the event's type
@@ -222,16 +234,23 @@ window.addEventListener('message', async (msg) => {
   if (
     typeof msg !== 'object' ||
     msg === null ||
-    msg.data?.source !== 'contentScript2.js'
-  ) {
-    return;
-  }
-  const data = msg.data;
+    msg.data?.source !== 'contentScriptIsolate.js'
+    ) {
+      // console.log('msg not qualified from contentScript, msg:', msg)
+      return;
+    }
+    
+    const data = msg.data;
+    console.log('trying to get data from msg.data:', msg.data)
+
+
   switch (data.type) {
     case 'getSvelteVersion':
+      console.log('getSvelteVersion: invoke sendSvelteVersionToExtension()')
       sendSvelteVersionToExtension();
       break;
     case 'getRootComponent':
+      console.log('I am listening from getRootComponent in contentScript')
       readyForUpdates = true;
       sendRootNodeToExtension('returnRootComponent');
       break;
@@ -252,11 +271,20 @@ window.addEventListener('message', async (msg) => {
   }
 });
 
+
+//--------------------------------------------------------------------------------------
+
+
+
+
+
+
 // Whenever nodes are updated, typically a bunch get updated at the same time
 // I need to throttle updates so when I get a bunch at once, I only send the
 // LATEST update
 let recentlyUpdated = false;
 function sendUpdateToPanel() {
+  // console.log('sendUpdateToPanel is running')
   // This should only happen after the DOM is fully loaded
   // And after the Panel is loaded.
   if (!pageLoaded || !readyForUpdates) return;
@@ -274,7 +302,10 @@ function sendUpdateToPanel() {
 
 window.document.addEventListener('SvelteRegisterComponent', sendUpdateToPanel);
 window.document.addEventListener('SvelteRegisterBlock', sendUpdateToPanel);
-window.document.addEventListener('SvelteDOMInsert', (e) => sendUpdateToPanel);
+window.document.addEventListener('SvelteDOMInsert', (e) =>{
+    // console.log('SvelteDOMInsert, e: ', e)
+   sendUpdateToPanel
+});
 window.document.addEventListener('SvelteDOMRemove', sendUpdateToPanel);
 window.document.addEventListener('SvelteDOMSetData', sendUpdateToPanel);
 window.document.addEventListener('SvelteDOMSetProperty', sendUpdateToPanel);

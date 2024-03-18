@@ -16,7 +16,9 @@
   "content_scripts": [
     {
       "matches": [
-        "http://localhost/*"
+        "http://*/*",
+        "https://*/*",
+        "<all_urls>"
       ],
       "js": [
         "import-contentScript.js"
@@ -25,22 +27,38 @@
     },
     {
       "matches": [
-        "http://localhost/*"
+        "http://*/*",
+        "https://*/*",
+        "<all_urls>"
       ],
       "js": [
-        "import-contentScript2.js"
-      ]
+        "import-contentScriptIsolate.js"
+      ],
+      "run_at": "document_start"
     }
+  ],
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "scripting"
+  ],
+  "action": {
+    "default_popup": "Popup/popup.html"
+  },
+  "host_permissions": [
+    "<all_urls>"
   ],
   "web_accessible_resources": [
     {
       "resources": [
         "chunks/*-*.js",
         "contentScript.js",
-        "contentScript2.js"
+        "contentScriptIsolate.js"
       ],
       "matches": [
-        "http://localhost/*"
+        "http://*/*",
+        "https://*/*",
+        "<all_urls>"
       ]
     }
   ]

@@ -3,3 +3,4 @@ chrome.devtools.panels.create(
   'icons/tuner.png',
   'index.html'
 );
+//# sourceMappingURL=devtools.js.map

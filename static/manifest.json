@@ -15,13 +15,21 @@
 },
   "content_scripts": [
     {
-      "matches": ["http://localhost/*"],
+      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
       "js": ["contentScript.js"],
       "run_at": "document_start"
     },  
     {
-      "matches": ["http://localhost/*"],
-      "js": ["contentScript2.js"]
+      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
+      "js": ["contentScriptIsolate.js"],
+      "run_at": "document_start"
     }
-  ]
+  ],
+  "permissions": [
+    "tabs","activeTab","scripting"
+  ],
+  "action": {
+    "default_popup": "Popup/popup.html"
+  },
+  "host_permissions": ["<all_urls>"]
 }
