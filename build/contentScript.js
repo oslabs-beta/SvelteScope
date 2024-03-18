@@ -25,6 +25,11 @@ const nodeMap = new Map();
 let _id = 0;
 let currentBlock;
 
+const rootNodes = [];
+function getRootNodes() {
+  return rootNodes
+}
+
 function addNode(node, target, anchor) {
   nodeMap.set(node.id, node);
   nodeMap.set(node.detail, node);
@@ -47,6 +52,8 @@ function addNode(node, target, anchor) {
     } else {
       targetNode.children.push(node);
     }
+  } else {
+    rootNodes.push(node);
   }
 
   add(node, anchorNode);
@@ -318,9 +325,9 @@ function sendRootNodeToExtension(message) {
     );
     return;
   }
-  // const svelteVersion = getSvelteVersion();
-  // console.log('logging svelte version: ', svelteVersion);
 
+
+  const rootNodes = getRootNodes();
   // console.log('logging root nodes from content script main: ', svelteVersion);
   console.log('logging root nodes: ', rootNodes);
 }

@@ -37,10 +37,8 @@ function sendRootNodeToExtension(message) {
     return;
   }
 
-  const rootNotes = getRootNodes();
-  // const svelteVersion = getSvelteVersion();
-  // console.log('logging svelte version: ', svelteVersion);
 
+  const rootNodes = getRootNodes();
   // console.log('logging root nodes from content script main: ', svelteVersion);
   console.log('logging root nodes: ', rootNodes);
 }
