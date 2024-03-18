@@ -1,9 +1,13 @@
 <script lang="ts">
   import TabAdder from './TabAdder.svelte';
   import SingleTab from './SingleTab.svelte';
-  import AnotherTab from './AnotherTab.svelte';
+  // import AnotherTab from './AnotherTab.svelte';
 
   let items = [{ label: 'Editor 1', value: 1, component: SingleTab }];
+
+  // function addTab(label: string, value: number, content: string) {
+  //   items.push({ label, value, component: SingleTab });
+  // }
 
   //   $:items;
 </script>
@@ -27,9 +31,9 @@
         }
     </script> -->
 
-<div class="tabs">
+<!-- <div class="tabs">
   <ul class="tab-list">
-    {#each tabs as tab}
+    {#each items as tab}
       <li class="tab-item" on:click={() => selectTab(tab)}>
         <span>{tab.title}</span>
       </li>
@@ -37,15 +41,15 @@
     <button on:click={() => addTab('New Tab', '')}>Add Tab</button>
   </ul>
   <div class="tab-content">
-    {#each tabs as tab}
-      <Tab title={tab.title} content={tab.content} selected={tab === 1} />
+    {#each items as tab}
+      <Tab title={tab.label} value={tab.value}component />
     {/each}
   </div>
 </div>
 
 <li>
   <span on:click={addTab(2)}>+</span>
-</li>
+</li> -->
 
 <style>
   span {

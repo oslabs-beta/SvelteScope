@@ -19,8 +19,8 @@
     }
   }
 
-  // Message listener function
-  function messageListener(message) {
+  // Message listener function TODO: fix message type so it doesn't accept 'any'
+  function messageListener(message: any) {
     console.log("message: ", message);
 
     if (message.type === "updateRootComponent") {
