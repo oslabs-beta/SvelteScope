@@ -1,4 +1,4 @@
-<script lang = "ts">
+<script lang="ts">
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
     // hardcoding the tree at the moment
@@ -203,13 +203,6 @@
      })
    
      svg.attr('height', maxY + 500)
-  
-     
-  
-  
-      
-       
-    
       // positioning the width and height of the treegroup
       const xOffset = svg.attr('width') / 2 ;
       const yOffset = 300;

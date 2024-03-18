@@ -15,6 +15,13 @@
     "checkJs": true,
     "isolatedModules": true
   },
-  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js",
+    "src/**/*.svelte",
+    "static/Popup/popup.ts",
+    
+  ],
+  "exclude": ["./build/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

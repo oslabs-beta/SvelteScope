@@ -12,22 +12,26 @@
     "activeTab",
     "scripting"
   ],
-  "devtools_page": "devtools.html",
+  "devtools_page": "DevtoolsPanel/devtools.html",
   "background": {
-    "service_worker": "background.js",
+    "service_worker": "Background/background.js",
     "type": "module",
     "minimum_chrome_version": "92"
 },
   "content_scripts": [
     {
-      "matches": ["http://localhost/*"],
-      "js": ["contentScript.js"],
+      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
+      "js": ["ContentScripts/contentScript.js"],
       "run_at": "document_start"
-    },
+    },  
     {
-      "matches": ["http://localhost/*"],
-      "js": ["contentScriptIsolated.js"],
+      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
+      "js": ["ContentScripts/contentScriptIsolate.js"],
       "run_at": "document_start"
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "Popup/popup.html"
+  },
+  "host_permissions": ["<all_urls>"]
 }

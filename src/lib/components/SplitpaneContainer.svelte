@@ -1,21 +1,27 @@
 <script lang="ts">
   import { Splitpanes, Pane } from 'svelte-splitpanes';
-  import Tree from './Tree.svelte';
+  // import SnapShot from './SnapShot.svelte';
+  import Editor from './Editor.svelte';
+  // import Tree from './Tree.svelte';
   // import Tabs from '../containers/Tabs.svelte';
   // import Editor from './Editor.svelte';
 </script>
 
 <Splitpanes style="height: 100%">
+
   <Pane size={50} minSize={20}>
     <div class="panel">
-      <p>hello world!</p>
-      <Tree />
+      <p>left</p>
+      <!-- <Tree /> -->
     </div>
   </Pane>
+
   <Pane size={50} minSize={20}>
     <div class="panel">
       <!-- <Tabs/> -->
+      <Editor />
     </div>
+    <!-- <SnapShot /> -->
   </Pane>
 </Splitpanes>
 
