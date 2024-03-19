@@ -10,8 +10,8 @@ const custom_rootData_Editor = {
     set_rootData_Editor: (data) => {
         rootData_Editor.set(data)
     },
-    update_rootData_Editor: (currentData) => {
-        return currentData
+    update_rootData_Editor: (updater) => {
+        rootData_Editor.update(updater)
     }
 }
 
