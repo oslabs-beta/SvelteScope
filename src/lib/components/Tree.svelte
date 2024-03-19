@@ -17,34 +17,59 @@
 
   // import 'message' from layout
   // function to build new treeData object
-  let testTreeData: any;
+  // let testTreeData: any;
 
-  RootComponentStore.subscribe((data) => {
-    console.log('logging current data from Store from Tree component: ', data);
-    testTreeData = data;
-    testTreeData = testTreeData;
-    console.log('logging test tree data obj: ', testTreeData);
+  // RootComponentStore.subscribe((data) => {
+  //   console.log('logging current data from Store from Tree component: ', data);
+  //   testTreeData = data;
+  //   testTreeData = testTreeData;
+  //   console.log('logging test tree data obj: ', testTreeData);
 
-    const updatedTreeData: TreeData = {
-      tagName: '',
+  //   const updatedTreeData: TreeData = {
+  //     tagName: '',
+  //     children: [],
+  //   };
+
+  //   (function objDiver(...treeData: any) {
+  //     console.log('incoming tree data: ', treeData);
+  //     for (const node of treeData) {
+  //       if (node.children) {
+  //         updatedTreeData.tagName = node.tagName;
+  //         updatedTreeData.children = node.children.map((child: TreeData[]) =>
+  //           objDiver(child)
+  //         );
+  //       }
+  //       updatedTreeData.tagName = node.tagName;
+  //     }
+  //   })(testTreeData);
+
+  //   console.log('logging updated tree data: ', updatedTreeData);
+  // });
+  let treeData: any = null;
+
+RootComponentStore.subscribe((data) => {
+  // console.log('logging current data from Store from Tree component: ', data);
+  treeData = data;
+
+  if (treeData) {
+    const updatedTreeData: TreeData = objDiver(treeData);
+    console.log('logging updated tree data: ', updatedTreeData);
+  }
+});
+
+function objDiver(data: any): TreeData {
+  if (typeof data === 'object') {
+    console.log(data, 'mydata')
+    const componentData: TreeData = {
+      tagName: data.tagName , // Handle missing tagName
       children: [],
     };
-
-    (function objDiver(...treeData: any) {
-      console.log('incoming tree data: ', treeData);
-      for (const node of treeData) {
-        if (node.children) {
-          updatedTreeData.tagName = node.tagName;
-          updatedTreeData.children = node.children.map((child: TreeData[]) =>
-            objDiver(child)
-          );
-        }
-        updatedTreeData.tagName = node.tagName;
-      }
-    })(testTreeData);
-
-    console.log('logging updated tree data: ', updatedTreeData);
-  });
+    if (data.children) {
+      componentData.children = data.children.map(objDiver);
+    }
+    return componentData;
+  } 
+}
 
   // let treeData = {
   //   rootComponent: {
