@@ -9,7 +9,7 @@
   <Pane size={50} minSize={20}>
     <!-- <SnapShot /> -->
     <div class="panel">
-      <Tree />
+      <!-- <Tree /> -->
       <!-- <p>tree</p> -->
     </div>
   </Pane>

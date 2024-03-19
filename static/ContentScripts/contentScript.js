@@ -9,6 +9,18 @@ import { getNode, getSvelteVersion, getRootNodes } from 'svelte-listener';
 
 console.log('Hello from contentScript!');
 
+// Find all <h1> elements on the page
+const elementsToModify = document.getElementsByTagName('h1');
+
+// Loop through each <h1> element and modify its content
+for (let i = 0; i < elementsToModify.length; i++) {
+    const element = elementsToModify[i];
+    // Modify the content of the element
+    element.textContent = 'New content'; // Change the text content
+    // or
+    element.innerHTML = '<p>Hi Binh</p>'; // Change the HTML content
+}
+
 /*
   TODO:
   State injection with arrays
