@@ -6,12 +6,12 @@
   import { stringify } from 'querystring';
   import Popup from '../../../static/Popup/Popup.svelte';
 
-  // interface TreeData {
-  //   tagName: string;
-  //   children: TreeData[];
-  // }
+  const tree = d3.tree;
 
-  // const tree = d3.tree;
+  interface TreeData {
+    tagName: string;
+    children: TreeData[];
+  }
 
   let treeData: any = null;
 
@@ -20,73 +20,11 @@
     treeData = data;
 
     if (treeData) {
-      const updatedTreeData: any = objDiver(treeData);
+      const updatedTreeData: TreeData = objDiver(treeData);
       console.log('logging updated tree data: ', updatedTreeData);
-      buildTree(updatedTreeData);
+      updateTree();
     }
   });
-</script>
-
-<script lang="ts">
-  function buildTree(treeData) {
-    console.log('buildTree() method hit!');
-    let root = d3.hierarchy(treeData);
-    let treeLayout = d3.tree().nodeSize([150, 150]);
-    treeLayout(root);
-
-    // let D3 know which element to render the tree inside of:
-    let svg = d3.select('#treeComponent');
-    let treeGroup = svg.append('g');
-
-    // Create links between parents and children nodes:
-    treeGroup.selectAll('.link')
-    .data(root.links())
-    .enter()
-    .append('path')
-    .attr('class', 'link')
-    .attr('d', 
-      d3.linkVertical()
-      .x(({ x: any }) => d.x)
-      .y(({ y: any }) => d.y)
-    );
-
-    // Create the nodes themselves:
-    let nodes = treeGroup.selectAll('.node')
-    .data(root.descendants())
-    .enter()
-    .append('g')
-    .attr('class', 'node')
-    .attr('transform', ({ x: any; y: any}) => {
-      `translate(${node.x}, ${node.y})`
-    });
-
-    // Append text to nodes:
-    nodes.append('text')
-      .attr('text-anchor', 'middle')
-      .attr('dy', '15')
-      .text(({ data: { tagName: any} }) => {
-        node.data.tagName
-      })
-      .on('click', () => handleNodeClick());
-
-    // Create rectangular shape for nodes:
-    // todo: insert code here after tree dynamically builds
-
-    // Ensure tree fits entire panel:
-    let maxX = -Infinity;
-    root.each((node) => {
-      if (Math.abs(node.x) > maxX) maxX = Math.abs(node.x);
-    });
-
-    svg.attr('height', maxY + 500);
-    const xOffset = svg.attr('width') / 2;
-    cosnt yOffset = 300;
-    treeGroup.attr('transform', `translate(${xOffset}, ${yOffset})`);
-  }
-
-  function handleNodeClick() {
-    console.log('node clicked!');
-  }
 
   function objDiver(data: any): TreeData {
     if (typeof data === 'object') {
@@ -96,11 +34,76 @@
         children: [],
       };
       if (data.children) {
-        componentData.children = data.children.map(objDiver);
+        for (let i = 0; i < data.children.length; i++) {
+          componentData.children.push(objDiver(data.children[i]));
+        }
       }
       return componentData;
     }
   }
+
+  // Function to update the tree
+  function updateTree() {
+    if (!treeData) return;
+
+    const svg = d3.select('#treeComponent');
+
+    const root = d3.hierarchy(treeData);
+    const treeLayout = d3.tree().nodeSize([110, 120]);
+    treeLayout(root);
+
+    const treeGroup = svg.append('g').attr('transform', 'translate(20,20)');
+
+    // Draw links
+    treeGroup
+      .selectAll('.link')
+      .data(root.links())
+      .enter()
+      .append('path')
+      .attr('class', 'link')
+      .attr(
+        'd',
+        d3
+          .linkVertical()
+          .x((d) => d.x)
+          .y((d) => d.y)
+      );
+
+    // Draw nodes
+    const nodes = treeGroup
+      .selectAll('.node')
+      .data(root.descendants())
+      .enter()
+      .append('g')
+      .attr('class', 'node')
+      .attr('transform', (node) => `translate(${node.x},${node.y})`);
+
+    // Append rectangle for nodes
+    nodes
+      .append('rect')
+      .attr('x', -50)
+      .attr('y', 5)
+      .attr('width', 100)
+      .attr('height', 20)
+      .attr('stroke', 'black')
+      .attr('fill', 'orange');
+
+    // Append text for nodes
+    nodes
+      .append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '15')
+      .text((d) => d.data.tagName);
+
+    svg.selectAll('.link').attr('fill', 'none').attr('stroke', 'black');
+    //changing font size of text
+    svg.selectAll('.node text').attr('font-size', '10px');
+  }
+
+  onMount(updateTree);
 </script>
 
-<svg id="treeComponent"></svg>
+<svg width="100%" height="100%" id="treeComponent"> </svg>
+
+<style>
+</style>
