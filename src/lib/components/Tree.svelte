@@ -47,29 +47,31 @@
   // });
   let treeData: any = null;
 
-RootComponentStore.subscribe((data) => {
-  // console.log('logging current data from Store from Tree component: ', data);
-  treeData = data;
+  RootComponentStore.subscribe((data) => {
+    // console.log('logging current data from Store from Tree component: ', data);
+    treeData = data;
 
-  if (treeData) {
-    const updatedTreeData: TreeData = objDiver(treeData);
-    console.log('logging updated tree data: ', updatedTreeData);
-  }
-});
-
-function objDiver(data: any): TreeData {
-  if (typeof data === 'object') {
-    console.log(data, 'mydata')
-    const componentData: TreeData = {
-      tagName: data.tagName , // Handle missing tagName
-      children: [],
-    };
-    if (data.children) {
-      componentData.children = data.children.map(objDiver);
+    if (treeData) {
+      const updatedTreeData: TreeData = objDiver(treeData);
+      console.log('logging updated tree data: ', updatedTreeData);
     }
-    return componentData;
-  } 
-}
+  });
+
+  function objDiver(data: any): TreeData {
+    if (typeof data === 'object') {
+      console.log(data, 'mydata');
+      const componentData: TreeData = {
+        tagName: data.tagName, // Handle missing tagName
+        children: [],
+      };
+      if (data.children) {
+        for (let i = 0; i < data.children.length; i++) {
+          componentData.children.push(objDiver(data.children[i]));
+        }
+      }
+      return componentData;
+    }
+  }
 
   // let treeData = {
   //   rootComponent: {
