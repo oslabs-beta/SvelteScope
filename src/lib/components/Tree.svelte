@@ -1,276 +1,106 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import * as d3 from 'd3';
+  // import * as d3 from 'd3';
   import RootComponentStore from '../../stores/Store';
-  // import { tree } from 'd3';
+  import { tree } from 'd3';
   import { stringify } from 'querystring';
   import Popup from '../../../static/Popup/Popup.svelte';
 
-  const tree = d3.tree;
+  // interface TreeData {
+  //   tagName: string;
+  //   children: TreeData[];
+  // }
 
-  interface TreeData {
-    tagName: string;
-    children: TreeData[];
-  }
+  // const tree = d3.tree;
 
-  // hardcoding the tree at the moment
-
-  // import 'message' from layout
-  // function to build new treeData object
-  // let testTreeData: any;
-
-  // RootComponentStore.subscribe((data) => {
-  //   console.log('logging current data from Store from Tree component: ', data);
-  //   testTreeData = data;
-  //   testTreeData = testTreeData;
-  //   console.log('logging test tree data obj: ', testTreeData);
-
-  //   const updatedTreeData: TreeData = {
-  //     tagName: '',
-  //     children: [],
-  //   };
-
-  //   (function objDiver(...treeData: any) {
-  //     console.log('incoming tree data: ', treeData);
-  //     for (const node of treeData) {
-  //       if (node.children) {
-  //         updatedTreeData.tagName = node.tagName;
-  //         updatedTreeData.children = node.children.map((child: TreeData[]) =>
-  //           objDiver(child)
-  //         );
-  //       }
-  //       updatedTreeData.tagName = node.tagName;
-  //     }
-  //   })(testTreeData);
-
-  //   console.log('logging updated tree data: ', updatedTreeData);
-  // });
   let treeData: any = null;
 
-RootComponentStore.subscribe((data) => {
-  // console.log('logging current data from Store from Tree component: ', data);
-  treeData = data;
+  RootComponentStore.subscribe((data) => {
+    // console.log('logging current data from Store from Tree component: ', data);
+    treeData = data;
 
-  if (treeData) {
-    const updatedTreeData: TreeData = objDiver(treeData);
-    console.log('logging updated tree data: ', updatedTreeData);
-  }
-});
-
-function objDiver(data: any): TreeData {
-  if (typeof data === 'object') {
-    console.log(data, 'mydata')
-    const componentData: TreeData = {
-      tagName: data.tagName , // Handle missing tagName
-      children: [],
-    };
-    if (data.children) {
-      componentData.children = data.children.map(objDiver);
+    if (treeData) {
+      const updatedTreeData: any = objDiver(treeData);
+      console.log('logging updated tree data: ', updatedTreeData);
+      buildTree(updatedTreeData);
     }
-    return componentData;
-  } 
-}
+  });
+</script>
 
-  // let treeData = {
-  //   rootComponent: {
-  //     tagName: 'App',
-  //     children: [
-  //       {
-  //         tagName: 'ContactCard',
-  //         children: [
-  //           {
-  //             tagName: 'Hello',
-  //             children: [
-  //               {
-  //                 tagName: 'world',
-  //                 children: [],
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             tagName: 'Goodbye',
-  //             children: [],
-  //           },
-  //           {
-  //             tagName: 'LOL',
-  //             children: [],
-  //           },
-  //           {
-  //             tagName: 'Love',
-  //             children: [],
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         tagName: 'James',
-  //         children: [
-  //           {
-  //             tagName: 'Lee',
-  //             children: [],
-  //           },
-  //           {
-  //             tagName: 'is',
-  //             children: [],
-  //           },
-  //           {
-  //             tagName: 'awesome',
-  //             children: [],
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         tagName: 'Jeff',
-  //         children: [
-  //           {
-  //             tagName: 'was',
-  //             children: [],
-  //           },
-  //           {
-  //             tagName: 'Amazing',
-  //             children: [],
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         tagName: 'Branden',
-  //         children: [
-  //           {
-  //             tagName: 'can',
-  //             children: [],
-  //           },
-  //           {
-  //             tagName: 'handstand',
-  //             children: [],
-  //           },
-  //           {
-  //             tagName: 'really',
-  //             children: [],
-  //           },
-  //           {
-  //             tagName: 'well',
-  //             children: [],
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   },
-  // };
-
-  let isDragging = false;
-  onMount(() => {
-    //all components of the tree in in index 0
-    let root = d3.hierarchy(treeData.rootComponent);
-    // let root = d3.hierarchy(testTreeData);
-
-    //giving each node space for each node
-
-    let treeLayout = d3.tree().nodeSize([110, 120]);
-
-    // creating the tree Layout
+<script lang="ts">
+  function buildTree(treeData) {
+    console.log('buildTree() method hit!');
+    let root = d3.hierarchy(treeData);
+    let treeLayout = d3.tree().nodeSize([150, 150]);
     treeLayout(root);
 
-    // Select SVG Container
-    let svg = d3.select('#demo1');
-
-    //appending everything to g(a group element) serves as container for other SVG elements
+    // let D3 know which element to render the tree inside of:
+    let svg = d3.select('#treeComponent');
     let treeGroup = svg.append('g');
 
-    // These are how the linkes are created
-    treeGroup
-      .selectAll('.link')
-
-      .data(root.links())
-      .enter()
-      .append('path')
-      .attr('class', 'link')
-      //placing each link in a specific position
-      .attr(
-        'd',
-        d3
-          .linkVertical()
-          .x((/** @type {{ x: any; }} */ d) => d.x)
-          .y((/** @type {{ y: any; }} */ d) => d.y)
-      );
-
-    // This is how nodes are created
-    let hello = root.descendants();
-
-    let nodes = treeGroup
-      .selectAll('.node')
-      .data(root.descendants())
-      .enter()
-      .append('g')
-      .attr('class', 'node')
-      //position of each node
-      .attr(
-        'transform',
-        (/** @type {{ x: any; y: any; }} */ node) =>
-          `translate(${node.x},${node.y})`
-      );
-
-    //creating a rectangle shape for each node
-    nodes
-      .append('rect')
-      .attr('x', -50)
-      .attr('y', 5)
-      .attr('width', 100)
-      .attr('height', 20)
-      .attr('stroke', 'black')
-      .attr('fill', 'yellow');
-
-    //handle click everytime u click on the text of the node
-    function handleClick() {
-      console.log('hello world!');
-    }
-
-    //  adding text to node
-    nodes
-      .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('dy', '15')
-
-      .text(
-        (/** @type {{ data: { tagName: any; }; }} */ node) => node.data.tagName
-      )
-      .on('click', handleClick);
-    // sets fill attr of selected SVG to none removes any fill color from path making it transparent. stroke is the outline of the path which is black
-    svg.selectAll('.link').attr('fill', 'none').attr('stroke', 'black');
-    //changing font size of text
-    svg.selectAll('.node text').attr('font-size', '10px');
-    //allowing you to drag the whole component tree based on mouse movement
-    svg.call(
-      d3.drag().on('drag', (/** @type {{ x: any; y: any; }} */ event) => {
-        svg.attr('transform', `translate(${event.x},${event.y})`);
-        // event.preventDefault();
-      })
+    // Create links between parents and children nodes:
+    treeGroup.selectAll('.link')
+    .data(root.links())
+    .enter()
+    .append('path')
+    .attr('class', 'link')
+    .attr('d', 
+      d3.linkVertical()
+      .x(({ x: any }) => d.x)
+      .y(({ y: any }) => d.y)
     );
 
-    //making sure it will always fix the whole tree
-    let maxX = -Infinity;
+    // Create the nodes themselves:
+    let nodes = treeGroup.selectAll('.node')
+    .data(root.descendants())
+    .enter()
+    .append('g')
+    .attr('class', 'node')
+    .attr('transform', ({ x: any; y: any}) => {
+      `translate(${node.x}, ${node.y})`
+    });
 
+    // Append text to nodes:
+    nodes.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '15')
+      .text(({ data: { tagName: any} }) => {
+        node.data.tagName
+      })
+      .on('click', () => handleNodeClick());
+
+    // Create rectangular shape for nodes:
+    // todo: insert code here after tree dynamically builds
+
+    // Ensure tree fits entire panel:
+    let maxX = -Infinity;
     root.each((node) => {
       if (Math.abs(node.x) > maxX) maxX = Math.abs(node.x);
     });
 
-    // Set the SVG width to accommodate the entire tree
-    svg.attr('width', maxX + 5000);
-
-    let maxY = -Infinity;
-    root.each((node) => {
-      if (node.y > maxY) {
-        maxY = node.y;
-      }
-    });
-
     svg.attr('height', maxY + 500);
-    // positioning the width and height of the treegroup
     const xOffset = svg.attr('width') / 2;
-    const yOffset = 300;
-    treeGroup.attr('transform', `translate(${xOffset},${yOffset})`);
-  });
+    cosnt yOffset = 300;
+    treeGroup.attr('transform', `translate(${xOffset}, ${yOffset})`);
+  }
+
+  function handleNodeClick() {
+    console.log('node clicked!');
+  }
+
+  function objDiver(data: any): TreeData {
+    if (typeof data === 'object') {
+      console.log(data, 'mydata');
+      const componentData: TreeData = {
+        tagName: data.tagName, // Handle missing tagName
+        children: [],
+      };
+      if (data.children) {
+        componentData.children = data.children.map(objDiver);
+      }
+      return componentData;
+    }
+  }
 </script>
 
-<svg id="demo1"> </svg>
-
-<style>
-</style>
+<svg id="treeComponent"></svg>
