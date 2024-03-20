@@ -82,6 +82,8 @@
       (data: any) => {
         currentData = data;
         console.log("Data from rootData_Editor: ", currentData);
+
+        id = currentData.id
       }
     );
 
