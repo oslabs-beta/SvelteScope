@@ -6,7 +6,7 @@
 </script>
 
 <Splitpanes style="height: 100%">
-  <Pane>
+  <Pane minSize={20}>
     <div class="panel">
       <Tree />
     </div>

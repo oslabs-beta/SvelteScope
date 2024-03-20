@@ -10,6 +10,8 @@
 
   let root;
   let treeData: any = null;
+  let svg;
+  let treeContainer;
 
   RootComponentStore.subscribe((data) => {
     treeData = data;
@@ -39,20 +41,23 @@
   function updateTree() {
     if (!treeData) return;
     d3.selectAll('svg > *').remove();
+    treeContainer = d3.select('#treeContainer');
+    // const treeContainer = d3.select('#tree-container');
     root = d3.hierarchy(treeData);
 
-    const svg = d3
+    svg = d3
       .select('#treeComponent')
       .append('g')
       .attr('transform', 'translate(width / 2 + height / 2)');
 
-    const drag = d3
-      .drag()
-      .on('start', dragstarted)
-      .on('drag', dragged)
-      .on('end', dragended);
+    // const drag = d3
+    //   .drag()
+    //   .on('start', dragstarted)
+    //   .on('drag', dragged)
+    //   .on('end', dragended);
 
-    svg.call(drag);
+    // // svg.call(drag);
+    // treeContainer.call(drag);
 
     const treeLayout = d3.tree().nodeSize([110, 120]);
     treeLayout(root);
@@ -96,8 +101,8 @@
       .attr('height', 30)
       .attr('stroke', 'black')
       .attr('fill', 'orange')
-      .attr('rx', '2px')
-      .attr('ry', '2px')
+      .attr('rx', '4px')
+      .attr('ry', '4px')
       .attr(
         'style',
         'display: flex; align-items: center; justify-content: center;'
@@ -107,18 +112,15 @@
     nodes
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('font-size', '20px')
-      .attr('font-weight', '600')
-      .attr(
-        'font-family',
-        `system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`
-      )
-      .attr('dy', '23')
+      .attr('dy', '24')
       .text((d) => d.data.tagName);
 
     svg.selectAll('.link').attr('fill', 'none').attr('stroke', 'black');
     //changing font size of text
-    svg.selectAll('.node text').attr('font-size', '10px');
+    svg
+      .selectAll('.node text')
+      .attr('font-size', '12px')
+      .attr('style', `font-family: 'system-ui';`);
   }
 
   function dragstarted(event, d) {
@@ -136,16 +138,56 @@
     d3.select(this).classed('active', false);
   }
 
-  onMount(updateTree);
+  // onMount(updateTree);
+
+  onMount(() => {
+    treeContainer = d3.select('#treeContainer');
+    updateTree();
+
+    svg = d3.select('#treeComponent');
+
+    const drag = d3
+      .drag()
+      .on('start', dragstarted)
+      .on('drag', dragged)
+      .on('end', dragended);
+
+    svg.call(drag);
+    // treeContainer.call(drag);
+  });
 </script>
 
-<div class="tree-container">
+<div class="tree-container" id="treeContainer">
   <!-- <svg width="100%" height="100%" id="treeComponent"> </svg> -->
   <!-- <svg width={'100%'} id="treeComponent"> </svg> -->
-  <svg height={'100%'} id="treeComponent"> </svg>
+  <svg bind:this={svg} height={'100%'} id="treeComponent"> </svg>
 </div>
 
 <style>
+  /* .node:hover rect {
+    stroke: 5px solid black;
+    transition: 0.25s ease;
+  } */
+
+  .tree-container {
+    overflow: visible;
+    display: flex;
+    position: sticky;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    cursor: grab;
+  }
+
+  #treeComponent {
+    overflow: visible;
+  }
+
+  .tree-container:active {
+    cursor: grabbing;
+  }
+
   svg {
     width: 100%;
     height: 100%;
@@ -161,13 +203,5 @@
       'Open Sans',
       'Helvetica Neue',
       sans-serif;
-  }
-
-  .tree-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100%;
   }
 </style>
