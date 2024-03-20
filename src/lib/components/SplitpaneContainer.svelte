@@ -10,7 +10,7 @@
   <Pane>
     <!-- <SnapShot /> -->
     <div class="panel">
-      <Tree />
+      <!-- <Tree /> -->
       <!-- <p>tree</p> -->
     </div>
   </Pane>
