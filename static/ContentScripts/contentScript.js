@@ -9,17 +9,15 @@ import { getNode, getSvelteVersion, getRootNodes } from 'svelte-listener';
 
 console.log('Hello from contentScript!');
 
-// Find all <h1> elements on the page
-const elementsToModify = document.getElementsByTagName('h1');
-
-// Loop through each <h1> element and modify its content
-for (let i = 0; i < elementsToModify.length; i++) {
-    const element = elementsToModify[i];
-    // Modify the content of the element
-    element.textContent = 'New content'; // Change the text content
-    // or
-    element.innerHTML = '<p>Hi Binh</p>'; // Change the HTML content
-}
+// @ts-ignore - possibly find an alternative
+window.__svelte_devtools_inject_state = function (id, key, value) {
+  const { detail: component } = getNode(id) || {};
+	component && component.$inject_state({ [key]: value });
+  console.log("from __svelte_devtools_inject_state, component: ", component)
+  console.log("from __svelte_devtools_inject_state, id: ", id)
+  console.log("from __svelte_devtools_inject_state, key: ", key)
+  console.log("from __svelte_devtools_inject_state, value: ", value)
+};
 
 /*
   TODO:
