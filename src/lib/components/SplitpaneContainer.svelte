@@ -6,20 +6,15 @@
 </script>
 
 <Splitpanes style="height: 100%">
-  <!-- <Pane size={50} minSize={20}> -->
   <Pane>
-    <!-- <SnapShot /> -->
     <div class="panel">
-      <!-- <Tree /> -->
-      <!-- <p>tree</p> -->
+      <Tree />
     </div>
   </Pane>
 
-  <!-- <Pane size={50} minSize={20}> -->
   <Pane minSize={20}>
     <div class="tabsPanel">
       <Tabs />
-      <!-- <p>tabs panel</p> -->
     </div>
   </Pane>
 </Splitpanes>
@@ -36,7 +31,7 @@
 
   .tabsPanel {
     height: 100vh;
-    width: 100%;;
+    width: 100%;
     display: flex;
     flex-direction: column;
     color: black;

@@ -2,8 +2,6 @@
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
   import RootComponentStore from '../../stores/Store';
-  import { stringify } from 'querystring';
-  import Popup from '../../../static/Popup/Popup.svelte';
 
   interface TreeData {
     tagName: string;
@@ -18,14 +16,12 @@
 
     if (treeData) {
       const updatedTreeData: TreeData = objDiver(treeData);
-      console.log('logging updated tree data: ', updatedTreeData);
       updateTree();
     }
   });
 
   function objDiver(data: any): TreeData {
     if (typeof data === 'object') {
-      console.log(data, 'mydata');
       const componentData: TreeData = {
         tagName: data.tagName, // Handle missing tagName
         children: [],
@@ -78,14 +74,18 @@
           .y((d) => d.y)
       );
 
-    // Draw nodes
+    // Draw nodes and add click functionality
     const nodes = treeGroup
       .selectAll('.node')
       .data(root.descendants())
       .enter()
       .append('g')
       .attr('class', 'node')
-      .attr('transform', (node) => `translate(${node.x},${node.y})`);
+      .attr('transform', (node) => `translate(${node.x},${node.y})`)
+      .attr('style', 'cursor: pointer;')
+      .on('click', (event, d) => {
+        console.log(d.data.tagName + ' clicked');
+      });
 
     // Append rectangle for nodes
     nodes
@@ -93,15 +93,27 @@
       .attr('x', -50)
       .attr('y', 5)
       .attr('width', 100)
-      .attr('height', 20)
+      .attr('height', 30)
       .attr('stroke', 'black')
-      .attr('fill', 'orange');
+      .attr('fill', 'orange')
+      .attr('rx', '2px')
+      .attr('ry', '2px')
+      .attr(
+        'style',
+        'display: flex; align-items: center; justify-content: center;'
+      );
 
     // Append text for nodes
     nodes
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('dy', '15')
+      .attr('font-size', '20px')
+      .attr('font-weight', '600')
+      .attr(
+        'font-family',
+        `system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`
+      )
+      .attr('dy', '23')
       .text((d) => d.data.tagName);
 
     svg.selectAll('.link').attr('fill', 'none').attr('stroke', 'black');
@@ -137,6 +149,18 @@
   svg {
     width: 100%;
     height: 100%;
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      'Open Sans',
+      'Helvetica Neue',
+      sans-serif;
   }
 
   .tree-container {
