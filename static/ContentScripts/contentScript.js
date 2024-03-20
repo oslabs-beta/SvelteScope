@@ -9,6 +9,16 @@ import { getNode, getSvelteVersion, getRootNodes } from 'svelte-listener';
 
 console.log('Hello from contentScript!');
 
+// @ts-ignore - possibly find an alternative
+window.__svelte_devtools_inject_state = function (id, key, value) {
+  const { detail: component } = getNode(id) || {};
+	component && component.$inject_state({ [key]: value });
+  console.log("from __svelte_devtools_inject_state, component: ", component)
+  console.log("from __svelte_devtools_inject_state, id: ", id)
+  console.log("from __svelte_devtools_inject_state, key: ", key)
+  console.log("from __svelte_devtools_inject_state, value: ", value)
+};
+
 /*
   TODO:
   State injection with arrays
