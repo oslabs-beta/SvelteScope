@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import custom_rootData_Editor from "../../stores/store-editor";
+  import { onMount } from 'svelte';
+  import custom_rootData_Editor from '../../stores/store-editor';
 
   let currentData: any;
   //-----------------------------------------------------------------------------------
-  import Expandable from "./Editor/Expandable.svelte";
+  import Expandable from './Editor/Expandable.svelte';
 
   // export let entries: Array<{ key: string; value: any }> = [];
   export let id: number;
@@ -18,7 +18,7 @@
       (_, error) => {
         errors[key] =
           error && error.isException
-            ? error.value.substring(0, error.value.indexOf("\n"))
+            ? error.value.substring(0, error.value.indexOf('\n'))
             : undefined;
       }
     );
@@ -81,35 +81,33 @@
     const unsubscribe = custom_rootData_Editor.subcribe_rootData_Editor(
       (data: any) => {
         currentData = data;
-        console.log("Data from rootData_Editor: ", currentData);
+        console.log('Data from rootData_Editor: ', currentData);
+        id = currentData.id;
       }
     );
-
     return unsubscribe; // Cleanup subscription when component unmounts
   });
 </script>
 
-
 <h2>detail.attributes</h2>
 {#if currentData && currentData.type === 'component'}
-	<ul>
-		{#each currentData.detail.attributes as { key, value } (key)}
-			<Expandable
-				{readonly}
-				{key}
-				{value}
-				error={errors[key]}
-				on:change={(e) => change(key, e.detail)}
-			/>
-		{/each}
-	</ul>
+  <ul>
+    {#each currentData.detail.attributes as { key, value } (key)}
+      <Expandable
+        {readonly}
+        {key}
+        {value}
+        error={errors[key]}
+        on:change={(e) => change(key, e.detail)}
+      />
+    {/each}
+  </ul>
 {:else}
-	<div style:padding-left="1rem" style:color="rgb(118, 118, 118)">None</div>
+  <div style:padding-left="1rem" style:color="rgb(118, 118, 118)">None</div>
 {/if}
 
-
 {#if currentData}
-<h2>Ctx.value - Array</h2>
+  <h2>Ctx.value - Array</h2>
   {#each currentData.detail.ctx as ctx}
     {#if Array.isArray(ctx.value)}
       <p>Key {ctx.key}</p>
