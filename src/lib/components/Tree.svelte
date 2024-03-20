@@ -50,15 +50,6 @@
       .append('g')
       .attr('transform', 'translate(width / 2 + height / 2)');
 
-    // const drag = d3
-    //   .drag()
-    //   .on('start', dragstarted)
-    //   .on('drag', dragged)
-    //   .on('end', dragended);
-
-    // // svg.call(drag);
-    // treeContainer.call(drag);
-
     const treeLayout = d3.tree().nodeSize([110, 120]);
     treeLayout(root);
 
@@ -138,8 +129,6 @@
     d3.select(this).classed('active', false);
   }
 
-  // onMount(updateTree);
-
   onMount(() => {
     treeContainer = d3.select('#treeContainer');
     updateTree();
@@ -158,17 +147,10 @@
 </script>
 
 <div class="tree-container" id="treeContainer">
-  <!-- <svg width="100%" height="100%" id="treeComponent"> </svg> -->
-  <!-- <svg width={'100%'} id="treeComponent"> </svg> -->
   <svg bind:this={svg} height={'100%'} id="treeComponent"> </svg>
 </div>
 
 <style>
-  /* .node:hover rect {
-    stroke: 5px solid black;
-    transition: 0.25s ease;
-  } */
-
   .tree-container {
     overflow: visible;
     display: flex;
