@@ -2,11 +2,8 @@
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
   import RootComponentStore from '../../stores/Store';
-  // import { tree } from 'd3';
   import { stringify } from 'querystring';
   import Popup from '../../../static/Popup/Popup.svelte';
-
-  // const tree = d3.tree;
 
   interface TreeData {
     tagName: string;
@@ -17,7 +14,6 @@
   let treeData: any = null;
 
   RootComponentStore.subscribe((data) => {
-    // console.log('logging current data from Store from Tree component: ', data);
     treeData = data;
 
     if (treeData) {
@@ -62,11 +58,7 @@
 
     svg.call(drag);
 
-    // const root = d3.hierarchy(treeData);
     const treeLayout = d3.tree().nodeSize([110, 120]);
-    // const treeLayout = d3.tree();
-    // treeLayout.size([100, 100]);
-    // treeLayout.nodeSize([0, 0]);
     treeLayout(root);
 
     const treeGroup = svg.append('g').attr('transform', 'translate(20,20)');
@@ -142,11 +134,16 @@
 </div>
 
 <style>
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
   .tree-container {
     display: flex;
     justify-content: center;
     align-items: center;
-     /* width: 100%; */
     height: 100vh;
+    width: 100%;
   }
 </style>
