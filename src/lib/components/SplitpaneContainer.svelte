@@ -3,11 +3,20 @@
   // import SnapShot from './SnapShot.svelte';
   import Tree from './Tree.svelte';
   import Tabs from '../containers/Tabs.svelte';
+  import * as store from '../../stores/Store.js';
+
+  let svelteVersion: number;
+
+  store.SvelteVersionStore.subscribe((data) => {
+    console.log('logging svelte version: ', data);
+    svelteVersion = data;
+  });
 </script>
 
 <Splitpanes style="height: 100%">
   <Pane minSize={20}>
     <div class="panel">
+      <p>Svelte Version: {svelteVersion}</p>
       <Tree />
     </div>
   </Pane>

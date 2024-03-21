@@ -11,7 +11,7 @@
     (activeTabValue = tabValue);
 
   const addTab = (/** @type {number} */ tabValue) => () => {
-    const tab = `Editor${index}`;
+    const tab = `Editor ${index}`;
     items[tab] = {
       value: index,
       component: SingleTab,
@@ -54,6 +54,19 @@
     overflow: scroll;
   }
 
+  ul,
+  li,
+  span {
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      'Open Sans',
+      'Helvetica Neue',
+      sans-serif;
+  }
+
   ul {
     display: flex;
     flex-wrap: wrap;
@@ -65,6 +78,7 @@
 
   li {
     margin-bottom: -1px;
+    color: #495057;
   }
 
   span {
@@ -74,7 +88,8 @@
     display: block;
     padding: 0.5rem 1rem;
     cursor: pointer;
-    transition: 0.7s;
+    transition: 0.25s ease-in;
+    font-weight: 400;
   }
 
   span:hover {
@@ -86,12 +101,22 @@
   .button {
     background-color: black;
     color: white;
+    font-weight: 400;
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      'Open Sans',
+      'Helvetica Neue',
+      sans-serif;
   }
 
   #delete {
     background-color: black;
+    border: none;
     color: white;
-    transition: 0.45s;
+    transition: 0.25s ease-in;
   }
 
   #delete:hover {
@@ -100,7 +125,9 @@
   }
 
   li.active > span {
-    color: #495057;
+    /* color: #495057; */
+    color: black;
+    font-weight: 600;
     background-color: orange;
     border-color: #dee2e6 #dee2e6 #fff;
   }

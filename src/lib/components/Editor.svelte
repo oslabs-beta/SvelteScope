@@ -3,7 +3,7 @@
   import custom_rootData_Editor from '../../stores/store-editor';
   import { selectedNodeAttributes } from '../../stores/selectedNodeAttributes';
 
-  let currentData: any ;
+  let currentData: any;
   //-----------------------------------------------------------------------------------
   import Expandable from './Editor/Expandable.svelte';
 
@@ -24,25 +24,14 @@
       }
     );
   }
-  
+
   onMount(() => {
-    // const unsubscribe = custom_rootData_Editor.subcribe_rootData_Editor(
-    //   (data: any) => {
-    //     currentData = data;
-    //     console.log('Data from rootData_Editor: ', currentData);
-    //     id = currentData.id;
-    //   }
-    // );
-
-    // return unsubscribe; // Cleanup subscription when component unmounts
     const unsubscribe = selectedNodeAttributes.subscribe((data: any) => {
-    currentData = data;
-    console.log('Data from selectedNodeAttributes PIZZA: ', currentData);
-    id = currentData.id;
+      currentData = data;
+      id = currentData.id;
+    });
 
-  });
-  return unsubscribe
-
+    return unsubscribe;
   });
 </script>
 
@@ -79,12 +68,8 @@
             error={errors[key]}
             on:change={(e) => change(key, e.detail)}
           />
-        
         {/each}
-       
-      
       {/each}
     {/if}
   {/each}
 {/if}
-

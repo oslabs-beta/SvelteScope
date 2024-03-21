@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 
+
 const RootComponentStore = writable({});
+const SvelteVersionStore = writable();
 
-export default RootComponentStore;
-
+export { RootComponentStore, SvelteVersionStore };

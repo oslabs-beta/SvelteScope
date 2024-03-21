@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
-  import RootComponentStore from '../../stores/Store';
+  // import RootComponentStore from '../../stores/Store';
+  import * as store from '../../stores/Store.js';
   import { selectedNodeAttributes } from '../../stores/selectedNodeAttributes';
   import { stringify } from 'querystring';
   import Popup from '../../../static/Popup/Popup.svelte';
@@ -16,7 +17,8 @@
   let svg;
   let treeContainer;
 
-  RootComponentStore.subscribe((data) => {
+
+  store.RootComponentStore.subscribe((data) => {
     treeData = data;
 
     if (treeData) {
@@ -24,6 +26,15 @@
       updateTree();
     }
   });
+
+  // RootComponentStore.subscribe((data) => {
+  //   treeData = data;
+
+  //   if (treeData) {
+  //     const updatedTreeData: TreeData = objDiver(treeData);
+  //     updateTree();
+  //   }
+  // });
 
   function objDiver(data: any): TreeData {
     if (typeof data === 'object') {
@@ -43,7 +54,7 @@
     d3.select(this)
       .select('rect')
       .transition()
-      .delay(100)
+      .delay(25)
       .attr('fill', 'orangered');
   }
 
@@ -51,7 +62,7 @@
     d3.select(this)
       .select('rect')
       .transition()
-      .delay(100)
+      .delay(25)
       .attr('fill', 'orange');
   }
 
@@ -129,6 +140,7 @@
     svg
       .selectAll('.node text')
       .attr('font-size', '12px')
+      .attr('font-weight', '600')
       .attr('style', `font-family: 'system-ui';`);
   }
 
@@ -201,17 +213,5 @@
   svg {
     width: 100%;
     height: 100%;
-    font-family:
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      'Segoe UI',
-      Roboto,
-      Oxygen,
-      Ubuntu,
-      Cantarell,
-      'Open Sans',
-      'Helvetica Neue',
-      sans-serif;
   }
 </style>
