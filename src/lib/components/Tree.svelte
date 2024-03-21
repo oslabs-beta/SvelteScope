@@ -155,9 +155,7 @@
     // Access data associated with the clicked node
     const clickedNodeData = d.data;
     selectedNodeAttributes.set(clickedNodeData);
-
     // Logic to display specific props for the clicked node
-
     console.log('Clicked node data:', clickedNodeData); // For debugging
   }
 
@@ -174,7 +172,6 @@
       .on('end', dragended);
 
     svg.call(drag);
-    // treeContainer.call(drag);
   });
 </script>
 
