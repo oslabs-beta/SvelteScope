@@ -1,7 +1,23 @@
 import { writable } from 'svelte/store';
 
+//store for components
+export const RootComponentStore = writable({});
 
-const RootComponentStore = writable({});
-const SvelteVersionStore = writable();
+//store for svelte version
+export const SvelteVersionStore = writable();
 
-export { RootComponentStore, SvelteVersionStore };
+//store for props
+const rootData_Editor = writable({});
+
+export const custom_rootData_Editor = {
+  subcribe_rootData_Editor: rootData_Editor.subscribe,
+  set_rootData_Editor: (data) => {
+    rootData_Editor.set(data);
+  },
+  update_rootData_Editor: (updater) => {
+    rootData_Editor.update(updater);
+  },
+};
+
+//Selected Node Store
+export const selectedNodeAttributes = writable({});

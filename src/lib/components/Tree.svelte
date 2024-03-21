@@ -1,9 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
-  // import RootComponentStore from '../../stores/Store';
-  import * as store from '../../stores/Store.js';
-  import { selectedNodeAttributes } from '../../stores/selectedNodeAttributes';
+  import { RootComponentStore, selectedNodeAttributes} from '../../stores/Store';
+  // import { selectedNodeAttributes } from '../../stores/selectedNodeAttributes';
   import { stringify } from 'querystring';
   import Popup from '../../../static/Popup/Popup.svelte';
 
@@ -18,7 +17,7 @@
   let treeContainer;
 
 
-  store.RootComponentStore.subscribe((data) => {
+  RootComponentStore.subscribe((data) => {
     treeData = data;
 
     if (treeData) {

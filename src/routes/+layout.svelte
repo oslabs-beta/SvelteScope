@@ -1,21 +1,24 @@
 <script lang="ts">
   import SplitpaneContainer from '../lib/components/SplitpaneContainer.svelte';
   import { onMount } from 'svelte';
-  import * as store from '../stores/Store.js';
-  import rootData_Editor from '../stores/store-editor';
+  import {
+    custom_rootData_Editor,
+    RootComponentStore,
+    SvelteVersionStore,
+  } from '../stores/Store.js';
 
   let rootComponent: any;
   let svelteVersion: any;
 
-  store.RootComponentStore.subscribe((data) => {
+  RootComponentStore.subscribe((data) => {
     rootComponent = data;
   });
 
-  rootData_Editor.subcribe_rootData_Editor((data: any) => {
+  custom_rootData_Editor.subcribe_rootData_Editor((data: any) => {
     rootComponent = data;
   });
 
-  store.SvelteVersionStore.subscribe((data) => {
+  SvelteVersionStore.subscribe((data) => {
     console.log('logging svelte version: ', data);
     svelteVersion = data;
   });
@@ -41,7 +44,7 @@
   function messageListener(message: any) {
     if (message.type === 'returnSvelteVersion') {
       svelteVersion = message.svelteVersion;
-      store.SvelteVersionStore.update((currentData) => {
+      SvelteVersionStore.update((currentData) => {
         return svelteVersion;
       });
     }
@@ -49,11 +52,11 @@
     if (message.type === 'updateRootComponent') {
       rootComponent = message.rootComponent;
       if (rootComponent) {
-        store.RootComponentStore.update((currentData) => {
+        RootComponentStore.update((currentData) => {
           return rootComponent;
         });
         // rootData_Editor.set_rootData_Editor(rootComponent)
-        rootData_Editor.set_rootData_Editor({
+        custom_rootData_Editor.set_rootData_Editor({
           hello: 'change HI',
           ...rootComponent,
         });
@@ -63,10 +66,10 @@
       rootComponent = message.rootComponent;
 
       if (rootComponent) {
-        store.RootComponentStore.update((currentData) => {
+        RootComponentStore.update((currentData) => {
           return rootComponent;
         });
-        rootData_Editor.set_rootData_Editor({
+        custom_rootData_Editor.set_rootData_Editor({
           hello: 'hello there',
           ...rootComponent,
         });
