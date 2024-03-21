@@ -1,7 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import custom_rootData_Editor from '../../stores/store-editor';
-  import { selectedNodeAttributes } from '../../stores/selectedNodeAttributes';
+
+  import { custom_rootData_Editor,selectedNodeAttributes } from '../../stores/Store';
+  // import custom_rootData_Editor from '../../stores/store-editor';
+  // import { selectedNodeAttributes } from '../../stores/selectedNodeAttributes';
 
   let currentData: any ;
   //-----------------------------------------------------------------------------------
