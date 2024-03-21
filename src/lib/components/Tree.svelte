@@ -2,6 +2,9 @@
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
   import RootComponentStore from '../../stores/Store';
+  import { selectedNodeAttributes } from '../../stores/selectedNodeAttributes';
+  import { stringify } from 'querystring';
+  import Popup from '../../../static/Popup/Popup.svelte';
 
   interface TreeData {
     tagName: string;
@@ -35,6 +38,21 @@
       }
       return componentData;
     }
+  }
+  function handleMouseOver() {
+    d3.select(this)
+      .select('rect')
+      .transition()
+      .delay(100)
+      .attr('fill', 'orangered');
+  }
+
+  function handleMouseOut() {
+    d3.select(this)
+      .select('rect')
+      .transition()
+      .delay(100)
+      .attr('fill', 'orange');
   }
 
   // Function to update the tree
@@ -77,11 +95,9 @@
       .enter()
       .append('g')
       .attr('class', 'node')
-      .attr('transform', (node) => `translate(${node.x},${node.y})`)
       .attr('style', 'cursor: pointer;')
-      .on('click', (event, d) => {
-        console.log(d.data.tagName + ' clicked');
-      });
+      .attr('transform', (node) => `translate(${node.x},${node.y})`)
+      .on('click', handleNodeClick);
 
     // Append rectangle for nodes
     nodes
@@ -106,6 +122,8 @@
       .attr('dy', '24')
       .text((d) => d.data.tagName);
 
+    nodes.on('mouseover', handleMouseOver).on('mouseout', handleMouseOut);
+
     svg.selectAll('.link').attr('fill', 'none').attr('stroke', 'black');
     //changing font size of text
     svg
@@ -127,6 +145,16 @@
 
   function dragended(event, d) {
     d3.select(this).classed('active', false);
+  }
+
+  function handleNodeClick(event, d) {
+    // Access data associated with the clicked node
+    const clickedNodeData = d.data;
+    selectedNodeAttributes.set(clickedNodeData);
+
+    // Logic to display specific props for the clicked node
+
+    console.log('Clicked node data:', clickedNodeData); // For debugging
   }
 
   onMount(() => {
