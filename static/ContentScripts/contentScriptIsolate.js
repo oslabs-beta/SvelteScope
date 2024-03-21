@@ -39,6 +39,11 @@ window.addEventListener('message', async (msg) => {
         svelteVersion: msg.data.svelteVersion,
       });
       break;
+    case 'handleBrowserRefresh':
+      chrome.runtime.sendMessage({
+        type: msg.data.type,
+      })
+    break;
     default:
       break;
   }
@@ -80,6 +85,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         source: 'contentScriptIsolate.js',
       });
       break;
+
+     case 'handleBrowserRefresh':
+      window.postMessage({
+        type: request.message,
+        source: 'contentScriptIsolate.js'
+      });
+     break;
   }
 });
 
