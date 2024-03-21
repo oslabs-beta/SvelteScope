@@ -29,8 +29,6 @@
 
 <h1>Sveltune</h1>
 
-<!-- <hr /> -->
-
 <ul>
   {#each Object.entries(items) as [key, value]}
     <li class={activeTabValue === value.value ? 'active' : ''}>
@@ -43,13 +41,20 @@
 {#each Object.entries(items) as [key, value]}
   {#if activeTabValue == value.value}
     <div class="box">
-      <button id="delete" on:click={removeTab(key)}>Delete Tab</button>
+      <div class="delete-button-container">
+        <button id="delete" on:click={removeTab(key)}>✖️</button>
+      </div>
       <svelte:component this={value.component} />
     </div>
   {/if}
 {/each}
 
 <style>
+  .delete-button-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
   h1 {
     font-size: 24px;
     font-weight: 300;
@@ -59,11 +64,12 @@
   }
 
   .box {
-    padding: 40px;
+    padding: 15px;
     border: solid white;
     border-radius: 0 0 0.5rem 0.5rem;
     border-top: 5px;
     overflow: scroll;
+    height: 100%;
   }
 
   ul,
@@ -88,6 +94,7 @@
     margin-top: 0;
     list-style: none;
     border-bottom: 1px solid #dee2e6;
+    background-color: #dee2e6;
   }
 
   li {
@@ -127,16 +134,24 @@
   }
 
   #delete {
-    background-color: black;
-    border: none;
-    color: white;
-    transition: 0.25s ease-in;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 16px;
+    border: 2px solid rgba(255, 68, 0, 0);
+    text-align: center;
+    color: black;
+    background-color: none;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* transition: 0.25s ease-in; */
   }
 
-  #delete:hover {
-    background-color: orangered;
-    color: black;
-  }
+  /* #delete:hover { */
+  /* background-color: orangered; */
+  /* border: 2px solid orangered; */
+  /* color: black; */
+  /* } */
 
   li.active > span {
     color: black;
