@@ -27,6 +27,10 @@
   };
 </script>
 
+<h1>Sveltune</h1>
+
+<!-- <hr /> -->
+
 <ul>
   {#each Object.entries(items) as [key, value]}
     <li class={activeTabValue === value.value ? 'active' : ''}>
@@ -46,6 +50,14 @@
 {/each}
 
 <style>
+  h1 {
+    font-size: 24px;
+    font-weight: 300;
+    margin: 0px;
+    padding: 20px 10px;
+    background-color: #dee2e6;
+  }
+
   .box {
     padding: 40px;
     border: solid white;
@@ -57,6 +69,7 @@
   ul,
   li,
   span {
+    font-weight: 500;
     font-family:
       system-ui,
       -apple-system,
@@ -72,6 +85,7 @@
     flex-wrap: wrap;
     padding-left: 0;
     margin-bottom: 0;
+    margin-top: 0;
     list-style: none;
     border-bottom: 1px solid #dee2e6;
   }
@@ -125,9 +139,7 @@
   }
 
   li.active > span {
-    /* color: #495057; */
     color: black;
-    font-weight: 600;
     background-color: orange;
     border-color: #dee2e6 #dee2e6 #fff;
   }

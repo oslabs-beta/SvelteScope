@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
-  import { RootComponentStore, selectedNodeAttributes} from '../../stores/Store';
-  // import { selectedNodeAttributes } from '../../stores/selectedNodeAttributes';
-  import { stringify } from 'querystring';
-  import Popup from '../../../static/Popup/Popup.svelte';
+  import {
+    RootComponentStore,
+    selectedNodeAttributes,
+  } from '../../stores/Store';
 
   interface TreeData {
     tagName: string;
@@ -16,7 +16,6 @@
   let svg;
   let treeContainer;
 
-
   RootComponentStore.subscribe((data) => {
     treeData = data;
 
@@ -25,15 +24,6 @@
       updateTree();
     }
   });
-
-  // RootComponentStore.subscribe((data) => {
-  //   treeData = data;
-
-  //   if (treeData) {
-  //     const updatedTreeData: TreeData = objDiver(treeData);
-  //     updateTree();
-  //   }
-  // });
 
   function objDiver(data: any): TreeData {
     if (typeof data === 'object') {
@@ -53,16 +43,19 @@
     d3.select(this)
       .select('rect')
       .transition()
-      .delay(25)
-      .attr('fill', 'orangered');
+      .delay(10)
+      .attr('stroke', 'black')
+      .attr('stroke-width', '2px');
+    // .attr('fill', 'orangered');
   }
 
   function handleMouseOut() {
     d3.select(this)
       .select('rect')
       .transition()
-      .delay(25)
-      .attr('fill', 'orange');
+      .delay(10)
+      .attr('stroke', 'none');
+    // .attr('fill', 'orange');
   }
 
   // Function to update the tree
@@ -116,13 +109,13 @@
       .attr('y', 5)
       .attr('width', 100)
       .attr('height', 30)
-      .attr('stroke', 'black')
+      // .attr('stroke', '2px solid black')
       .attr('fill', 'orange')
-      .attr('rx', '4px')
-      .attr('ry', '4px')
+      .attr('rx', '7px')
+      .attr('ry', '7px')
       .attr(
         'style',
-        'display: flex; align-items: center; justify-content: center;'
+        'display: flex; align-items: center; justify-content: center; shape-rendering: geometricPrecision;'
       );
 
     // Append text for nodes
@@ -139,7 +132,7 @@
     svg
       .selectAll('.node text')
       .attr('font-size', '12px')
-      .attr('font-weight', '600')
+      .attr('font-weight', '500')
       .attr('style', `font-family: 'system-ui';`);
   }
 
