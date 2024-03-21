@@ -4,7 +4,7 @@
   import type { ComponentType } from 'svelte';
 
   type Items = {
-    Editor1: Content;
+    Snapshot1: Content;
   };
 
   type Content = {
@@ -13,7 +13,7 @@
   };
 
   let items: Items = {
-    Editor1: {
+    Snapshot1: {
       value: 1,
       component: SingleTab,
     },

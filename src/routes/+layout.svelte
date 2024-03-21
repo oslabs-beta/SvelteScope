@@ -2,10 +2,11 @@
   import SplitpaneContainer from '../lib/components/SplitpaneContainer.svelte';
   import { onMount } from 'svelte';
   import {
-    custom_rootData_Editor,
+    // custom_rootData_Editor,
     RootComponentStore,
     SvelteVersionStore,
   } from '../stores/Store.js';
+  import items from '../lib/containers/TabAdder.svelte';
 
   let rootComponent: any;
   let svelteVersion: any;
@@ -14,9 +15,9 @@
     rootComponent = data;
   });
 
-  custom_rootData_Editor.subcribe_rootData_Editor((data: any) => {
-    rootComponent = data;
-  });
+  // custom_rootData_Editor.subcribe_rootData_Editor((data: any) => {
+  //   rootComponent = data;
+  // });
 
   SvelteVersionStore.subscribe((data) => {
     console.log('logging svelte version: ', data);
@@ -56,10 +57,10 @@
           return rootComponent;
         });
         // rootData_Editor.set_rootData_Editor(rootComponent)
-        custom_rootData_Editor.set_rootData_Editor({
-          hello: 'change HI',
-          ...rootComponent,
-        });
+        // custom_rootData_Editor.set_rootData_Editor({
+        //   hello: 'change HI',
+        //   ...rootComponent,
+        // });
         // createAndSaveNewSnapshot(rootComponent);
       }
     } else if (message.type === 'returnRootComponent') {
@@ -69,13 +70,17 @@
         RootComponentStore.update((currentData) => {
           return rootComponent;
         });
-        custom_rootData_Editor.set_rootData_Editor({
-          hello: 'hello there',
-          ...rootComponent,
-        });
+        // custom_rootData_Editor.set_rootData_Editor({
+        //   hello: 'hello there',
+        //   ...rootComponent,
+        // });
       }
     } else if (message.type === 'returnTempRoot') {
       const tempRoot = message.rootComponent;
+    } else if (message.type === 'handleBrowserRefresh') {
+      RootComponentStore.set({});
+      SvelteVersionStore.set(null);
+      setUpPanel();
     }
   }
 

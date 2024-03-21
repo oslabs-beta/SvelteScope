@@ -11,7 +11,7 @@
     (activeTabValue = tabValue);
 
   const addTab = (/** @type {number} */ tabValue) => () => {
-    const tab = `Editor ${index}`;
+    const tab = `Snapshot${index}`;
     items[tab] = {
       value: index,
       component: SingleTab,

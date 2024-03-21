@@ -13,7 +13,6 @@ const rootData_Editor = writable({});
 export const selectedNodeAttributes = writable({});
 
 
-
 const globalStore = {
 
 }
