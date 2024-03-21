@@ -1,32 +1,15 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-
-  import { custom_rootData_Editor,selectedNodeAttributes } from '../../stores/Store';
-  // import custom_rootData_Editor from '../../stores/store-editor';
-  // import { selectedNodeAttributes } from '../../stores/selectedNodeAttributes';
-
-  let currentData: any ;
+  import { onMount } from "svelte";
+  // import custom_rootData_Editor from "../../stores/store-editor";
+  import { selectedNodeAttributes } from "../../stores/selectedNodeAttributes";
+  import Props from "./Editor/Props.svelte";
   //-----------------------------------------------------------------------------------
-  import Expandable from './Editor/Expandable.svelte';
-
-  // export let entries: Array<{ key: string; value: any }> = [];
+  let currentData: any;
   export let id: number;
   export let readonly = false;
-
   const errors: Record<string, string | undefined> = {};
 
-  function change(key: string, value: any) {
-    chrome.devtools.inspectedWindow.eval(
-      `__svelte_devtools_inject_state(${id}, '${key}', ${value})`,
-      (_, error) => {
-        errors[key] =
-          error && error.isException
-            ? error.value.substring(0, error.value.indexOf('\n'))
-            : undefined;
-      }
-    );
-  }
-  
+  //-----------------------------------------------------------------------------------
   onMount(() => {
     // const unsubscribe = custom_rootData_Editor.subcribe_rootData_Editor(
     //   (data: any) => {
@@ -35,58 +18,49 @@
     //     id = currentData.id;
     //   }
     // );
-
     // return unsubscribe; // Cleanup subscription when component unmounts
+
     const unsubscribe = selectedNodeAttributes.subscribe((data: any) => {
-    currentData = data;
-    console.log('Data from selectedNodeAttributes PIZZA: ', currentData);
-    id = currentData.id;
-
-  });
-  return unsubscribe
-
+      currentData = data;
+      console.log("Data from selectedNodeAttributes: ", currentData);
+      id = currentData.id;
+    });
+    return unsubscribe;
   });
 </script>
 
-<h2>detail.attributes</h2>
-{#if currentData && currentData.type === 'component'}
-  <ul>
-    {#each currentData.detail.attributes as { key, value } (key)}
-      <Expandable
-        {readonly}
-        {key}
-        {value}
-        error={errors[key]}
-        on:change={(e) => change(key, e.detail)}
-      />
-    {/each}
-  </ul>
-{:else}
-  <div style:padding-left="1rem" style:color="rgb(118, 118, 118)">None</div>
-{/if}
+<main>
+  <!-- //TYPE: COMPONENT----------------------------------------------------------- -->
+  {#if currentData && currentData.type === "component"}
+    <h2>Props - currentData.detail.attributes</h2>
+    <Props id={currentData.id} currentProps={currentData.detail.attributes} />
+    <hr />
 
-{#if currentData}
-  <h2>Ctx.value - Array</h2>
-  {#each currentData.detail.ctx as ctx}
-    {#if Array.isArray(ctx.value)}
-      <p>Key {ctx.key}</p>
-      <hr />
-      {#each ctx.value as val}
-        <hr />
-        {#each Object.entries(val) as [key, value]}
-          <Expandable
-            {readonly}
-            {key}
-            {value}
-            error={errors[key]}
-            on:change={(e) => change(key, e.detail)}
-          />
-        
-        {/each}
-       
-      
-      {/each}
-    {/if}
-  {/each}
-{/if}
+    <h2>Events</h2>
+    <hr />
 
+    <h2>State - currentData.detail.ctx</h2>
+    <Props id={currentData.id} currentProps={currentData.detail.ctx} />
+
+    <!-- //TYPE: BLOCK AND ITERATION----------------------------------------------------------- -->
+  {:else if (currentData && currentData.type === "block") || (currentData && currentData.type === "iteration")}
+    <h2>State</h2>
+    <Props
+      readonly
+      id={currentData.id}
+      currentProps={currentData.detail.attributes}
+    />
+
+    <!-- //TYPE: ELEMENT----------------------------------------------------------- -->
+  {:else if currentData && currentData.type === "element"}
+    <h2>Attributes</h2>
+    <Props
+      readonly
+      id={currentData.id}
+      currentProps={currentData.detail.attributes}
+    />
+
+    <h2>Events</h2>
+    <!-- <Props id={currentData.id} currentProps={events} /> -->
+  {/if}
+</main>

@@ -1,0 +1,107 @@
+  function change(key: string, value: any) {
+    chrome.devtools.inspectedWindow.eval(
+      `__svelte_devtools_inject_state(${id}, '${key}', ${value})`,
+      (_, error) => {
+        errors[key] =
+          error && error.isException
+            ? error.value.substring(0, error.value.indexOf("\n"))
+            : undefined;
+      }
+    );
+  }
+
+  <!-- <h2>detail.attributes</h2>
+  {#if currentData && currentData.type === 'component'}
+      <ul>
+          {#each currentData.detail.attributes as { key, value } (key)}
+              <Expandable
+                  {readonly}
+                  {key}
+                  {value}
+                  error={errors[key]}
+                  on:change={(e) => change(key, e.detail)}
+              />
+          {/each}
+      </ul>
+  {:else}
+      <div style:padding-left="1rem" style:color="rgb(118, 118, 118)">None</div>
+  {/if} -->
+  
+  
+  <!-- {#if currentData}
+  <h2>Ctx.value - Array</h2>
+    {#each currentData.detail.ctx as ctx}
+      {#if Array.isArray(ctx.value)}
+        <p>Key {ctx.key}</p>
+        <hr />
+        {#each ctx.value as val}
+          <hr />
+          {#each Object.entries(val) as [key, value]}
+            <Expandable
+              {readonly}
+              {key}
+              {value}
+              error={errors[key]}
+              on:change={(e) => change(key, e.detail)}
+            />
+  
+          {/each}
+  
+        {/each}
+      {/if}
+    {/each}
+  {/if} -->
+
+   //-----------------------------------------------------------------------------------
+
+  //   function onChangeHandler(e, key){
+  //     const newVal = e.target.value;
+
+  //     // Update the value for the specific key
+  //     custom_rootData_Editor.update_rootData_Editor((data: any) => {
+  //         // Iterate over the ctx array to find the correct key and update its value
+  //         const updatedCtx = data.detail.ctx.map(ctx => {
+  //             if (Array.isArray(ctx.value)) {
+  //                 ctx.value = ctx.value.map(val => {
+  //                     // Check if the key matches the current key being updated
+  //                     if (val[key] !== undefined) {
+  //                         // Update the value for the current key
+  //                         return { ...val, [key]: newVal };
+  //                     } else {
+  //                         return val;
+  //                     }
+  //                 });
+  //             }
+  //             return ctx;
+  //         });
+
+  //         // Update the data with the modified ctx array
+  //         return { ...data, detail: { ...data.detail, ctx: updatedCtx } };
+  //     });
+  // }
+
+  // function onChangeHandler(e, ctxKey, key) {
+  //   const newVal = e.target.value;
+
+  //   // Update the value for the specific key
+  //   custom_rootData_Editor.update_rootData_Editor((data: any) => {
+  //     // Iterate over the ctx array to find the correct key and update its value
+  //     const updatedCtx = data.detail.ctx.map((ctx) => {
+  //       if (ctx.key === ctxKey && Array.isArray(ctx.value)) {
+  //         ctx.value = ctx.value.map((val) => {
+  //           // Check if the key matches the current key being updated
+  //           if (val[key] !== undefined) {
+  //             // Update the value for the current key
+  //             return { ...val, [key]: newVal };
+  //           } else {
+  //             return val;
+  //           }
+  //         });
+  //       }
+  //       return ctx;
+  //     });
+
+  //     // Update the data with the modified ctx array
+  //     return { ...data, detail: { ...data.detail, ctx: updatedCtx } };
+  //   });
+  // }

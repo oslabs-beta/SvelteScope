@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Splitpanes, Pane } from 'svelte-splitpanes';
+  import { Splitpanes, Pane } from "svelte-splitpanes";
   // import SnapShot from './SnapShot.svelte';
-  import Tree from './Tree.svelte';
-  import Tabs from '../containers/Tabs.svelte';
+  import Tree from "./Tree.svelte";
+  import Tabs from "../containers/Tabs.svelte";
 </script>
 
 <Splitpanes style="height: 100%">
