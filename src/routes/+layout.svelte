@@ -1,8 +1,8 @@
 <script lang="ts">
   import SplitpaneContainer from "../lib/components/SplitpaneContainer.svelte";
   import { onMount } from "svelte";
-  import RootComponentStore from "../stores/Store.js";
-  import rootData_Editor from "../stores/store-editor";
+  import { custom_rootData_Editor, RootComponentStore } from "../stores/Store.js";
+ 
 
   let rootComponent: any;
 
@@ -12,7 +12,7 @@
   // rootData_Editor.set_rootData_Editor((data: any) => {
   //   rootComponent = data;
   // });
-  rootData_Editor.subcribe_rootData_Editor((data: any) => {
+  custom_rootData_Editor.subcribe_rootData_Editor((data: any) => {
     rootComponent = data;
   })
 
@@ -44,7 +44,7 @@
           return rootComponent;
         });
         // rootData_Editor.set_rootData_Editor(rootComponent)
-        rootData_Editor.set_rootData_Editor({
+        custom_rootData_Editor.set_rootData_Editor({
           hello: "change HI",
           ...rootComponent,
         });
@@ -59,7 +59,7 @@
         RootComponentStore.update((currentData) => {
           return rootComponent;
         });
-        rootData_Editor.set_rootData_Editor({
+        custom_rootData_Editor.set_rootData_Editor({
           hello: "hello there",
           ...rootComponent,
         });
