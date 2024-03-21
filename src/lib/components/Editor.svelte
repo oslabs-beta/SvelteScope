@@ -1,29 +1,31 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import custom_rootData_Editor from "../../stores/store-editor";
-
-  let currentData: any;
-  //-----------------------------------------------------------------------------------
-  // import Expandable from "./Editor/Expandable.svelte";
+  // import custom_rootData_Editor from "../../stores/store-editor";
+  import { selectedNodeAttributes } from "../../stores/selectedNodeAttributes";
   import Props from "./Editor/Props.svelte";
-
-  // export let entries: Array<{ key: string; value: any }> = [];
+  //-----------------------------------------------------------------------------------
+  let currentData: any;
   export let id: number;
   export let readonly = false;
-
   const errors: Record<string, string | undefined> = {};
 
+  //-----------------------------------------------------------------------------------
   onMount(() => {
-    const unsubscribe = custom_rootData_Editor.subcribe_rootData_Editor(
-      (data: any) => {
-        currentData = data;
-        console.log("Data from rootData_Editor: ", currentData);
+    // const unsubscribe = custom_rootData_Editor.subcribe_rootData_Editor(
+    //   (data: any) => {
+    //     currentData = data;
+    //     console.log('Data from rootData_Editor: ', currentData);
+    //     id = currentData.id;
+    //   }
+    // );
+    // return unsubscribe; // Cleanup subscription when component unmounts
 
-        id = currentData.id;
-      }
-    );
-
-    return unsubscribe; // Cleanup subscription when component unmounts
+    const unsubscribe = selectedNodeAttributes.subscribe((data: any) => {
+      currentData = data;
+      console.log("Data from selectedNodeAttributes: ", currentData);
+      id = currentData.id;
+    });
+    return unsubscribe;
   });
 </script>
 
@@ -41,7 +43,7 @@
     <Props id={currentData.id} currentProps={currentData.detail.ctx} />
 
     <!-- //TYPE: BLOCK AND ITERATION----------------------------------------------------------- -->
-  {:else if (currentData && currentData.type === "block") || currentData && currentData.type === "iteration"}
+  {:else if (currentData && currentData.type === "block") || (currentData && currentData.type === "iteration")}
     <h2>State</h2>
     <Props
       readonly

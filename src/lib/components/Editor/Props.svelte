@@ -1,13 +1,14 @@
 <script lang="ts">
   import Expandable from "./Expandable.svelte";
 
-  // export let currentData: Array<{ key: string; value: any }> = [];
+  // export let currentProps: Array<{ key: string; value: any }> = [];
   export let currentProps: any = [];
 
   export let id: number;
   export let readonly = false;
 
   const errors: Record<string, string | undefined> = {};
+
   function change(key: string, value: any) {
     chrome.devtools.inspectedWindow.eval(
       `__svelte_devtools_inject_state(${id}, '${key}', ${value})`,
