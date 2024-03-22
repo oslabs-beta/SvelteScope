@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { selectedNodeAttributes } from '../../stores/Store';
+  import { SelectedNodeAttributes } from '../../stores/Store';
   import Props from './Editor/Props.svelte';
   //-----------------------------------------------------------------------------------
   let currentData: any;
@@ -20,13 +20,23 @@
     );
   }
 
+  SelectedNodeAttributes.subscribe((data: any) => {
+    currentData = data;
+    id = data.id;
+    console.log('editor data: ', currentData);
+    console.log('editor id: ', id);
+  });
+
   onMount(() => {
-    const unsubscribe = selectedNodeAttributes.subscribe((data: any) => {
-      currentData = data;
-      console.log('Data from selectedNodeAttributes: ', currentData);
-      id = currentData.id;
-    });
-    return unsubscribe;
+    // default currentData to root component stores topmost tagName property
+    
+
+    // const unsubscribe = SelectedNodeAttributes.subscribe((data: any) => {
+    //   currentData = data;
+    //   console.log('Data from SelectedNodeAttributes: ', currentData);
+    //   id = currentData.id;
+    // });
+    // return unsubscribe;
   });
 </script>
 

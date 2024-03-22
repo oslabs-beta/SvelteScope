@@ -10,7 +10,7 @@ export const SvelteVersionStore = writable();
 const rootData_Editor = writable({});
 
 //Selected Node Store
-export const selectedNodeAttributes = writable({});
+export const SelectedNodeAttributes = writable({});
 
 
 const globalStore = {
