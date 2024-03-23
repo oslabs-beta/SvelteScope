@@ -24,13 +24,6 @@
   });
 
   // CURRENT SNAPSHOT
-  onMount(() => {
-    const unsubscribe = RootComponentStore.subscribe((data: any) => {
-      currentData = data;
-      console.log("currentData from Editor, RootComponentStore: ", currentData);
-    });
-    return unsubscribe;
-  });
 
   // const snapshotClick = () => {
   //   SnapshotStore.subscribe((data: any) => {

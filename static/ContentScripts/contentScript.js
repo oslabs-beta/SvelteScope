@@ -5,9 +5,16 @@
   Svelte applications.
 */
 
-import { getNode, getSvelteVersion, getRootNodes } from "svelte-listener";
+import { getNode, getSvelteVersion, getRootNodes } from 'svelte-listener';
 
-console.log("Hello from contentScript!");
+console.log('Hello from contentScript!');
+
+window.addEventListener('beforeunload', (event) => {
+  window.postMessage({
+    type: 'handleBrowserRefresh',
+    source: 'contentScript.js',
+  });
+});
 
 // @ts-ignore - possibly find an alternative
 window.__svelte_devtools_inject_state = function (id, key, value) {
@@ -22,11 +29,6 @@ window.__svelte_devtools_inject_state = function (id, key, value) {
   console.log("from __svelte_devtools_inject_state, key: ", typeof key,  key)
   console.log("from __svelte_devtools_inject_state, value: ", typeof value, value)
 };
-
-
-
-
-
 
 /*
   TODO:
@@ -47,11 +49,11 @@ window.__svelte_devtools_inject_state = function (id, key, value) {
 // I don't know how it works.
 function clone(value, seen = new Map()) {
   switch (typeof value) {
-    case "function":
+    case 'function':
       return { __isFunction: true, source: value.toString(), name: value.name };
-    case "symbol":
+    case 'symbol':
       return { __isSymbol: true, name: value.toString() };
-    case "object": {
+    case 'object': {
       if (value === window || value === null) return null;
       if (Array.isArray(value)) return value.map((o) => clone(o, seen));
       if (seen.has(value)) return {};
@@ -68,8 +70,8 @@ function clone(value, seen = new Map()) {
 }
 
 function gte(major, minor, patch) {
-  const version = (getSvelteVersion() || "0.0.0")
-    .split(".")
+  const version = (getSvelteVersion() || '0.0.0')
+    .split('.')
     .map((n) => parseInt(n));
   return (
     version[0] > major ||
@@ -89,7 +91,7 @@ function shouldUseCapture() {
 // This is a global variable to let us know if the page has been loaded or not
 let pageLoaded = false;
 // At this time, this content script only gets Svelte component data once
-window.addEventListener("load", (event) => {
+window.addEventListener('load', (event) => {
   pageLoaded = true;
 });
 
@@ -98,7 +100,7 @@ window.addEventListener("load", (event) => {
 function traverseComponent(node) {
   let components = [];
   node.children.forEach((child) => {
-    if (child.type === "component" && child.detail.$$) {
+    if (child.type === 'component' && child.detail.$$) {
       const serialized = {
         id: child.id,
         type: child.type,
@@ -141,22 +143,22 @@ function traverseComponent(node) {
 // Gets component tree using svelte listener and sends it to the dev tool panel
 function sendRootNodeToExtension(messageType) {
   if (
-    messageType !== "updateRootComponent" &&
-    messageType !== "returnRootComponent" &&
-    messageType !== "returnTempRoot"
+    messageType !== 'updateRootComponent' &&
+    messageType !== 'returnRootComponent' &&
+    messageType !== 'returnTempRoot'
   ) {
     console.log(
-      "You need a valid messageType in sendRootNodeToExtension() in ContentScriptMain/index.js"
+      'You need a valid messageType in sendRootNodeToExtension() in ContentScriptMain/index.js'
     );
     return;
   }
 
-  console.log(" I am in sendRootNodeToExtension Func");
+  console.log(' I am in sendRootNodeToExtension Func');
 
   const rootNodes = getRootNodes();
   const newRootNodes = traverseComponent({
     children: rootNodes,
-    type: "component",
+    type: 'component',
   });
   if (!newRootNodes) {
     return;
@@ -166,24 +168,24 @@ function sendRootNodeToExtension(messageType) {
   window.postMessage({
     type: messageType,
     rootComponent: newRootNode,
-    source: "contentScript.js",
+    source: 'contentScript.js',
   });
 }
 
 // Gets svelte version using svelte listener and sends it to
 // the Popup box
 function sendSvelteVersionToExtension() {
-  console.log("sendSvelteVersionToExtension(): getSvelteVersion()");
+  console.log('sendSvelteVersionToExtension(): getSvelteVersion()');
   const svelteVersion = getSvelteVersion();
   if (!svelteVersion) {
     return;
   }
-  console.log("svelteVersion:", svelteVersion);
+  console.log('svelteVersion:', svelteVersion);
   // Sends a message to ContentScriptIsolated/index.js
   window.postMessage({
-    type: "returnSvelteVersion",
+    type: 'returnSvelteVersion',
     svelteVersion: svelteVersion,
-    source: "contentScript.js",
+    source: 'contentScript.js',
   });
 }
 
@@ -200,7 +202,7 @@ function injectState(id, newState) {
     modify the DOM, the event listeners won't hear any events. Let's just send
     back a new updated root node for all state injections
   */
-  sendRootNodeToExtension("updateRootComponent");
+  sendRootNodeToExtension('updateRootComponent');
 }
 
 // When state is injected, an event is emitted by the Svelte app
@@ -242,41 +244,41 @@ function injectSnapshot(snapshot) {
 let readyForUpdates = false;
 // Listens to events from ContentScriptIsolated/index.js and responds based on
 // the event's type
-window.addEventListener("message", async (msg) => {
+window.addEventListener('message', async (msg) => {
   if (
-    typeof msg !== "object" ||
+    typeof msg !== 'object' ||
     msg === null ||
-    msg.data?.source !== "contentScriptIsolate.js"
+    msg.data?.source !== 'contentScriptIsolate.js'
   ) {
     // console.log('msg not qualified from contentScript, msg:', msg)
     return;
   }
 
   const data = msg.data;
-  console.log("trying to get data from msg.data:", msg.data);
+  console.log('trying to get data from msg.data:', msg.data);
 
   switch (data.type) {
-    case "getSvelteVersion":
-      console.log("getSvelteVersion: invoke sendSvelteVersionToExtension()");
+    case 'getSvelteVersion':
+      console.log('getSvelteVersion: invoke sendSvelteVersionToExtension()');
       sendSvelteVersionToExtension();
       break;
-    case "getRootComponent":
-      console.log("I am listening from getRootComponent in contentScript");
+    case 'getRootComponent':
+      console.log('I am listening from getRootComponent in contentScript');
       readyForUpdates = true;
-      sendRootNodeToExtension("returnRootComponent");
+      sendRootNodeToExtension('returnRootComponent');
       break;
-    case "handleClosedPanel":
+    case 'handleClosedPanel':
       readyForUpdates = false;
       break;
-    case "injectState":
+    case 'injectState':
       injectState(data.componentId, data.newState);
       break;
-    case "injectSnapshot":
+    case 'injectSnapshot':
       injectSnapshot(data.snapshot);
       // Before this setTimeout was added, we were sending back
       // a snapshot that hadn't been updated yet
       setTimeout(() => {
-        sendRootNodeToExtension("returnTempRoot");
+        sendRootNodeToExtension('returnTempRoot');
       }, 0);
       break;
   }
@@ -299,22 +301,22 @@ function sendUpdateToPanel() {
   if (recentlyUpdated === false) {
     setTimeout(() => {
       recentlyUpdated = false;
-      sendRootNodeToExtension("updateRootComponent");
+      sendRootNodeToExtension('updateRootComponent');
     }, 0);
     recentlyUpdated = true;
   }
 }
 
-window.document.addEventListener("SvelteRegisterComponent", sendUpdateToPanel);
-window.document.addEventListener("SvelteRegisterBlock", sendUpdateToPanel);
-window.document.addEventListener("SvelteDOMInsert", (e) => {
+window.document.addEventListener('SvelteRegisterComponent', sendUpdateToPanel);
+window.document.addEventListener('SvelteRegisterBlock', sendUpdateToPanel);
+window.document.addEventListener('SvelteDOMInsert', (e) => {
   // console.log('SvelteDOMInsert, e: ', e)
   sendUpdateToPanel;
 });
-window.document.addEventListener("SvelteDOMRemove", sendUpdateToPanel);
-window.document.addEventListener("SvelteDOMSetData", sendUpdateToPanel);
-window.document.addEventListener("SvelteDOMSetProperty", sendUpdateToPanel);
-window.document.addEventListener("SvelteDOMSetAttribute", sendUpdateToPanel);
+window.document.addEventListener('SvelteDOMRemove', sendUpdateToPanel);
+window.document.addEventListener('SvelteDOMSetData', sendUpdateToPanel);
+window.document.addEventListener('SvelteDOMSetProperty', sendUpdateToPanel);
+window.document.addEventListener('SvelteDOMSetAttribute', sendUpdateToPanel);
 
 // Here are some more Svelte listener events. Do we need them? Probably not,
 // but they're here if you ever need them

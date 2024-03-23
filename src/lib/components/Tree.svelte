@@ -3,7 +3,7 @@
   import * as d3 from 'd3';
   import {
     RootComponentStore,
-    selectedNodeAttributes,
+    SelectedNodeAttributes,
   } from '../../stores/Store';
 
   interface TreeData {
@@ -15,6 +15,7 @@
   let treeData: any = null;
   let svg;
   let treeContainer;
+  let selectedNode;
 
   RootComponentStore.subscribe((data) => {
     treeData = data;
@@ -24,6 +25,13 @@
       updateTree();
     }
   });
+
+  SelectedNodeAttributes.subscribe((data) => {
+    // console.log('subscribed to selected node attributes: ', data);
+    selectedNode = data;
+  });
+
+  console.log('selected node line 34: ', selectedNode);
 
   function objDiver(data: any): TreeData {
     if (typeof data === 'object') {
@@ -154,11 +162,9 @@
   function handleNodeClick(event, d) {
     // Access data associated with the clicked node
     const clickedNodeData = d.data;
-    selectedNodeAttributes.set(clickedNodeData);
-
-    // Logic to display specific props for the clicked node
-
-    console.log('Clicked node data:', clickedNodeData); // For debugging
+    SelectedNodeAttributes.update((data: any) => {
+      return clickedNodeData;
+    });
   }
 
   onMount(() => {
@@ -174,7 +180,6 @@
       .on('end', dragended);
 
     svg.call(drag);
-    // treeContainer.call(drag);
   });
 </script>
 
