@@ -13,7 +13,7 @@
 
   let root;
   let treeData: any = null;
-  let svg;
+  let svg : any;
   let treeContainer;
   let selectedNode;
 
@@ -167,6 +167,7 @@
     });
   }
 
+
   onMount(() => {
     treeContainer = d3.select('#treeContainer');
     updateTree();
@@ -180,6 +181,7 @@
       .on('end', dragended);
 
     svg.call(drag);
+ 
   });
 </script>
 
