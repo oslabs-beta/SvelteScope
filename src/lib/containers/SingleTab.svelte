@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import Editor from "../components/Editor.svelte";
   import {
-    DefaultRootComponentStore,
+    // DefaultRootComponentStore,
     CurrentTabStore,
     selectedNodeAttributes,
 
@@ -21,10 +21,19 @@
   //------------------------------------------------------------------------------
   //CURRENT DATA
 
+  // onMount(() => {
+  //   const unsubscribe = RootComponentStore.subscribe((data: any) => {
+  //     currentData = data;
+  //     console.log("currentData from SingleTab: ", currentData);
+  //     id = currentData.id;
+  //   });
+  //   return unsubscribe;
+  // });
+
   onMount(() => {
     const unsubscribe = RootComponentStore.subscribe((data: any) => {
       currentData = data;
-      console.log("currentData from SingleTab: ", currentData);
+      // console.log("RootComponentStore, currentData from SingleTab: ", currentData);
       id = currentData.id;
     });
     return unsubscribe;
@@ -34,7 +43,7 @@
   onMount(() => {
     const unsubscribe = CurrentTabStore.subscribe((data: any) => {
       currentTab = data.currentTab;
-      console.log("currentTab from store: ", currentTab);
+      // console.log("currentTab from store: ", currentTab);
     });
     return unsubscribe;
   });

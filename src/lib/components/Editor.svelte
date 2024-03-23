@@ -21,7 +21,7 @@
   //CURRENT TAB
   CurrentTabStore.subscribe((currTab) => {
     currentTab = +currTab.currentTab;
-    console.log("currentTab from Editor: ", currentTab);
+    // console.log("currentTab from Editor: ", currentTab);
   });
 
   RootComponentStore.subscribe((data) => {
@@ -31,8 +31,7 @@
   SelectedNodeAttributes.subscribe((data: any) => {
     currentData = data;
     id = data.id;
-    console.log("editor data: ", currentData);
-    console.log("editor id: ", id);
+    // console.log("SelectedNodeAttributes, currentData: ", currentData);
   });
 
   // CURRENT SNAPSHOT

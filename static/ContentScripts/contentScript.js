@@ -19,7 +19,6 @@ window.addEventListener('beforeunload', (event) => {
 // @ts-ignore - possibly find an alternative
 window.__svelte_devtools_inject_state = function (id, key, value) {
   
-  
   const { detail: component } = getNode(id) || {};
 	component && component.$inject_state({ [key]: value });
   

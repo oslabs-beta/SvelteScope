@@ -25,7 +25,10 @@
       return { currentTab: activeTabValue };
     });
 
+    //Step1: Because we change another tab, we need to make webpage back to original version
+    //with  inspectedWindow
     DefaultSnapShotStore.subscribe((data: any) => {
+      console.log('DefaultSnapShotStore when invoking handleClick from <TabAdder />: ', data)
       for (let key in data) {
         let key_inject_state = key;
         // console.log('key_inject_state: ', typeof key_inject_state, key_inject_state)
@@ -46,11 +49,12 @@
       }
     });
 
+    //Step 2: After webpage changes back as original version
+    //we continue makes changes for webpage with all changed props staying in Snapshotstore with specific tab
     SnapshotStore.subscribe((data: any) => {
-      console.log("SnapshotStore from Editor is running");
       snapshot = data;
-      console.log("snapshot from store: ", snapshot);
-      console.log("currentSnapshot: ", snapshot[currentTab]);
+      console.log("SnapShotStore when invoking handleClick from <TabAdder />: ", snapshot);
+      console.log("snapshot[currentTab] when invoking handleClick from <TabAdder />: ", snapshot[currentTab]);
       for (let key in snapshot[currentTab]) {
         let key_inject_state = key;
         // console.log('key_inject_state: ', typeof key_inject_state, key_inject_state)
@@ -93,17 +97,25 @@
       return { currentTab: index };
     });
 
+    //just subcribe the rootComponent --> DefaultRootComponent
+    //because <Editor /> get rootComponent, need to run this function to make changes for webpage
+    //with inspectedWindow
     DefaultSnapShotStore.subscribe((data: any) => {
+      console.log('DefaultSnapShotStore when invoking addTab: ', data)
+      let num = 0;
       for (let key in data) {
+        num++;
+        console.log('Try to test number: ', num)
         let key_inject_state = key;
-        // console.log('key_inject_state: ', typeof key_inject_state, key_inject_state)
+        console.log('key_inject_state: ', typeof key_inject_state, key_inject_state)
         let value_inject_state = data[key].value;
-        // console.log('value_inject_state: ', typeof value_inject_state, value_inject_state)
+        console.log('value_inject_state: ', typeof value_inject_state, value_inject_state)
         let id_inject_state = data[key].id;
-        // console.log('id_inject_state: ', typeof id_inject_state, id_inject_state)
+        console.log('id_inject_state: ', typeof id_inject_state, id_inject_state)
 
         chrome.devtools.inspectedWindow.eval(
           `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
+          // `__svelte_devtools_inject_state(55, 'title', 'Swim Together 2')`,
           (_, error) => {
             errors[key] =
               error && error.isException

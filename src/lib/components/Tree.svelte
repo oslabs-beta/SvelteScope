@@ -31,7 +31,7 @@
     selectedNode = data;
   });
 
-  console.log('selected node line 34: ', selectedNode);
+  // console.log('selected node line 34: ', selectedNode);
 
   function objDiver(data: any): TreeData {
     if (typeof data === 'object') {
