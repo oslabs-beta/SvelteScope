@@ -1,11 +1,14 @@
 <script>
   import SingleTab from './SingleTab.svelte';
+  import { SelectedNodeAttributes } from '../../stores/Store';
+
   /**
    * @type {any}
    */
   export let items = {};
   export let activeTabValue = 1;
   let index = 2;
+
 
   const handleClick = (/** @type {number} */ tabValue) => () =>
     (activeTabValue = tabValue);
@@ -25,9 +28,13 @@
     delete items[tabValue];
     items = items;
   };
+
+
 </script>
 
 <h1>Sveltune</h1>
+
+
 
 <ul>
   {#each Object.entries(items) as [key, value]}
@@ -62,6 +69,7 @@
     padding: 20px 10px;
     background-color: #dee2e6;
   }
+
 
   .box {
     padding: 15px;

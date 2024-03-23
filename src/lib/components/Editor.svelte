@@ -4,6 +4,7 @@
   import Props from './Editor/Props.svelte';
   //-----------------------------------------------------------------------------------
   let currentData: any;
+  let currentComponent: any;
   export let id: number;
   export let readonly = false;
   const errors: Record<string, string | undefined> = {};
@@ -22,6 +23,7 @@
 
   SelectedNodeAttributes.subscribe((data: any) => {
     currentData = data;
+    currentComponent = data.tagName;
     id = data.id;
     console.log('editor data: ', currentData);
     console.log('editor id: ', id);
@@ -29,8 +31,6 @@
 
   onMount(() => {
     // default currentData to root component stores topmost tagName property
-    
-
     // const unsubscribe = SelectedNodeAttributes.subscribe((data: any) => {
     //   currentData = data;
     //   console.log('Data from SelectedNodeAttributes: ', currentData);
@@ -42,7 +42,9 @@
 
 <main>
   <!-- //TYPE: COMPONENT----------------------------------------------------------- -->
+
   {#if currentData && currentData.type === 'component'}
+    <h1>{currentComponent} Component</h1>
     <h2>Props - currentData.detail.attributes</h2>
     <Props id={currentData.id} currentProps={currentData.detail.attributes} />
     <hr />
@@ -75,3 +77,16 @@
     <!-- <Props id={currentData.id} currentProps={events} /> -->
   {/if}
 </main>
+
+<style>
+  h1 {
+    font-size: 24px;
+    color: orangered;
+    margin: 0px;
+    padding: 20px 10px;
+
+    border-radius: 0.5rem;
+
+    letter-spacing: 1px;
+  }
+</style>
