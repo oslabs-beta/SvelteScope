@@ -1,45 +1,79 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  // import custom_rootData_Editor from "../../stores/store-editor";
-  import { selectedNodeAttributes } from '../../stores/Store';
+  import {
+    SnapshotStore,
+    CurrentTabStore,
+    RootComponentStore,
+  } from "../../stores/Store";
   import Props from "./Editor/Props.svelte";
   //-----------------------------------------------------------------------------------
+  let snapshot: any;
+  let currentTab: number;
+  const errors: Record<string, string | undefined> = {};
   let currentData: any;
+
   export let id: number;
   export let readonly = false;
-  const errors: Record<string, string | undefined> = {};
+  export let currentProps: any;
 
-  //-----------------------------------------------------------------------------------
+  //----------------------------------------------------------------------
+  //CURRENT TAB
+  CurrentTabStore.subscribe((currTab) => {
+    currentTab = +currTab.currentTab;
+    console.log("currentTab from Editor: ", currentTab);
+  });
+
+  // CURRENT SNAPSHOT
   onMount(() => {
-    // const unsubscribe = custom_rootData_Editor.subcribe_rootData_Editor(
-    //   (data: any) => {
-    //     currentData = data;
-    //     console.log('Data from rootData_Editor: ', currentData);
-    //     id = currentData.id;
-    //   }
-    // );
-    // return unsubscribe; // Cleanup subscription when component unmounts
-
-    const unsubscribe = selectedNodeAttributes.subscribe((data: any) => {
+    const unsubscribe = RootComponentStore.subscribe((data: any) => {
       currentData = data;
-      console.log("Data from selectedNodeAttributes: ", currentData);
-      id = currentData.id;
+      console.log("currentData from Editor, RootComponentStore: ", currentData);
     });
     return unsubscribe;
   });
+
+  // const snapshotClick = () => {
+  //   SnapshotStore.subscribe((data: any) => {
+  //     console.log("SnapshotStore from Editor is running");
+  //     snapshot = data;
+  //     console.log("snapshot from store: ", snapshot);
+  //     console.log("currentSnapshot: ", snapshot[currentTab]);
+  //     for (let key in snapshot[currentTab]) {
+  //       let key_inject_state = key;
+  //       // console.log('key_inject_state: ', typeof key_inject_state, key_inject_state)
+  //       let value_inject_state = snapshot[currentTab][key].value;
+  //       // console.log('value_inject_state: ', typeof value_inject_state, value_inject_state)
+  //       let id_inject_state = snapshot[currentTab][key].id;
+  //       // console.log('id_inject_state: ', typeof id_inject_state, id_inject_state)
+
+  //       chrome.devtools.inspectedWindow.eval(
+  //         `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
+  //         (_, error) => {
+  //           errors[key] =
+  //             error && error.isException
+  //               ? error.value.substring(0, error.value.indexOf("\n"))
+  //               : undefined;
+  //         }
+  //       );
+  //     }
+  //   });
+  // };
+  //----------------------------------------------------------------------
 </script>
 
 <main>
+  <!-- <button on:click={snapshotClick}>Snapshot</button> -->
+
   <!-- //TYPE: COMPONENT----------------------------------------------------------- -->
   {#if currentData && currentData.type === "component"}
-    <h2>Props - currentData.detail.attributes</h2>
+    <h2>Props - currentProp.detail.attributes</h2>
     <Props id={currentData.id} currentProps={currentData.detail.attributes} />
     <hr />
 
     <h2>Events</h2>
     <hr />
 
-    <h2>State - currentData.detail.ctx</h2>
+    <h2>State - currentProp.detail.ctx</h2>
     <Props id={currentData.id} currentProps={currentData.detail.ctx} />
 
     <!-- //TYPE: BLOCK AND ITERATION----------------------------------------------------------- -->
@@ -61,6 +95,6 @@
     />
 
     <h2>Events</h2>
-    <!-- <Props id={currentData.id} currentProps={events} /> -->
+    <!-- <Props id={currentProp.id} currentProps={events} /> -->
   {/if}
 </main>

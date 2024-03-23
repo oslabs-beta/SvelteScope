@@ -16,8 +16,14 @@
     Editor1: {
       value: 1,
       component: SingleTab,
-    },
+    }
   };
 </script>
 
 <TabAdder {items} />
+
+
+
+
+
+
