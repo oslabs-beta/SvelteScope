@@ -166,10 +166,7 @@
       return clickedNodeData;
     });
   }
-  function handleZoom(e) {
-    
 
-  }
 
   onMount(() => {
     treeContainer = d3.select('#treeContainer');
@@ -184,12 +181,7 @@
       .on('end', dragended);
 
     svg.call(drag);
-    const zoom = d3.zoom()
-    .scaleExtent([0.1, 10])
-    .on('zoom', () => {
-      svg.attr('transform', d3.event.transform )
-    })
-    svg.call(zoom)
+ 
   });
 </script>
 
