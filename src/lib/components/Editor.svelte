@@ -4,6 +4,7 @@
     SnapshotStore,
     CurrentTabStore,
     RootComponentStore,
+    SelectedNodeAttributes,
   } from "../../stores/Store";
   import Props from "./Editor/Props.svelte";
   //-----------------------------------------------------------------------------------
@@ -21,6 +22,17 @@
   CurrentTabStore.subscribe((currTab) => {
     currentTab = +currTab.currentTab;
     console.log("currentTab from Editor: ", currentTab);
+  });
+
+  RootComponentStore.subscribe((data) => {
+    currentData = data;
+  });
+
+  SelectedNodeAttributes.subscribe((data: any) => {
+    currentData = data;
+    id = data.id;
+    console.log("editor data: ", currentData);
+    console.log("editor id: ", id);
   });
 
   // CURRENT SNAPSHOT
