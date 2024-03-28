@@ -4,6 +4,7 @@
     CurrentTabStore,
     DefaultSnapShotStore,
     SnapshotStore,
+    SelectedNodeAttributes
   } from "../../stores/Store";
   /**
    * @type {any}
