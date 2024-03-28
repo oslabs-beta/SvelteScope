@@ -1,3 +1,4 @@
+
 <script lang="ts">
   import SingleTab from "./SingleTab.svelte";
   import {
@@ -6,6 +7,8 @@
     SnapshotStore,
     SelectedNodeAttributes
   } from "../../stores/Store";
+
+
   /**
    * @type {any}
    */
@@ -16,10 +19,14 @@
   const errors: Record<string, string | undefined> = {};
   let snapshot: any;
 
+
   //-------------------------------------------------------------------------------
   const handleClick = (/** @type {number} */ tabValue) => () => {
     activeTabValue = tabValue;
     console.log("activeTabValue: ", activeTabValue);
+
+
+
 
     // Update currentTab value
     CurrentTabStore.update((tab) => {
@@ -250,9 +257,13 @@
     delete items[tabValue];
     items = items;
   };
+
+
 </script>
 
 <h1>Sveltune</h1>
+
+
 
 <ul>
   {#each Object.entries(items) as [key, value]}
@@ -287,6 +298,7 @@
     padding: 20px 10px;
     background-color: #dee2e6;
   }
+
 
   .box {
     padding: 15px;
