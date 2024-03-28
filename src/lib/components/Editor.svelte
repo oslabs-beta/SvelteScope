@@ -15,53 +15,40 @@
   //solve conflits-----------------------------------
   let currentData: any;
 
-  let currentComponent:any;
+  let currentComponent: any;
   //-----------------------------------
-  
 
   export let id: number;
   export let readonly = false;
   export let currentProps: any;
   export let currentData2: any;
 
+  //   SelectedNodeAttributes.subscribe((data: any) => {
+  //     currentData = data;
+  //     currentComponent = data.tagName;
+  //     id = data.id;
+  //     console.log('editor data: ', currentData);
+  //     console.log('editor id: ', id);
+  //   });
 
-//   SelectedNodeAttributes.subscribe((data: any) => {
-//     currentData = data;
-//     currentComponent = data.tagName;
-//     id = data.id;
-//     console.log('editor data: ', currentData);
-//     console.log('editor id: ', id);
-//   });
-
-//   onMount(() => {
-//     // default currentData to root component stores topmost tagName property
-//     // const unsubscribe = SelectedNodeAttributes.subscribe((data: any) => {
-//     //   currentData = data;
-//     //   console.log('Data from SelectedNodeAttributes: ', currentData);
-//     //   id = currentData.id;
-//     // });
-//     // return unsubscribe;
-//   });
-
+  //   onMount(() => {
+  //     // default currentData to root component stores topmost tagName property
+  //     // const unsubscribe = SelectedNodeAttributes.subscribe((data: any) => {
+  //     //   currentData = data;
+  //     //   console.log('Data from SelectedNodeAttributes: ', currentData);
+  //     //   id = currentData.id;
+  //     // });
+  //     // return unsubscribe;
+  //   });
 </script>
 
 <main>
-
   <!-- //TYPE: COMPONENT----------------------------------------------------------- -->
 
-<!--   {#if currentData2 && currentData2.type === "component"}
-  <!-- solve conflits----------------------------------- -->
-<!--   <h1>{currentComponent} Component</h1> -->
-  <!-- solve conflits----------------------------------- -->
-
-<!--     <h2>Props - currentProp.detail.attributes</h2> -->
-<!--     <Props id={currentData2.id} currentProps={currentData2.detail.attributes} /> --> -->
-
-
-  {#if currentData && currentData.type === 'component'}
-    <h1>{currentComponent} Component</h1>
-    <h2>Props - currentData.detail.attributes</h2>
-    <Props id={currentData.id} currentProps={currentData.detail.attributes} />
+  {#if currentData2 && currentData2.type === "component"}
+  <h1>{currentData2.tagName} Component</h1> 
+  <h2>Props - currentData2.detail.attributes</h2>
+    <Props id={currentData2.id} currentProps={currentData2.detail.attributes} />
 
     <hr />
 
@@ -71,7 +58,7 @@
     <h2>State - currentProp.detail.ctx</h2>
     <Props id={currentData2.id} currentProps={currentData2.detail.ctx} />
 
-    <!-- //TYPE: BLOCK AND ITERATION----------------------------------------------------------- -->
+  <!-- //TYPE: BLOCK AND ITERATION----------------------------------------------------------- -->
   {:else if (currentData2 && currentData2.type === "block") || (currentData2 && currentData2.type === "iteration")}
     <h2>State</h2>
     <Props

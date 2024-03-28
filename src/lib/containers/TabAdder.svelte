@@ -1,13 +1,11 @@
-
 <script lang="ts">
   import SingleTab from "./SingleTab.svelte";
   import {
     CurrentTabStore,
     DefaultSnapShotStore,
     SnapshotStore,
-    SelectedNodeAttributes
+    SelectedNodeAttributes,
   } from "../../stores/Store";
-
 
   /**
    * @type {any}
@@ -19,14 +17,10 @@
   const errors: Record<string, string | undefined> = {};
   let snapshot: any;
 
-
   //-------------------------------------------------------------------------------
   const handleClick = (/** @type {number} */ tabValue) => () => {
     activeTabValue = tabValue;
     console.log("activeTabValue: ", activeTabValue);
-
-
-
 
     // Update currentTab value
     CurrentTabStore.update((tab) => {
@@ -70,9 +64,17 @@
                   : undefined;
             }
           );
-        }
-1
-        else {
+        } else if (typeof value_inject_state === "object") {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
             (_, error) => {
@@ -257,13 +259,9 @@
     delete items[tabValue];
     items = items;
   };
-
-
 </script>
 
 <h1>Sveltune</h1>
-
-
 
 <ul>
   {#each Object.entries(items) as [key, value]}
@@ -298,7 +296,6 @@
     padding: 20px 10px;
     background-color: #dee2e6;
   }
-
 
   .box {
     padding: 15px;
