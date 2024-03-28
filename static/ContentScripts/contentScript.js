@@ -157,7 +157,7 @@ function sendRootNodeToExtension(messageType) {
     return;
   }
 
-  console.log(' I am in sendRootNodeToExtension Func');
+  // console.log(' I am in sendRootNodeToExtension Func');
 
   const rootNodes = getRootNodes();
   const newRootNodes = traverseComponent({
@@ -179,12 +179,12 @@ function sendRootNodeToExtension(messageType) {
 // Gets svelte version using svelte listener and sends it to
 // the Popup box
 function sendSvelteVersionToExtension() {
-  console.log('sendSvelteVersionToExtension(): getSvelteVersion()');
+  // console.log('sendSvelteVersionToExtension(): getSvelteVersion()');
   const svelteVersion = getSvelteVersion();
   if (!svelteVersion) {
     return;
   }
-  console.log('svelteVersion:', svelteVersion);
+  // console.log('svelteVersion:', svelteVersion);
   // Sends a message to ContentScriptIsolated/index.js
   window.postMessage({
     type: 'returnSvelteVersion',
@@ -263,11 +263,11 @@ window.addEventListener('message', async (msg) => {
 
   switch (data.type) {
     case 'getSvelteVersion':
-      console.log('getSvelteVersion: invoke sendSvelteVersionToExtension()');
+      // console.log('getSvelteVersion: invoke sendSvelteVersionToExtension()');
       sendSvelteVersionToExtension();
       break;
     case 'getRootComponent':
-      console.log('I am listening from getRootComponent in contentScript');
+      // console.log('I am listening from getRootComponent in contentScript');
       readyForUpdates = true;
       sendRootNodeToExtension('returnRootComponent');
       break;
