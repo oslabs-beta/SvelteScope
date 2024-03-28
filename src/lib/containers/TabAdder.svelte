@@ -71,7 +71,6 @@
             }
           );
         }
-1
         else {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
