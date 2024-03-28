@@ -4,8 +4,8 @@ import {
   chromeExtension,
   simpleReloader,
 } from 'rollup-plugin-chrome-extension';
-
 import svelte from 'rollup-plugin-svelte';
+import css from 'rollup-plugin-css-only'
 
 export default {
   input: 'static/manifest.json',
@@ -28,5 +28,10 @@ export default {
     resolve(),
     commonjs(),
     svelte(),
+    css({
+      output:{
+        dir: 'build',
+      }
+    })
   ],
 };
