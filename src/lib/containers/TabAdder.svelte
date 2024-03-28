@@ -1,6 +1,13 @@
-<script>
-  import SingleTab from './SingleTab.svelte';
-  import { SelectedNodeAttributes } from '../../stores/Store';
+
+<script lang="ts">
+  import SingleTab from "./SingleTab.svelte";
+  import {
+    CurrentTabStore,
+    DefaultSnapShotStore,
+    SnapshotStore,
+    SelectedNodeAttributes
+  } from "../../stores/Store";
+
 
   /**
    * @type {any}
@@ -8,11 +15,154 @@
   export let items = {};
   export let activeTabValue = 1;
   let index = 2;
+  let currentTab: number;
+  const errors: Record<string, string | undefined> = {};
+  let snapshot: any;
 
 
-  const handleClick = (/** @type {number} */ tabValue) => () =>
-    (activeTabValue = tabValue);
+  //-------------------------------------------------------------------------------
+  const handleClick = (/** @type {number} */ tabValue) => () => {
+    activeTabValue = tabValue;
+    console.log("activeTabValue: ", activeTabValue);
 
+
+
+
+    // Update currentTab value
+    CurrentTabStore.update((tab) => {
+      return { currentTab: activeTabValue };
+    });
+
+    //Step1: Because we change another tab, we need to make webpage back to original version
+    //with  inspectedWindow
+    DefaultSnapShotStore.subscribe((data: any) => {
+      console.log(
+        "DefaultSnapShotStore when invoking handleClick from <TabAdder />: ",
+        data
+      );
+      for (let key in data) {
+        let key_inject_state = data[key].key;
+        console.log(
+          "key_inject_state: ",
+          typeof key_inject_state,
+          key_inject_state
+        );
+        let value_inject_state = data[key].value;
+        console.log(
+          "value_inject_state: ",
+          typeof value_inject_state,
+          value_inject_state
+        );
+        let id_inject_state = data[key].id;
+        console.log(
+          "id_inject_state: ",
+          typeof id_inject_state,
+          id_inject_state
+        );
+
+        if (typeof value_inject_state === "string") {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        }
+1
+        else {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        }
+      }
+    });
+
+    //Step 2: After webpage changes back as original version
+    //we continue makes changes for webpage with all changed props staying in Snapshotstore with specific tab
+    SnapshotStore.subscribe((data: any) => {
+      snapshot = data;
+      console.log(
+        "SnapShotStore when invoking handleClick from <TabAdder />: ",
+        snapshot
+      );
+      console.log(
+        "snapshot[currentTab] when invoking handleClick from <TabAdder />: ",
+        snapshot[currentTab]
+      );
+      for (let key in snapshot[currentTab]) {
+        let key_inject_state = snapshot[currentTab][key].key;
+        console.log(
+          "key_inject_state: ",
+          typeof key_inject_state,
+          key_inject_state
+        );
+        let value_inject_state = snapshot[currentTab][key].value;
+        console.log(
+          "value_inject_state: ",
+          typeof value_inject_state,
+          value_inject_state
+        );
+        let id_inject_state = snapshot[currentTab][key].id;
+        console.log(
+          "id_inject_state: ",
+          typeof id_inject_state,
+          id_inject_state
+        );
+        // let idLength = id_inject_state.toString().split('').length;
+        // let key_inject_state = key.split('').slice(0,  key.split('').length - idLength).join('');
+        // console.log('key_inject_state: ', typeof key_inject_state, key_inject_state)
+
+        if (typeof value_inject_state === "string") {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else if (typeof value_inject_state === "object") {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        }
+      }
+    });
+  };
+
+  //-------------------------------------------------------------------------------
+  //CURRENT TAB
+  CurrentTabStore.subscribe((currTab) => {
+    currentTab = +currTab.currentTab;
+  });
+
+  //-------------------------------------------------------------------------------
   const addTab = (/** @type {number} */ tabValue) => () => {
     const tab = `Snapshot${index}`;
     items[tab] = {
@@ -21,9 +171,88 @@
     };
     activeTabValue = index;
     items = items;
+
+    // Update currentTab value
+    CurrentTabStore.update((tab) => {
+      return { currentTab: index };
+    });
+
+    //just subcribe the rootComponent --> DefaultRootComponent
+    //because <Editor /> get rootComponent, need to run this function to make changes for webpage
+    //with inspectedWindow
+    DefaultSnapShotStore.subscribe((data: any) => {
+      console.log("DefaultSnapShotStore when invoking addTab: ", data);
+      let num = 0;
+      for (let key in data) {
+        num++;
+        console.log("Try to test number: ", num);
+        let key_inject_state = data[key].key;
+        console.log(
+          "key_inject_state: ",
+          typeof key_inject_state,
+          key_inject_state
+        );
+        let value_inject_state = data[key].value;
+        console.log(
+          "value_inject_state: ",
+          typeof value_inject_state,
+          value_inject_state
+        );
+        let id_inject_state = data[key].id;
+        console.log(
+          "id_inject_state: ",
+          typeof id_inject_state,
+          id_inject_state
+        );
+
+        if (typeof value_inject_state === "object") {
+          let newObj = { text: "Binh", money: 40 };
+          // for(let key in value_inject_state){
+          //   newObj[key] = value_inject_state[key]
+          // }
+          console.log("newObj:", newObj);
+        }
+
+        if (typeof value_inject_state === "string") {
+          console.log("running for string");
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
+            // `__svelte_devtools_inject_state(24, 'answer', {text: "Binh", money: 40})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else if (typeof value_inject_state === "object") {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        }
+      }
+    });
+
     index++;
   };
 
+  //-------------------------------------------------------------------------------
   const removeTab = (/** @type {string} */ tabValue) => () => {
     delete items[tabValue];
     items = items;
@@ -38,7 +267,7 @@
 
 <ul>
   {#each Object.entries(items) as [key, value]}
-    <li class={activeTabValue === value.value ? 'active' : ''}>
+    <li class={activeTabValue === value.value ? "active" : ""}>
       <span on:click={handleClick(value.value)}>{key}</span>
     </li>
   {/each}
@@ -88,9 +317,9 @@
       system-ui,
       -apple-system,
       BlinkMacSystemFont,
-      'Segoe UI',
-      'Open Sans',
-      'Helvetica Neue',
+      "Segoe UI",
+      "Open Sans",
+      "Helvetica Neue",
       sans-serif;
   }
 
@@ -101,6 +330,7 @@
     margin-bottom: 0;
     margin-top: 0;
     list-style: none;
+
     border-bottom: 1px solid #dee2e6;
     background-color: #dee2e6;
   }
@@ -135,9 +365,9 @@
       system-ui,
       -apple-system,
       BlinkMacSystemFont,
-      'Segoe UI',
-      'Open Sans',
-      'Helvetica Neue',
+      "Segoe UI",
+      "Open Sans",
+      "Helvetica Neue",
       sans-serif;
   }
 

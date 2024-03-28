@@ -8,7 +8,7 @@
   let svelteVersion: number;
 
   SvelteVersionStore.subscribe((data) => {
-    console.log('logging svelte version: ', data);
+    // console.log('logging svelte version: ', data);
     svelteVersion = data;
   });
 </script>

@@ -18,13 +18,20 @@ window.addEventListener('beforeunload', (event) => {
 
 // @ts-ignore - possibly find an alternative
 window.__svelte_devtools_inject_state = function (id, key, value) {
+  
   const { detail: component } = getNode(id) || {};
-  component && component.$inject_state({ [key]: value });
-
-  console.log('from __svelte_devtools_inject_state, component: ', component);
-  console.log('from __svelte_devtools_inject_state, id: ', id);
-  console.log('from __svelte_devtools_inject_state, key: ', key);
-  console.log('from __svelte_devtools_inject_state, value: ', value);
+  if(typeof value === 'object'){
+    console.log('value is object')
+    component && component.$inject_state({ [key]: value });
+  }
+	component && component.$inject_state({ [key]: value });
+	// component && component.$set({ [key]: value });
+  
+  
+  console.log("from __svelte_devtools_inject_state, component: ", component)
+  console.log("from __svelte_devtools_inject_state, id: ", typeof id, id)
+  console.log("from __svelte_devtools_inject_state, key: ", typeof key,  key)
+  console.log("from __svelte_devtools_inject_state, value: ", typeof value, value)
 };
 
 /*

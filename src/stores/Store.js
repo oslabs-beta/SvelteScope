@@ -6,14 +6,14 @@ export const RootComponentStore = writable({});
 //store for svelte version
 export const SvelteVersionStore = writable();
 
-//store for props
-const rootData_Editor = writable({});
-
 //Selected Node Store
 export const SelectedNodeAttributes = writable({});
 
 
-const globalStore = {
-
-}
+// export const DefaultRootComponentStore = writable({});
+export const CurrentTabStore = writable({
+  currentTab: 1
+});
+export const SnapshotStore = writable({})
+export const DefaultSnapShotStore = writable({})
 
