@@ -7,7 +7,7 @@
   } from "../../../stores/Store";
   import SnapShot from "../SnapShot.svelte";
 
-  let currentTab:any;
+  let currentTab: any;
   const errors: Record<string, string | undefined> = {};
   // let defaultValueObject: any;
 
@@ -25,31 +25,61 @@
   function change(key: string, value: any, defaultValue: any) {
     DefaultSnapShotStore.update((defaultValueObj) => {
       //Because nested object or array will have same key,
-      //add id to key to make unique key 
-      defaultValueObj[key] = {
-        id: id,
-        value: JSON.parse(JSON.stringify(defaultValue)),
-      };
+      //add id to key to make unique key
+      //if [key+id] property exist => not change anything
+      if (!defaultValueObj[key + id]) {
+        // if (typeof defaultValue === "object") {
+        //   for (let keyObj in defaultValue) {
+        //     defaultValueObj[key + id + keyObj] = {
+        //       key: key,
+        //       id: id,
+        //       value: JSON.parse(JSON.stringify(defaultValue[keyObj])),
+        //     };
+        //   }
+        // }
+        defaultValueObj[key + id] = {
+          key: key,
+          id: id,
+          value: JSON.parse(JSON.stringify(defaultValue)),
+        };
+      }
       return defaultValueObj;
     });
+
     DefaultSnapShotStore.subscribe((defaultValueObj) => {
       // defaultValueObject = defaultValueObj;
-      console.log("DefaultSnapShotStore when invoking change from <Props />: ", defaultValueObj);
+      console.log(
+        "DefaultSnapShotStore when invoking change from <Props />: ",
+        defaultValueObj
+      );
     });
 
     SnapshotStore.update((tabs) => {
       if (!tabs[currentTab]) {
         tabs[currentTab] = {};
       }
-      tabs[currentTab][key] = { id: id, value: JSON.parse(value) };
+
+      tabs[currentTab][`${key}${id}`] = {
+        key: key,
+        id: id,
+        value: JSON.parse(value),
+      };
 
       return tabs;
     });
 
     SnapshotStore.subscribe((snapshot) => {
-      console.log("SnapShotStore when invoking change from <Props />: ", snapshot);
-      console.log("snapshot[currentTab] when invoking change from <Props />: ", snapshot[currentTab]);
-    })
+      console.log(
+        "SnapShotStore when invoking change from <Props />: ",
+        snapshot
+      );
+      console.log(
+        "snapshot[currentTab] when invoking change from <Props />: ",
+        snapshot[currentTab]
+      );
+    });
+
+    console.log("'${key}' : ", key);
 
     chrome.devtools.inspectedWindow.eval(
       `__svelte_devtools_inject_state(${id}, '${key}', ${value})`,

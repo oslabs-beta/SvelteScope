@@ -28,24 +28,53 @@
     //Step1: Because we change another tab, we need to make webpage back to original version
     //with  inspectedWindow
     DefaultSnapShotStore.subscribe((data: any) => {
-      console.log('DefaultSnapShotStore when invoking handleClick from <TabAdder />: ', data)
+      console.log(
+        "DefaultSnapShotStore when invoking handleClick from <TabAdder />: ",
+        data
+      );
       for (let key in data) {
-        let key_inject_state = key;
-        // console.log('key_inject_state: ', typeof key_inject_state, key_inject_state)
-        let value_inject_state = data[key].value;
-        // console.log('value_inject_state: ', typeof value_inject_state, value_inject_state)
-        let id_inject_state = data[key].id;
-        // console.log('id_inject_state: ', typeof id_inject_state, id_inject_state)
-
-        chrome.devtools.inspectedWindow.eval(
-          `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
-          (_, error) => {
-            errors[key] =
-              error && error.isException
-                ? error.value.substring(0, error.value.indexOf("\n"))
-                : undefined;
-          }
+        let key_inject_state = data[key].key;
+        console.log(
+          "key_inject_state: ",
+          typeof key_inject_state,
+          key_inject_state
         );
+        let value_inject_state = data[key].value;
+        console.log(
+          "value_inject_state: ",
+          typeof value_inject_state,
+          value_inject_state
+        );
+        let id_inject_state = data[key].id;
+        console.log(
+          "id_inject_state: ",
+          typeof id_inject_state,
+          id_inject_state
+        );
+
+        if (typeof value_inject_state === "string") {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        }
+1
+        else {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        }
       }
     });
 
@@ -53,25 +82,68 @@
     //we continue makes changes for webpage with all changed props staying in Snapshotstore with specific tab
     SnapshotStore.subscribe((data: any) => {
       snapshot = data;
-      console.log("SnapShotStore when invoking handleClick from <TabAdder />: ", snapshot);
-      console.log("snapshot[currentTab] when invoking handleClick from <TabAdder />: ", snapshot[currentTab]);
+      console.log(
+        "SnapShotStore when invoking handleClick from <TabAdder />: ",
+        snapshot
+      );
+      console.log(
+        "snapshot[currentTab] when invoking handleClick from <TabAdder />: ",
+        snapshot[currentTab]
+      );
       for (let key in snapshot[currentTab]) {
-        let key_inject_state = key;
-        // console.log('key_inject_state: ', typeof key_inject_state, key_inject_state)
-        let value_inject_state = snapshot[currentTab][key].value;
-        // console.log('value_inject_state: ', typeof value_inject_state, value_inject_state)
-        let id_inject_state = snapshot[currentTab][key].id;
-        // console.log('id_inject_state: ', typeof id_inject_state, id_inject_state)
-
-        chrome.devtools.inspectedWindow.eval(
-          `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
-          (_, error) => {
-            errors[key] =
-              error && error.isException
-                ? error.value.substring(0, error.value.indexOf("\n"))
-                : undefined;
-          }
+        let key_inject_state = snapshot[currentTab][key].key;
+        console.log(
+          "key_inject_state: ",
+          typeof key_inject_state,
+          key_inject_state
         );
+        let value_inject_state = snapshot[currentTab][key].value;
+        console.log(
+          "value_inject_state: ",
+          typeof value_inject_state,
+          value_inject_state
+        );
+        let id_inject_state = snapshot[currentTab][key].id;
+        console.log(
+          "id_inject_state: ",
+          typeof id_inject_state,
+          id_inject_state
+        );
+        // let idLength = id_inject_state.toString().split('').length;
+        // let key_inject_state = key.split('').slice(0,  key.split('').length - idLength).join('');
+        // console.log('key_inject_state: ', typeof key_inject_state, key_inject_state)
+
+        if (typeof value_inject_state === "string") {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else if (typeof value_inject_state === "object") {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        }
       }
     });
   };
@@ -101,28 +173,71 @@
     //because <Editor /> get rootComponent, need to run this function to make changes for webpage
     //with inspectedWindow
     DefaultSnapShotStore.subscribe((data: any) => {
-      console.log('DefaultSnapShotStore when invoking addTab: ', data)
+      console.log("DefaultSnapShotStore when invoking addTab: ", data);
       let num = 0;
       for (let key in data) {
         num++;
-        console.log('Try to test number: ', num)
-        let key_inject_state = key;
-        console.log('key_inject_state: ', typeof key_inject_state, key_inject_state)
-        let value_inject_state = data[key].value;
-        console.log('value_inject_state: ', typeof value_inject_state, value_inject_state)
-        let id_inject_state = data[key].id;
-        console.log('id_inject_state: ', typeof id_inject_state, id_inject_state)
-
-        chrome.devtools.inspectedWindow.eval(
-          `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
-          // `__svelte_devtools_inject_state(55, 'title', 'Swim Together 2')`,
-          (_, error) => {
-            errors[key] =
-              error && error.isException
-                ? error.value.substring(0, error.value.indexOf("\n"))
-                : undefined;
-          }
+        console.log("Try to test number: ", num);
+        let key_inject_state = data[key].key;
+        console.log(
+          "key_inject_state: ",
+          typeof key_inject_state,
+          key_inject_state
         );
+        let value_inject_state = data[key].value;
+        console.log(
+          "value_inject_state: ",
+          typeof value_inject_state,
+          value_inject_state
+        );
+        let id_inject_state = data[key].id;
+        console.log(
+          "id_inject_state: ",
+          typeof id_inject_state,
+          id_inject_state
+        );
+
+        if (typeof value_inject_state === "object") {
+          let newObj = { text: "Binh", money: 40 };
+          // for(let key in value_inject_state){
+          //   newObj[key] = value_inject_state[key]
+          // }
+          console.log("newObj:", newObj);
+        }
+
+        if (typeof value_inject_state === "string") {
+          console.log("running for string");
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
+            // `__svelte_devtools_inject_state(24, 'answer', {text: "Binh", money: 40})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else if (typeof value_inject_state === "object") {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        }
       }
     });
 

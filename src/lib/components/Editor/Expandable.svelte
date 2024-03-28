@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { log } from "console";
   import Editable from "./Editable.svelte";
 
   import { createEventDispatcher } from "svelte";
@@ -42,6 +43,8 @@
       value.__is === "function" ||
       value.__is === "symbol" ||
       Object.keys(value).length);
+
+      console.log('value from <Expandable /> : ', value)
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -79,6 +82,7 @@
         {/each}
       </ul>
     {/if}
+
   {:else if type === "object"}
     {#if value.__is === "function"}
       <span class="function">function {value.name || ""}()</span>

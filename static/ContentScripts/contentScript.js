@@ -20,7 +20,12 @@ window.addEventListener('beforeunload', (event) => {
 window.__svelte_devtools_inject_state = function (id, key, value) {
   
   const { detail: component } = getNode(id) || {};
+  if(typeof value === 'object'){
+    console.log('value is object')
+    component && component.$inject_state({ [key]: value });
+  }
 	component && component.$inject_state({ [key]: value });
+	// component && component.$set({ [key]: value });
   
   
   console.log("from __svelte_devtools_inject_state, component: ", component)

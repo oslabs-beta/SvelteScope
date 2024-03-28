@@ -11,28 +11,39 @@
   let snapshot: any;
   let currentTab: number;
   const errors: Record<string, string | undefined> = {};
-  let currentData: any;
+  // let currentData: any;
 
   export let id: number;
   export let readonly = false;
   export let currentProps: any;
+  export let currentData2: any;
 
   //----------------------------------------------------------------------
   //CURRENT TAB
-  CurrentTabStore.subscribe((currTab) => {
-    currentTab = +currTab.currentTab;
-    // console.log("currentTab from Editor: ", currentTab);
-  });
+  // CurrentTabStore.subscribe((currTab) => {
+  //   currentTab = +currTab.currentTab;
+  //   // console.log("currentTab from Editor: ", currentTab);
+  // });
 
-  RootComponentStore.subscribe((data) => {
-    currentData = data;
-  });
+  // RootComponentStore.subscribe((data) => {
+  //   currentData = data;
+  //   console.log('RootComponentStore, currentData: ', data)
+  // });
 
-  SelectedNodeAttributes.subscribe((data: any) => {
-    currentData = data;
-    id = data.id;
-    // console.log("SelectedNodeAttributes, currentData: ", currentData);
-  });
+  //if seperating RootComponentStore and SelectedNodeAttributes
+  //we cannot fetch data when opening new tab or changing tab for <Editor />
+  //I create new condition
+  // SelectedNodeAttributes.subscribe((data: any) => {
+  //   currentData = data;
+  //   id = data.id;
+  //   console.log("SelectedNodeAttributes, currentData: ", currentData);
+  //   if (Object.keys(currentData).length === 0) {
+  //     RootComponentStore.subscribe((data) => {
+  //       currentData = data;
+  //       console.log("RootComponentStore, currentData: ", data);
+  //     });
+  //   }
+  // });
 
   // CURRENT SNAPSHOT
 
@@ -69,33 +80,33 @@
   <!-- <button on:click={snapshotClick}>Snapshot</button> -->
 
   <!-- //TYPE: COMPONENT----------------------------------------------------------- -->
-  {#if currentData && currentData.type === "component"}
+  {#if currentData2 && currentData2.type === "component"}
     <h2>Props - currentProp.detail.attributes</h2>
-    <Props id={currentData.id} currentProps={currentData.detail.attributes} />
+    <Props id={currentData2.id} currentProps={currentData2.detail.attributes} />
     <hr />
 
     <h2>Events</h2>
     <hr />
 
     <h2>State - currentProp.detail.ctx</h2>
-    <Props id={currentData.id} currentProps={currentData.detail.ctx} />
+    <Props id={currentData2.id} currentProps={currentData2.detail.ctx} />
 
     <!-- //TYPE: BLOCK AND ITERATION----------------------------------------------------------- -->
-  {:else if (currentData && currentData.type === "block") || (currentData && currentData.type === "iteration")}
+  {:else if (currentData2 && currentData2.type === "block") || (currentData2 && currentData2.type === "iteration")}
     <h2>State</h2>
     <Props
       readonly
-      id={currentData.id}
-      currentProps={currentData.detail.attributes}
+      id={currentData2.id}
+      currentProps={currentData2.detail.attributes}
     />
 
     <!-- //TYPE: ELEMENT----------------------------------------------------------- -->
-  {:else if currentData && currentData.type === "element"}
+  {:else if currentData2 && currentData2.type === "element"}
     <h2>Attributes</h2>
     <Props
       readonly
-      id={currentData.id}
-      currentProps={currentData.detail.attributes}
+      id={currentData2.id}
+      currentProps={currentData2.detail.attributes}
     />
 
     <h2>Events</h2>
