@@ -3,16 +3,15 @@
   import { onMount } from "svelte";
   import {
     // custom_rootData_Editor,
-    // custom_rootData_Editor,
     RootComponentStore,
     SvelteVersionStore,
-    // DefaultRootComponentStore,
+    DefaultRootComponentStore,
   } from "../stores/Store.js";
   import items from "../lib/containers/TabAdder.svelte";
 
   let rootComponent: any;
   let svelteVersion: any;
-  // let defaultRootComponentSet = false; // Track if defaultRootComponent has been set
+  let defaultRootComponentSet = false; // Track if defaultRootComponent has been set
 
   RootComponentStore.subscribe((data) => {
     rootComponent = data;
@@ -62,10 +61,10 @@
         RootComponentStore.update((currentData) => {
           return rootComponent;
         });
-        // if (!defaultRootComponentSet) {
-        //   DefaultRootComponentStore.update(() => rootComponent);
-        //   defaultRootComponentSet = true;
-        // }
+        if (!defaultRootComponentSet) {
+          DefaultRootComponentStore.update(() => rootComponent);
+          defaultRootComponentSet = true;
+        }
       }
     } else if (message.type === "returnRootComponent") {
       rootComponent = message.rootComponent;
@@ -74,10 +73,10 @@
         RootComponentStore.update((currentData) => {
           return rootComponent;
         });
-        // if (!defaultRootComponentSet) {
-        //   DefaultRootComponentStore.update(() => rootComponent);
-        //   defaultRootComponentSet = true;
-        // }
+        if (!defaultRootComponentSet) {
+          DefaultRootComponentStore.update(() => rootComponent);
+          defaultRootComponentSet = true;
+        }
       }
     } else if (message.type === "returnTempRoot") {
       const tempRoot = message.rootComponent;

@@ -12,6 +12,25 @@ chrome.scripting.registerContentScripts([
   },
 ]);
 
+// Listen for messages from the content script
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === 'handleBrowserRefresh') {
+    // Get the current tab ID
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tabId = tabs[0].id;
+
+      // Reinject the content script when the tab is reloaded
+      chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+        if (changeInfo.status === 'complete' && changeInfo.url) {
+          chrome.tabs.executeScript(tabId, { file: 'contentScript.js' });
+          chrome.tabs.onUpdated.removeListener(this);
+        }
+      });
+    });
+  }
+});
+
+
 //-----------------------------------------------------------------------------
 // Import your Svelte store
 // import {}
