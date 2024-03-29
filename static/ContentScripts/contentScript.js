@@ -9,6 +9,14 @@ import { getNode, getSvelteVersion, getRootNodes } from "svelte-listener";
 
 console.log("Hello from contentScript!");
 
+window.addEventListener("beforeunload", (event) => {
+  console.log("Message reload");
+  window.postMessage({
+    type: "handleBrowserRefresh",
+    source: "contentScript.js",
+  });
+});
+
 // @ts-ignore - possibly find an alternative
 window.__svelte_devtools_inject_state = function (id, key, value) {
   const { detail: component } = getNode(id) || {};
