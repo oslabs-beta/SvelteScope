@@ -83,7 +83,7 @@
       const tempRoot = message.rootComponent;
     } else if (message.type === "handleBrowserRefresh") {
       RootComponentStore.set({});
-      SvelteVersionStore.set(null);
+      SvelteVersionStore.set(null)
       setUpPanel();
     }
   }

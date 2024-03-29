@@ -46,13 +46,13 @@
       return defaultValueObj;
     });
 
-    DefaultSnapShotStore.subscribe((defaultValueObj) => {
-      // defaultValueObject = defaultValueObj;
-      console.log(
-        "DefaultSnapShotStore when invoking change from <Props />: ",
-        defaultValueObj
-      );
-    });
+    // DefaultSnapShotStore.subscribe((defaultValueObj) => {
+    //   // defaultValueObject = defaultValueObj;
+    //   console.log(
+    //     "DefaultSnapShotStore when invoking change from <Props />: ",
+    //     defaultValueObj
+    //   );
+    // });
 
     SnapshotStore.update((tabs) => {
       if (!tabs[currentTab]) {
@@ -68,18 +68,17 @@
       return tabs;
     });
 
-    SnapshotStore.subscribe((snapshot) => {
-      console.log(
-        "SnapShotStore when invoking change from <Props />: ",
-        snapshot
-      );
-      console.log(
-        "snapshot[currentTab] when invoking change from <Props />: ",
-        snapshot[currentTab]
-      );
-    });
+    // SnapshotStore.subscribe((snapshot) => {
+    //   console.log(
+    //     "SnapShotStore when invoking change from <Props />: ",
+    //     snapshot
+    //   );
+    //   console.log(
+    //     "snapshot[currentTab] when invoking change from <Props />: ",
+    //     snapshot[currentTab]
+    //   );
+    // });
 
-    console.log("'${key}' : ", key);
 
     chrome.devtools.inspectedWindow.eval(
       `__svelte_devtools_inject_state(${id}, '${key}', ${value})`,

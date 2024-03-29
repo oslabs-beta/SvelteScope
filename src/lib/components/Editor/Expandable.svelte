@@ -43,8 +43,6 @@
       value.__is === "function" ||
       value.__is === "symbol" ||
       Object.keys(value).length);
-
-      console.log('value from <Expandable /> : ', value)
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
