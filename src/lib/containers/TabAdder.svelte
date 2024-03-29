@@ -5,6 +5,9 @@
     DefaultSnapShotStore,
     SnapshotStore,
     SelectedNodeAttributes,
+    RootComponentStore,
+    SvelteVersionStore,
+    DefaultRootComponentStore,
   } from "../../stores/Store";
 
   /**
@@ -16,6 +19,7 @@
   let currentTab: number;
   const errors: Record<string, string | undefined> = {};
   let snapshot: any;
+  let defaultRootComponent: any;
 
   //-------------------------------------------------------------------------------
   const handleClick = (/** @type {number} */ tabValue) => () => {
@@ -254,6 +258,117 @@
     index++;
   };
 
+  //RESET TAB-------------------------------------------------------------------------------
+  const resetTab = () => {
+    //updating UI to default snapshot 1
+    items = {
+      Snapshot1: {
+        value: 1,
+        component: SingleTab,
+      },
+    };
+    index = 2;
+    activeTabValue = 1;
+
+    //make webpage come back to original version - original RootComponent
+    DefaultSnapShotStore.subscribe((data: any) => {
+      console.log("DefaultSnapShotStore when invoking addTab: ", data);
+
+      for (let key in data) {
+
+        let key_inject_state = data[key].key;
+        // console.log(
+        //   "key_inject_state: ",
+        //   typeof key_inject_state,
+        //   key_inject_state
+        // );
+        let value_inject_state = data[key].value;
+        // console.log(
+        //   "value_inject_state: ",
+        //   typeof value_inject_state,
+        //   value_inject_state
+        // );
+        let id_inject_state = data[key].id;
+        // console.log(
+        //   "id_inject_state: ",
+        //   typeof id_inject_state,
+        //   id_inject_state
+        // );
+
+        // if (typeof value_inject_state === "object") {
+        //   let newObj = { text: "Binh", money: 40 };
+        //   // for(let key in value_inject_state){
+        //   //   newObj[key] = value_inject_state[key]
+        //   // }
+        //   console.log("newObj:", newObj);
+        // }
+
+        if (typeof value_inject_state === "string") {
+          console.log("running for string");
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
+            // `__svelte_devtools_inject_state(24, 'answer', {text: "Binh", money: 40})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else if (typeof value_inject_state === "object") {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        }
+      }
+    });
+
+    //Set the value in the store to default.
+    CurrentTabStore.update((data) => {
+      return { currentTab: 1 };
+    });
+
+    //get values from DefaultRootComponentStore
+    DefaultRootComponentStore.subscribe((data) => {
+      defaultRootComponent = data;
+    })
+    RootComponentStore.update((data) => {
+      data = defaultRootComponent;
+      return data;
+    });
+
+    // SvelteVersionStore.update((data) => {
+    //   return;
+    // });
+
+    SelectedNodeAttributes.update((data) => {
+      return {};
+    });
+
+    SnapshotStore.update((data) => {
+      return {};
+    });
+
+    DefaultSnapShotStore.update((update) => {
+      return {};
+    });
+  };
   //-------------------------------------------------------------------------------
   const removeTab = (/** @type {string} */ tabValue) => () => {
     delete items[tabValue];
@@ -262,6 +377,8 @@
 </script>
 
 <h1>Sveltune</h1>
+
+<button on:click={resetTab}>Reset </button>
 
 <ul>
   {#each Object.entries(items) as [key, value]}
