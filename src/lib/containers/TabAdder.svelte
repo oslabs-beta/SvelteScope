@@ -229,37 +229,17 @@
       for (let key in data) {
 
         let key_inject_state = data[key].key;
-        // console.log(
-        //   "key_inject_state: ",
-        //   typeof key_inject_state,
-        //   key_inject_state
-        // );
+       
         let value_inject_state = data[key].value;
-        // console.log(
-        //   "value_inject_state: ",
-        //   typeof value_inject_state,
-        //   value_inject_state
-        // );
+       
         let id_inject_state = data[key].id;
-        // console.log(
-        //   "id_inject_state: ",
-        //   typeof id_inject_state,
-        //   id_inject_state
-        // );
-
-        // if (typeof value_inject_state === "object") {
-        //   let newObj = { text: "Binh", money: 40 };
-        //   // for(let key in value_inject_state){
-        //   //   newObj[key] = value_inject_state[key]
-        //   // }
-        //   console.log("newObj:", newObj);
-        // }
+       
 
         if (typeof value_inject_state === "string") {
           console.log("running for string");
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
-            // `__svelte_devtools_inject_state(24, 'answer', {text: "Binh", money: 40})`,
+       
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
@@ -305,10 +285,6 @@
       return data;
     });
 
-    // SvelteVersionStore.update((data) => {
-    //   return;
-    // });
-
     SelectedNodeAttributes.update((data) => {
       return {};
     });
@@ -329,7 +305,6 @@
     CurrentTabStore.update((tab) => {
       return { currentTab: activeTabValue };
     });
-    // console.log('activeTab from removeTab: ', activeTabValue)
     items = items;
   };
 </script>
