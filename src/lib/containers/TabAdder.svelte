@@ -309,9 +309,12 @@
   };
 </script>
 
-<h1>Sveltune</h1>
-
-<button on:click={resetTab}>Reset </button>
+<div id='headerBox'>
+  <h1>Sveltune</h1>
+  
+  <button id="reset" on:click={resetTab}><img src="file:///Users/guigsvalentin/Downloads/refresh.svg" alt="reset"> </button>
+  </div>
+  
 
 <ul>
   {#each Object.entries(items) as [key, value]}
@@ -343,7 +346,7 @@
     font-size: 24px;
     font-weight: 300;
     margin: 0px;
-    padding: 20px 10px;
+    padding: 10px 10px;
     background-color: #dee2e6;
   }
 
@@ -443,4 +446,25 @@
     background-color: orange;
     border-color: #dee2e6 #dee2e6 #fff;
   }
+
+  #headerBox{
+    display:flex;
+    flex-direction: row;
+    flex: 2;
+    justify-content:space-between;
+    background-color: #dee2e6;
+  }
+
+  #reset{
+    background-color: #dee2e6;
+    background-image: url('file:///Users/guigsvalentin/Downloads/refresh.svg') ;
+    /* size: 50px; */
+    margin : 7px;
+  }
+
+  #reset:hover{
+    border-color: orangered;
+  }
+
+
 </style>
