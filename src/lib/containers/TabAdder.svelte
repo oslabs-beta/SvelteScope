@@ -299,13 +299,18 @@
   };
   //-------------------------------------------------------------------------------
   const removeTab = (/** @type {string} */ tabValue) => () => {
-    delete items[tabValue];
     //change activeTab to the last tab
-    activeTabValue = items[Object.keys(items).reverse()[0]].value;
-    CurrentTabStore.update((tab) => {
+    if(Object.keys(items).length > 1){
+      delete items[tabValue];
+      activeTabValue = items[Object.keys(items).reverse()[0]].value;
+      CurrentTabStore.update((tab) => {
       return { currentTab: activeTabValue };
     });
     items = items;
+    }else{
+      alert('Add new Tab if you want to delete the last tab?')
+    }
+   
   };
 </script>
 
