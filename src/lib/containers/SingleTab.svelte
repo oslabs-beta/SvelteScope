@@ -1,13 +1,12 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import Editor from "../components/Editor.svelte";
+  import { onMount } from 'svelte';
+  import Editor from '../components/Editor.svelte';
   import {
     // DefaultRootComponentStore,
     CurrentTabStore,
     SelectedNodeAttributes,
-    RootComponentStore
-
-  } from "../../stores/Store";
+    RootComponentStore,
+  } from '../../stores/Store';
 
   let currentTab: number;
   // let defaultData: any;
@@ -17,8 +16,7 @@
   // export let currentData: any;
   export let id: number;
   export let readonly = false;
-  export let currentData2:any; 
-  
+  export let currentData2: any;
 
   //------------------------------------------------------------------------------
   //CURRENT DATA
@@ -40,7 +38,6 @@
   //   });
   //   return unsubscribe;
   // });
-  
 
   // CURRENT TAB
   onMount(() => {
@@ -59,7 +56,7 @@
     if (Object.keys(currentData).length === 0) {
       RootComponentStore.subscribe((data) => {
         currentData = data;
-        console.log("RootComponentStore, currentData: ", data);
+        console.log('RootComponentStore, currentData: ', data);
       });
     }
   });
@@ -69,7 +66,6 @@
 <main>
   <!-- //TYPE: COMPONENT----------------------------------------------------------- -->
   {#if currentData}
-    <h2>EDITOR {currentTab}</h2>
     <Editor currentData2={currentData} id={currentData.id} {readonly} />
     <hr />
   {/if}
