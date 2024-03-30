@@ -1,5 +1,6 @@
 <script lang="ts">
   import SingleTab from "./SingleTab.svelte";
+  import Icon from '@iconify/svelte';
   import {
     CurrentTabStore,
     DefaultSnapShotStore,
@@ -317,9 +318,9 @@
 <div id='headerBox'>
   <h1>Sveltune</h1>
   
-  <button id="reset" on:click={resetTab}><img src="file:///Users/guigsvalentin/Downloads/refresh.svg" alt="reset"> </button>
+  <button id="reset" on:click={resetTab}><img title="Reset Tabs" src="https://www.svgrepo.com/show/533701/refresh-cw.svg" height="20px" width="15px" alt="reset"></button>
   </div>
-  
+
 
 <ul>
   {#each Object.entries(items) as [key, value]}
@@ -329,6 +330,7 @@
   {/each}
   <span class="button" on:click={addTab()}>+</span>
 </ul>
+
 
 {#each Object.entries(items) as [key, value]}
   {#if activeTabValue == value.value}
@@ -440,6 +442,10 @@
     /* transition: 0.25s ease-in; */
   }
 
+  #delete:hover{
+    color: red
+  }
+
   /* #delete:hover { */
   /* background-color: orangered; */
   /* border: 2px solid orangered; */
@@ -462,9 +468,10 @@
 
   #reset{
     background-color: #dee2e6;
-    background-image: url('file:///Users/guigsvalentin/Downloads/refresh.svg') ;
-    /* size: 50px; */
+    /* background-image: url('https://www.svgrepo.com/show/533701/refresh-cw.svg') ; */
+    color: black;
     margin : 7px;
+    transition: 0.25s ease-in;
   }
 
   #reset:hover{
