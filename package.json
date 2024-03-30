@@ -36,6 +36,8 @@
     "path": "^0.12.7",
     "rollup": "^2.79.1",
     "rollup-plugin-css-only": "^4.5.2",
-    "svelte-splitpanes": "^0.8.0"
+    "svelte-splitpanes": "^0.8.0",
+    "vis": "^4.21.0-EOL",
+    "vis-network": "^9.1.9"
   }
 }
