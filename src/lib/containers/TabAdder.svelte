@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import SingleTab from "./SingleTab.svelte";
-  import Icon from '@iconify/svelte';
+  import Icon from "@iconify/svelte";
   import {
     CurrentTabStore,
     DefaultSnapShotStore,
@@ -10,7 +10,7 @@
     RootComponentStore,
     SvelteVersionStore,
     DefaultRootComponentStore,
-  } from '../../stores/Store';
+  } from "../../stores/Store";
 
   /**
    * @type {any}
@@ -49,23 +49,23 @@
         let value_inject_state = data[key].value;
         let id_inject_state = data[key].id;
 
-        if (typeof value_inject_state === 'string') {
+        if (typeof value_inject_state === "string") {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf('\n'))
+                  ? error.value.substring(0, error.value.indexOf("\n"))
                   : undefined;
             }
           );
-        } else if (typeof value_inject_state === 'object') {
+        } else if (typeof value_inject_state === "object") {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf('\n'))
+                  ? error.value.substring(0, error.value.indexOf("\n"))
                   : undefined;
             }
           );
@@ -75,7 +75,7 @@
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf('\n'))
+                  ? error.value.substring(0, error.value.indexOf("\n"))
                   : undefined;
             }
           );
@@ -89,31 +89,31 @@
       snapshot = data;
 
       console.log(
-        'SnapShotStore when invoking handleClick from <TabAdder />: ',
+        "SnapShotStore when invoking handleClick from <TabAdder />: ",
         snapshot
       );
 
       console.log(
-        'snapshot[currentTab] when invoking handleClick from <TabAdder />: ',
+        "snapshot[currentTab] when invoking handleClick from <TabAdder />: ",
         snapshot[currentTab]
       );
 
       for (let key in snapshot[currentTab]) {
         let key_inject_state = snapshot[currentTab][key].key;
         console.log(
-          'key_inject_state: ',
+          "key_inject_state: ",
           typeof key_inject_state,
           key_inject_state
         );
         let value_inject_state = snapshot[currentTab][key].value;
         console.log(
-          'value_inject_state: ',
+          "value_inject_state: ",
           typeof value_inject_state,
           value_inject_state
         );
         let id_inject_state = snapshot[currentTab][key].id;
         console.log(
-          'id_inject_state: ',
+          "id_inject_state: ",
           typeof id_inject_state,
           id_inject_state
         );
@@ -121,23 +121,23 @@
         // let key_inject_state = key.split('').slice(0,  key.split('').length - idLength).join('');
         // console.log('key_inject_state: ', typeof key_inject_state, key_inject_state)
 
-        if (typeof value_inject_state === 'string') {
+        if (typeof value_inject_state === "string") {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf('\n'))
+                  ? error.value.substring(0, error.value.indexOf("\n"))
                   : undefined;
             }
           );
-        } else if (typeof value_inject_state === 'object') {
+        } else if (typeof value_inject_state === "object") {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf('\n'))
+                  ? error.value.substring(0, error.value.indexOf("\n"))
                   : undefined;
             }
           );
@@ -147,7 +147,7 @@
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf('\n'))
+                  ? error.value.substring(0, error.value.indexOf("\n"))
                   : undefined;
             }
           );
@@ -190,23 +190,23 @@
         let value_inject_state = data[key].value;
         let id_inject_state = data[key].id;
 
-        if (typeof value_inject_state === 'string') {
+        if (typeof value_inject_state === "string") {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf('\n'))
+                  ? error.value.substring(0, error.value.indexOf("\n"))
                   : undefined;
             }
           );
-        } else if (typeof value_inject_state === 'object') {
+        } else if (typeof value_inject_state === "object") {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf('\n'))
+                  ? error.value.substring(0, error.value.indexOf("\n"))
                   : undefined;
             }
           );
@@ -216,7 +216,7 @@
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf('\n'))
+                  ? error.value.substring(0, error.value.indexOf("\n"))
                   : undefined;
             }
           );
@@ -229,23 +229,19 @@
 
   //RESET TAB-------------------------------------------------------------------------------
   const resetTab = async () => {
-    // chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    //   chrome.tabs.sendMessage(tabs[0].id, { action: "refreshPage" });
-    // });
+    try {
+      const [tab] = await chrome.tabs.query({
+        active: true,
+        lastFocusedWindow: true,
+      });
 
-    // try {
-    //   const [tab] = await chrome.tabs.query({
-    //     active: true,
-    //     lastFocusedWindow: true,
-    //   });
-
-    //   if (tab && tab.id !== undefined) {
-    //     chrome.tabs.sendMessage(tab.id, { message: "refreshPage" });
-    //     console.log("chrome.tabs.sendMessage -> refreshPage is invoking");
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
+      if (tab && tab.id !== undefined) {
+        chrome.tabs.sendMessage(tab.id, { message: "refreshPage" });
+        console.log("chrome.tabs.sendMessage -> refreshPage is invoking");
+      }
+    } catch (err) {
+      console.log(err);
+    }
 
     //updating UI to default snapshot 1
     items = {
@@ -258,85 +254,56 @@
     activeTabValue = 1;
 
     //make webpage come back to original version - original RootComponent
-    DefaultSnapShotStore.subscribe((data: any) => {
-      console.log("DefaultSnapShotStore when invoking addTab: ", data);
+    // DefaultSnapShotStore.subscribe((data: any) => {
+    //   console.log("DefaultSnapShotStore when invoking addTab: ", data);
 
-      for (let key in data) {
-        let key_inject_state = data[key].key;
+    //   for (let key in data) {
+    //     let key_inject_state = data[key].key;
 
-        let value_inject_state = data[key].value;
+    //     let value_inject_state = data[key].value;
 
-        let id_inject_state = data[key].id;
-       
+    //     let id_inject_state = data[key].id;
 
-        if (typeof value_inject_state === "string") {
-          console.log("running for string");
-          chrome.devtools.inspectedWindow.eval(
-            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
-       
-            (_, error) => {
-              errors[key_inject_state] =
-                error && error.isException
-                  ? error.value.substring(0, error.value.indexOf('\n'))
-                  : undefined;
-            }
-          );
-        } else if (typeof value_inject_state === 'object') {
-          chrome.devtools.inspectedWindow.eval(
-            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
-            (_, error) => {
-              errors[key_inject_state] =
-                error && error.isException
-                  ? error.value.substring(0, error.value.indexOf('\n'))
-                  : undefined;
-            }
-          );
-        } else {
-          chrome.devtools.inspectedWindow.eval(
-            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
-            (_, error) => {
-              errors[key_inject_state] =
-                error && error.isException
-                  ? error.value.substring(0, error.value.indexOf('\n'))
-                  : undefined;
-            }
-          );
-        }
-      }
-    });
+    //     if (typeof value_inject_state === "string") {
+    //       console.log("running for string");
+    //       chrome.devtools.inspectedWindow.eval(
+    //         `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
+
+    //         (_, error) => {
+    //           errors[key_inject_state] =
+    //             error && error.isException
+    //               ? error.value.substring(0, error.value.indexOf('\n'))
+    //               : undefined;
+    //         }
+    //       );
+    //     } else if (typeof value_inject_state === 'object') {
+    //       chrome.devtools.inspectedWindow.eval(
+    //         `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
+    //         (_, error) => {
+    //           errors[key_inject_state] =
+    //             error && error.isException
+    //               ? error.value.substring(0, error.value.indexOf('\n'))
+    //               : undefined;
+    //         }
+    //       );
+    //     } else {
+    //       chrome.devtools.inspectedWindow.eval(
+    //         `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
+    //         (_, error) => {
+    //           errors[key_inject_state] =
+    //             error && error.isException
+    //               ? error.value.substring(0, error.value.indexOf('\n'))
+    //               : undefined;
+    //         }
+    //       );
+    //     }
+    //   }
+    // });
 
     //Set the value in the store to default.
     CurrentTabStore.update((data) => {
       return { currentTab: 1 };
     });
-
-    //get values from DefaultRootComponentStore
-    // DefaultRootComponentStore.subscribe((data) => {
-    //   defaultRootComponent = data;
-    //   console.log(
-    //     "DefaultRootComponentStore from <TabAdder />, defaultRootComponent: ",
-    //     defaultRootComponent
-    //   );
-    // });
-
-    // RootComponentStore.update((data) => {
-    //   data = defaultRootComponent;
-    //   return data;
-    // });
-
-    // RootComponentStore.update((data) => {
-    //   return {};
-    // });
-
-    // SelectedNodeAttributes.update((data) => {
-    //   data = defaultRootComponent;
-    //   console.log("data from SelectedNodeAttributes from <TabAdder />: ", data);
-    //   return data;
-    // });
-
-    // SelectedNodeAttributes.update((data) => {
-    //   return {};
-    // });
 
     SnapshotStore.update((data) => {
       return {};
@@ -345,7 +312,53 @@
     DefaultSnapShotStore.update((update) => {
       return {};
     });
+
+    // Function to set up the panel
+    async function setUpPanel() {
+      try {
+        const [tab] = await chrome.tabs.query({
+          active: true,
+          lastFocusedWindow: true,
+        });
+
+        if (tab && tab.id !== undefined) {
+          chrome.tabs.sendMessage(tab.id, { message: "getRootComponent" });
+          chrome.tabs.sendMessage(tab.id, { message: "getSvelteVersion" });
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    // Message listener function
+    function messageListener(message: any) {
+      if (message.type === "updateRootComponent") {
+        rootComponent = message.rootComponent;
+        if (rootComponent) {
+          RootComponentStore.update((currentData) => {
+            return rootComponent;
+          });
+        }
+      } else if (message.type === "returnRootComponent") {
+        rootComponent = message.rootComponent;
+
+        if (rootComponent) {
+          RootComponentStore.update((currentData) => {
+            return rootComponent;
+          });
+        }
+      } else if (message.type === "returnTempRoot") {
+        const tempRoot = message.rootComponent;
+      }
+    }
+
+    // Set up message listener and panel on mount
+    chrome.runtime.onMessage.addListener(messageListener);
+    setUpPanel();
   };
+
+
+
   //-------------------------------------------------------------------------------
   const removeTab = (/** @type {string} */ tabValue) => () => {
     //change activeTab to the last tab
@@ -353,31 +366,37 @@
       delete items[tabValue];
       activeTabValue = items[Object.keys(items).reverse()[0]].value;
       CurrentTabStore.update((tab) => {
-      return { currentTab: activeTabValue };
-    });
-    items = items;
-    }else{
-      alert('Add new Tab if you want to delete the last tab?')
+        return { currentTab: activeTabValue };
+      });
+      items = items;
+    } else {
+      alert("Add new Tab if you want to delete the last tab?");
     }
   };
 </script>
 
 <div id="headerBox">
   <h1>Sveltune</h1>
-  
-  <button id="reset" on:click={resetTab}><img title="Reset Tabs" src="https://www.svgrepo.com/show/533701/refresh-cw.svg" height="20px" width="15px" alt="reset"></button>
-  </div>
 
+  <button id="reset" on:click={resetTab}
+    ><img
+      title="Reset Tabs"
+      src="https://www.svgrepo.com/show/533701/refresh-cw.svg"
+      height="20px"
+      width="15px"
+      alt="reset"
+    /></button
+  >
+</div>
 
 <ul>
   {#each Object.entries(items) as [key, value]}
-    <li class={activeTabValue === value.value ? 'active' : ''}>
+    <li class={activeTabValue === value.value ? "active" : ""}>
       <span on:click={handleClick(value.value)}>{key}</span>
     </li>
   {/each}
   <span class="button" on:click={addTab()}>+</span>
 </ul>
-
 
 {#each Object.entries(items) as [key, value]}
   {#if activeTabValue == value.value}
@@ -427,9 +446,9 @@
       system-ui,
       -apple-system,
       BlinkMacSystemFont,
-      'Segoe UI',
-      'Open Sans',
-      'Helvetica Neue',
+      "Segoe UI",
+      "Open Sans",
+      "Helvetica Neue",
       sans-serif;
   }
 
@@ -475,9 +494,9 @@
       system-ui,
       -apple-system,
       BlinkMacSystemFont,
-      'Segoe UI',
-      'Open Sans',
-      'Helvetica Neue',
+      "Segoe UI",
+      "Open Sans",
+      "Helvetica Neue",
       sans-serif;
   }
 
@@ -495,8 +514,8 @@
     /* transition: 0.25s ease-in; */
   }
 
-  #delete:hover{
-    color: red
+  #delete:hover {
+    color: red;
   }
 
   /* #delete:hover { */
@@ -521,14 +540,12 @@
 
   #reset {
     background-color: #dee2e6;
-    background-image: url('file:///Users/guigsvalentin/Downloads/refresh.svg') ;
+    background-image: url("file:///Users/guigsvalentin/Downloads/refresh.svg");
     /* size: 50px; */
-    margin : 7px;
+    margin: 7px;
   }
 
   #reset:hover {
     border-color: orangered;
   }
-
-
 </style>
