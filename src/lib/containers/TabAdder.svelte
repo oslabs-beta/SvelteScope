@@ -313,9 +313,9 @@
 <div id='headerBox'>
   <h1>Sveltune</h1>
   
-  <button id="reset" on:click={resetTab}></button>
+  <button id="reset" on:click={resetTab}><img title="Reset Tabs" src="https://www.svgrepo.com/show/533701/refresh-cw.svg" height="20px" width="15px" alt="reset"></button>
   </div>
-  
+
 
 <ul>
   {#each Object.entries(items) as [key, value]}
@@ -437,6 +437,10 @@
     /* transition: 0.25s ease-in; */
   }
 
+  #delete:hover{
+    color: red
+  }
+
   /* #delete:hover { */
   /* background-color: orangered; */
   /* border: 2px solid orangered; */
@@ -459,11 +463,10 @@
 
   #reset{
     background-color: #dee2e6;
-    background-image: url('../../assets/refresh-svgrepo-com.png') ;
-    /* size: 50px; */
+    /* background-image: url('https://www.svgrepo.com/show/533701/refresh-cw.svg') ; */
     color: black;
     margin : 7px;
-    /* font-size: 25px; */
+    transition: 0.25s ease-in;
   }
 
   #reset:hover{
