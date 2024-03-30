@@ -174,6 +174,8 @@
   function handleNodeClick(event, d) {
     // Access data associated with the clicked node
     const clickedNodeData = d.data;
+    console.log("d = ", d);
+    console.log("d.data = ", d.data);
     SelectedNodeAttributes.update((data: any) => {
       return clickedNodeData;
     });
