@@ -49,8 +49,20 @@ window.addEventListener('message', async (msg) => {
   }
 });
 
+
 // Listens for a message from the Popup and Panel
 // Forwards them to ContentScriptMain/index.js
+//refresh the page
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  console.log('location.load() 1 is invoking from contentScriptIsolate.js')
+  console.log('request.message: ', request.message)
+
+  if (request.message === 'refreshPage') {
+    location.reload();
+    console.log('location.load() 2 is invoking from contentScriptIsolate.js')
+  }
+});
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   console.log('getRootComponent from contentScriptIsolate');
 

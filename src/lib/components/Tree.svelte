@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import * as d3 from 'd3';
+  import { onMount } from "svelte";
+  import * as d3 from "d3";
   import {
     RootComponentStore,
     SelectedNodeAttributes,
-  } from '../../stores/Store';
+  } from "../../stores/Store";
 
   interface TreeData {
     tagName: string;
@@ -13,12 +13,19 @@
 
   let root;
   let treeData: any = null;
-  let svg : any;
+  let svg: any;
   let treeContainer;
   let selectedNode;
 
   RootComponentStore.subscribe((data) => {
+    console.log("4");
+    console.log(
+      "double check if RootComponentStore from <Tree />, treeData is running: ",
+      data
+    );
     treeData = data;
+
+    console.log("treeData from RootComponentStore from <Tree />: ", treeData);
 
     if (treeData) {
       const updatedTreeData: TreeData = objDiver(treeData);
@@ -27,72 +34,77 @@
   });
 
   SelectedNodeAttributes.subscribe((data) => {
-    // console.log('subscribed to selected node attributes: ', data);
+    console.log("data SelectedNodeAttributes from tree: ", data);
     selectedNode = data;
   });
 
   // console.log('selected node line 34: ', selectedNode);
 
   function objDiver(data: any): TreeData {
-    if (typeof data === 'object') {
+    console.log("objDiver is running");
+    console.log("typeof data: ", data);
+    if (typeof data === "object") {
       const componentData: TreeData = {
         tagName: data.tagName, // Handle missing tagName
         children: [],
       };
+      console.log("data.children: ", data.children);
       if (data.children) {
         for (let i = 0; i < data.children.length; i++) {
+          console.log("staying loop to check data.children");
           componentData.children.push(objDiver(data.children[i]));
         }
       }
       return componentData;
     }
   }
+
   function handleMouseOver() {
     d3.select(this)
-      .select('rect')
+      .select("rect")
       .transition()
       .delay(10)
-      .attr('stroke', 'black')
-      .attr('stroke-width', '2px');
+      .attr("stroke", "black")
+      .attr("stroke-width", "2px");
     // .attr('fill', 'orangered');
   }
 
   function handleMouseOut() {
     d3.select(this)
-      .select('rect')
+      .select("rect")
       .transition()
       .delay(10)
-      .attr('stroke', 'none');
+      .attr("stroke", "none");
     // .attr('fill', 'orange');
   }
 
   // Function to update the tree
   function updateTree() {
     if (!treeData) return;
-    d3.selectAll('svg > *').remove();
-    treeContainer = d3.select('#treeContainer');
+    d3.selectAll("svg > *").remove();
+    treeContainer = d3.select("#treeContainer");
     // const treeContainer = d3.select('#tree-container');
     root = d3.hierarchy(treeData);
 
     svg = d3
-      .select('#treeComponent')
-      .append('g')
-      .attr('transform', 'translate(width / 2 + height / 2)');
+      .select("#treeComponent")
+      .append("g")
+      .attr("transform", "translate(width / 2 + height / 2)");
 
     const treeLayout = d3.tree().nodeSize([110, 120]);
     treeLayout(root);
 
-    const treeGroup = svg.append('g').attr('transform', 'translate(20,20)');
+    const treeGroup = svg.append("g").attr("transform", "translate(20,20)");
 
     // Draw links
     treeGroup
-      .selectAll('.link')
+      .selectAll(".link")
       .data(root.links())
       .enter()
-      .append('path')
-      .attr('class', 'link')
+      .append("path")
+      .attr("class", "link")
       .attr(
-        'd',
+        "d",
         d3
           .linkVertical()
           .x((d) => d.x)
@@ -101,62 +113,62 @@
 
     // Draw nodes and add click functionality
     const nodes = treeGroup
-      .selectAll('.node')
+      .selectAll(".node")
       .data(root.descendants())
       .enter()
-      .append('g')
-      .attr('class', 'node')
-      .attr('style', 'cursor: pointer;')
-      .attr('transform', (node) => `translate(${node.x},${node.y})`)
-      .on('click', handleNodeClick);
+      .append("g")
+      .attr("class", "node")
+      .attr("style", "cursor: pointer;")
+      .attr("transform", (node) => `translate(${node.x},${node.y})`)
+      .on("click", handleNodeClick);
 
     // Append rectangle for nodes
     nodes
-      .append('rect')
-      .attr('x', -50)
-      .attr('y', 5)
-      .attr('width', 100)
-      .attr('height', 30)
+      .append("rect")
+      .attr("x", -50)
+      .attr("y", 5)
+      .attr("width", 100)
+      .attr("height", 30)
       // .attr('stroke', '2px solid black')
-      .attr('fill', 'orange')
-      .attr('rx', '7px')
-      .attr('ry', '7px')
+      .attr("fill", "orange")
+      .attr("rx", "7px")
+      .attr("ry", "7px")
       .attr(
-        'style',
-        'display: flex; align-items: center; justify-content: center; shape-rendering: geometricPrecision;'
+        "style",
+        "display: flex; align-items: center; justify-content: center; shape-rendering: geometricPrecision;"
       );
 
     // Append text for nodes
     nodes
-      .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('dy', '24')
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("dy", "24")
       .text((d) => d.data.tagName);
 
-    nodes.on('mouseover', handleMouseOver).on('mouseout', handleMouseOut);
+    nodes.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
 
-    svg.selectAll('.link').attr('fill', 'none').attr('stroke', 'black');
+    svg.selectAll(".link").attr("fill", "none").attr("stroke", "black");
     //changing font size of text
     svg
-      .selectAll('.node text')
-      .attr('font-size', '12px')
-      .attr('font-weight', '500')
-      .attr('style', `font-family: 'system-ui';`);
+      .selectAll(".node text")
+      .attr("font-size", "12px")
+      .attr("font-weight", "500")
+      .attr("style", `font-family: 'system-ui';`);
   }
 
   function dragstarted(event, d) {
-    d3.select(this).raise().classed('active', true);
+    d3.select(this).raise().classed("active", true);
   }
 
   function dragged(event, d) {
     d3.select(this).attr(
-      'transform',
-      'translate(' + event.x + ', ' + event.y + ')'
+      "transform",
+      "translate(" + event.x + ", " + event.y + ")"
     );
   }
 
   function dragended(event, d) {
-    d3.select(this).classed('active', false);
+    d3.select(this).classed("active", false);
   }
 
   function handleNodeClick(event, d) {
@@ -167,26 +179,27 @@
     });
   }
 
-
   onMount(() => {
-    treeContainer = d3.select('#treeContainer');
+    treeContainer = d3.select("#treeContainer");
     updateTree();
 
-    svg = d3.select('#treeComponent');
+    console.log("stay in onMount, updateTree is running");
+
+    svg = d3.select("#treeComponent");
 
     const drag = d3
       .drag()
-      .on('start', dragstarted)
-      .on('drag', dragged)
-      .on('end', dragended);
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended);
 
     svg.call(drag);
- 
   });
+
 </script>
 
 <div class="tree-container" id="treeContainer">
-  <svg bind:this={svg} height={'100%'} id="treeComponent"> </svg>
+  <svg bind:this={svg} height={"100%"} id="treeComponent"> </svg>
 </div>
 
 <style>

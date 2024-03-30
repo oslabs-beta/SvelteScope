@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import SingleTab from "./SingleTab.svelte";
   import {
     CurrentTabStore,
@@ -20,6 +21,8 @@
   const errors: Record<string, string | undefined> = {};
   let snapshot: any;
   let defaultRootComponent: any;
+  let rootComponent: any;
+  let refresh = false;
 
   //-------------------------------------------------------------------------------
   const handleClick = (/** @type {number} */ tabValue) => () => {
@@ -29,6 +32,10 @@
     // Update currentTab value
     CurrentTabStore.update((tab) => {
       return { currentTab: activeTabValue };
+    });
+
+    CurrentTabStore.subscribe((tab) => {
+      console.log("currentTab when handleClick: ", tab);
     });
 
     //Step1: Because we change another tab, we need to make webpage back to original version
@@ -77,14 +84,17 @@
     //we continue makes changes for webpage with all changed props staying in Snapshotstore with specific tab
     SnapshotStore.subscribe((data: any) => {
       snapshot = data;
+
       console.log(
         "SnapShotStore when invoking handleClick from <TabAdder />: ",
         snapshot
       );
+
       console.log(
         "snapshot[currentTab] when invoking handleClick from <TabAdder />: ",
         snapshot[currentTab]
       );
+
       for (let key in snapshot[currentTab]) {
         let key_inject_state = snapshot[currentTab][key].key;
         console.log(
@@ -164,6 +174,10 @@
       return { currentTab: index };
     });
 
+    CurrentTabStore.subscribe((tab) => {
+      console.log("currentTab when addTab: ", tab);
+    });
+
     //just subcribe the rootComponent --> DefaultRootComponent
     //because <Editor /> get rootComponent, need to run this function to make changes for webpage
     //with inspectedWindow
@@ -211,7 +225,25 @@
   };
 
   //RESET TAB-------------------------------------------------------------------------------
-  const resetTab = () => {
+  const resetTab = async () => {
+    // chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    //   chrome.tabs.sendMessage(tabs[0].id, { action: "refreshPage" });
+    // });
+
+    // try {
+    //   const [tab] = await chrome.tabs.query({
+    //     active: true,
+    //     lastFocusedWindow: true,
+    //   });
+
+    //   if (tab && tab.id !== undefined) {
+    //     chrome.tabs.sendMessage(tab.id, { message: "refreshPage" });
+    //     console.log("chrome.tabs.sendMessage -> refreshPage is invoking");
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
+
     //updating UI to default snapshot 1
     items = {
       Snapshot1: {
@@ -224,22 +256,16 @@
 
     //make webpage come back to original version - original RootComponent
     DefaultSnapShotStore.subscribe((data: any) => {
-      console.log("DefaultSnapShotStore when invoking addTab: ", data);
-
       for (let key in data) {
-
         let key_inject_state = data[key].key;
-       
+
         let value_inject_state = data[key].value;
-       
+
         let id_inject_state = data[key].id;
-       
 
         if (typeof value_inject_state === "string") {
-          console.log("running for string");
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
-       
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
@@ -277,17 +303,32 @@
     });
 
     //get values from DefaultRootComponentStore
-    DefaultRootComponentStore.subscribe((data) => {
-      defaultRootComponent = data;
-    })
-    RootComponentStore.update((data) => {
-      data = defaultRootComponent;
-      return data;
-    });
+    // DefaultRootComponentStore.subscribe((data) => {
+    //   defaultRootComponent = data;
+    //   console.log(
+    //     "DefaultRootComponentStore from <TabAdder />, defaultRootComponent: ",
+    //     defaultRootComponent
+    //   );
+    // });
 
-    SelectedNodeAttributes.update((data) => {
-      return {};
-    });
+    // RootComponentStore.update((data) => {
+    //   data = defaultRootComponent;
+    //   return data;
+    // });
+
+    // RootComponentStore.update((data) => {
+    //   return {};
+    // });
+
+    // SelectedNodeAttributes.update((data) => {
+    //   data = defaultRootComponent;
+    //   console.log("data from SelectedNodeAttributes from <TabAdder />: ", data);
+    //   return data;
+    // });
+
+    // SelectedNodeAttributes.update((data) => {
+    //   return {};
+    // });
 
     SnapshotStore.update((data) => {
       return {};
@@ -296,30 +337,130 @@
     DefaultSnapShotStore.update((update) => {
       return {};
     });
+//------------------------------------
+    // // Function to set up the panel
+    // async function setUpPanel() {
+    //   try {
+    //     const [tab] = await chrome.tabs.query({
+    //       active: true,
+    //       lastFocusedWindow: true,
+    //     });
+
+    //     if (tab && tab.id !== undefined) {
+    //       chrome.tabs.sendMessage(tab.id, { message: "getRootComponent" });
+    //       chrome.tabs.sendMessage(tab.id, { message: "getSvelteVersion" });
+    //     }
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
+
+    // // Message listener function
+    // function messageListener(message: any) {
+    //   // if (message.type === "returnSvelteVersion") {
+    //   //   svelteVersion = message.svelteVersion;
+    //   //   SvelteVersionStore.update((currentData) => {
+    //   //     return svelteVersion;
+    //   //   });
+    //   // }
+
+    //   if (message.type === "updateRootComponent") {
+    //     console.log("1 updateRootComponent");
+    //     rootComponent = message.rootComponent;
+    //     if (rootComponent) {
+    //       RootComponentStore.update((currentData) => {
+    //         return rootComponent;
+    //       });
+    //     }
+    //   } else if (message.type === "returnRootComponent") {
+    //     rootComponent = message.rootComponent;
+
+    //     if (rootComponent) {
+    //       console.log("1 returnRootComponent");
+    //       RootComponentStore.update((currentData) => {
+    //         return rootComponent;
+    //       });
+    //     }
+    //   } else if (message.type === "returnTempRoot") {
+    //     const tempRoot = message.rootComponent;
+    //   }
+    //   // else if (message.type === "handleBrowserRefresh") {
+    //   //   RootComponentStore.set({});
+    //   //   SvelteVersionStore.set(null)
+    //   //   setUpPanel();
+    //   // }
+    // }
+
+    // // Set up message listener and panel on mount
+    // // onMount(() => {
+    // chrome.runtime.onMessage.addListener(messageListener);
+    // setUpPanel();
+    // console.log("onMount is running with resetTab");
+
+    // RootComponentStore.update((data) => {
+    //   console.log('2')
+    //   return data;
+    // })
+    // RootComponentStore.subscribe((data) => {
+    //   console.log("3");
+    //   rootComponent = data;
+    //   // SelectedNodeAttributes.update((data) => {
+    //   //   console.log("3");
+    //   //   data = rootComponent;
+    //   //   console.log(
+    //   //     "data from SelectedNodeAttributes from <TabAdder />: ",
+    //   //     data
+    //   //   );
+    //   //   return data;
+    //   // });
+
+    //   // SelectedNodeAttributes.subscribe((data) => {
+    //   //   console.log("4");
+    //   //   console.log("SelectedNodeAttributes in resetTab, data: ", data);
+    //   // });
+    // });
+
+
+    // SelectedNodeAttributes.update((data) => {
+    //   console.log('3')
+    //   data = rootComponent;
+    //   console.log("data from SelectedNodeAttributes from <TabAdder />: ", data);
+    //   return data;
+    // });
+
+    // SelectedNodeAttributes.subscribe((data) => {
+    //   console.log('4')
+    //   console.log("SelectedNodeAttributes in resetTab, data: ", data);
+    // });
+
+    // });
+    //------------------------------------
+
   };
+
   //-------------------------------------------------------------------------------
   const removeTab = (/** @type {string} */ tabValue) => () => {
     //change activeTab to the last tab
-    if(Object.keys(items).length > 1){
+    if (Object.keys(items).length > 1) {
       delete items[tabValue];
       activeTabValue = items[Object.keys(items).reverse()[0]].value;
       CurrentTabStore.update((tab) => {
-      return { currentTab: activeTabValue };
-    });
-    items = items;
-    }else{
-      alert('Add new Tab if you want to delete the last tab?')
+        return { currentTab: activeTabValue };
+      });
+      items = items;
+    } else {
+      alert("Add new Tab if you want to delete the last tab?");
     }
-   
   };
 </script>
 
-<div id='headerBox'>
+<div id="headerBox">
   <h1>Sveltune</h1>
-  
-  <button id="reset" on:click={resetTab}><img src="file:///Users/guigsvalentin/Downloads/refresh.svg" alt="reset"> </button>
-  </div>
-  
+
+  <button id="reset" on:click={resetTab}
+    ><img src="file:///Users/guigsvalentin/Downloads/refresh.svg" alt="reset" />
+  </button>
+</div>
 
 <ul>
   {#each Object.entries(items) as [key, value]}
@@ -452,24 +593,22 @@
     border-color: #dee2e6 #dee2e6 #fff;
   }
 
-  #headerBox{
-    display:flex;
+  #headerBox {
+    display: flex;
     flex-direction: row;
     flex: 2;
-    justify-content:space-between;
+    justify-content: space-between;
     background-color: #dee2e6;
   }
 
-  #reset{
+  #reset {
     background-color: #dee2e6;
-    background-image: url('file:///Users/guigsvalentin/Downloads/refresh.svg') ;
+    background-image: url("file:///Users/guigsvalentin/Downloads/refresh.svg");
     /* size: 50px; */
-    margin : 7px;
+    margin: 7px;
   }
 
-  #reset:hover{
+  #reset:hover {
     border-color: orangered;
   }
-
-
 </style>

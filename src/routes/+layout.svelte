@@ -80,11 +80,12 @@
       }
     } else if (message.type === "returnTempRoot") {
       const tempRoot = message.rootComponent;
-    } else if (message.type === "handleBrowserRefresh") {
-      RootComponentStore.set({});
-      SvelteVersionStore.set(null)
-      setUpPanel();
-    }
+    } 
+    // else if (message.type === "handleBrowserRefresh") {
+    //   RootComponentStore.set({});
+    //   SvelteVersionStore.set(null)
+    //   setUpPanel();
+    // }
   }
 
   // Set up message listener and panel on mount

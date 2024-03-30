@@ -54,6 +54,7 @@
   SelectedNodeAttributes.subscribe((data: any) => {
     currentData = data;
     id = data.id;
+    console.log('SelectedNodeAttributes.subscribe is running from <SingleTab />')
     console.log("SelectedNodeAttributes, currentData: ", currentData);
     if (Object.keys(currentData).length === 0) {
       RootComponentStore.subscribe((data) => {
