@@ -1,5 +1,6 @@
 <script lang="ts">
   import SingleTab from "./SingleTab.svelte";
+  import Icon from '@iconify/svelte';
   import {
     CurrentTabStore,
     DefaultSnapShotStore,
@@ -312,7 +313,7 @@
 <div id='headerBox'>
   <h1>Sveltune</h1>
   
-  <button id="reset" on:click={resetTab}><img src="file:///Users/guigsvalentin/Downloads/refresh.svg" alt="reset"> </button>
+  <button id="reset" on:click={resetTab}></button>
   </div>
   
 
@@ -324,6 +325,7 @@
   {/each}
   <span class="button" on:click={addTab()}>+</span>
 </ul>
+
 
 {#each Object.entries(items) as [key, value]}
   {#if activeTabValue == value.value}
@@ -457,9 +459,11 @@
 
   #reset{
     background-color: #dee2e6;
-    background-image: url('file:///Users/guigsvalentin/Downloads/refresh.svg') ;
+    background-image: url('../../assets/refresh-svgrepo-com.png') ;
     /* size: 50px; */
+    color: black;
     margin : 7px;
+    /* font-size: 25px; */
   }
 
   #reset:hover{
