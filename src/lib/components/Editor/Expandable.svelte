@@ -134,7 +134,7 @@
   .function,
   .symbol,
   .object {
-    color: rgb(0, 116, 232);
+    color: red
   }
 
   :global(.dark) .function,
