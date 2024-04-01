@@ -228,20 +228,33 @@
   };
 
   //RESET TAB-------------------------------------------------------------------------------
-  const resetTab = async () => {
-    try {
-      const [tab] = await chrome.tabs.query({
-        active: true,
-        lastFocusedWindow: true,
-      });
 
-      if (tab && tab.id !== undefined) {
-        chrome.tabs.sendMessage(tab.id, { message: "refreshPage" });
-        console.log("chrome.tabs.sendMessage -> refreshPage is invoking");
+  const resetAlertClick = () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to reset all tabs?"
+    );
+
+    if (confirmed) {
+      if (confirmed) {
+        resetTab();
       }
-    } catch (err) {
-      console.log(err);
     }
+  };
+
+  const resetTab = async () => {
+    // try {
+    //   const [tab] = await chrome.tabs.query({
+    //     active: true,
+    //     lastFocusedWindow: true,
+    //   });
+
+    //   if (tab && tab.id !== undefined) {
+    //     chrome.tabs.sendMessage(tab.id, { message: "refreshPage" });
+    //     console.log("chrome.tabs.sendMessage -> refreshPage is invoking");
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
 
     //updating UI to default snapshot 1
     items = {
@@ -254,51 +267,51 @@
     activeTabValue = 1;
 
     //make webpage come back to original version - original RootComponent
-    // DefaultSnapShotStore.subscribe((data: any) => {
-    //   console.log("DefaultSnapShotStore when invoking addTab: ", data);
+    DefaultSnapShotStore.subscribe((data: any) => {
+      console.log("DefaultSnapShotStore when invoking addTab: ", data);
 
-    //   for (let key in data) {
-    //     let key_inject_state = data[key].key;
+      for (let key in data) {
+        let key_inject_state = data[key].key;
 
-    //     let value_inject_state = data[key].value;
+        let value_inject_state = data[key].value;
 
-    //     let id_inject_state = data[key].id;
+        let id_inject_state = data[key].id;
 
-    //     if (typeof value_inject_state === "string") {
-    //       console.log("running for string");
-    //       chrome.devtools.inspectedWindow.eval(
-    //         `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
+        if (typeof value_inject_state === "string") {
+          console.log("running for string");
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
 
-    //         (_, error) => {
-    //           errors[key_inject_state] =
-    //             error && error.isException
-    //               ? error.value.substring(0, error.value.indexOf('\n'))
-    //               : undefined;
-    //         }
-    //       );
-    //     } else if (typeof value_inject_state === 'object') {
-    //       chrome.devtools.inspectedWindow.eval(
-    //         `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
-    //         (_, error) => {
-    //           errors[key_inject_state] =
-    //             error && error.isException
-    //               ? error.value.substring(0, error.value.indexOf('\n'))
-    //               : undefined;
-    //         }
-    //       );
-    //     } else {
-    //       chrome.devtools.inspectedWindow.eval(
-    //         `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
-    //         (_, error) => {
-    //           errors[key_inject_state] =
-    //             error && error.isException
-    //               ? error.value.substring(0, error.value.indexOf('\n'))
-    //               : undefined;
-    //         }
-    //       );
-    //     }
-    //   }
-    // });
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else if (typeof value_inject_state === "object") {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        } else {
+          chrome.devtools.inspectedWindow.eval(
+            `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${value_inject_state})`,
+            (_, error) => {
+              errors[key_inject_state] =
+                error && error.isException
+                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  : undefined;
+            }
+          );
+        }
+      }
+    });
 
     //Set the value in the store to default.
     CurrentTabStore.update((data) => {
@@ -357,7 +370,16 @@
     setUpPanel();
   };
 
+  //-------------------------------------------------------------------------------
 
+  SelectedNodeAttributes.subscribe((data) => {
+    // console.log('subscribed to selected node attributes: ', data);
+    currentdata = data.tagName;
+  });
+
+  RootComponentStore.subscribe((data) => {
+    root = data.tagName;
+  });
 
   //-------------------------------------------------------------------------------
   const removeTab = (/** @type {string} */ tabValue) => () => {
@@ -378,7 +400,7 @@
 <div id="headerBox">
   <h1>Sveltune</h1>
 
-  <button id="reset" on:click={resetTab}
+  <button id="reset" on:click={resetAlertClick}
     ><img
       title="Reset Tabs"
       src="https://www.svgrepo.com/show/533701/refresh-cw.svg"

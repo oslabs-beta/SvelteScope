@@ -263,7 +263,7 @@ window.addEventListener("message", async (msg) => {
   }
 
   const data = msg.data;
-  console.log("trying to get data from msg.data:", msg.data);
+  // console.log("trying to get data from msg.data:", msg.data);
 
   switch (data.type) {
     case "getSvelteVersion":

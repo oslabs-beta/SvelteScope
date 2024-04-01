@@ -56,7 +56,7 @@
     if (Object.keys(currentData).length === 0) {
       RootComponentStore.subscribe((data) => {
         currentData = data;
-        console.log('RootComponentStore, currentData: ', data);
+        // console.log('RootComponentStore, currentData: ', data);
       });
     }
   });

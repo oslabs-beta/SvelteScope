@@ -18,17 +18,17 @@
   let selectedNode;
 
   RootComponentStore.subscribe((data) => {
-    console.log("4");
-    console.log(
-      "double check if RootComponentStore from <Tree />, treeData is running: ",
-      data
-    );
+    // console.log("4");
+    // console.log(
+    //   "double check if RootComponentStore from <Tree />, treeData is running: ",
+    //   data
+    // );
     treeData = data;
 
     console.log("treeData from RootComponentStore from <Tree />: ", treeData);
 
     if (treeData) {
-      const updatedTreeData: TreeData = objDiver(treeData);
+      // const updatedTreeData: TreeData = objDiver(treeData);
       updateTree();
     }
   });
@@ -41,17 +41,17 @@
   // console.log('selected node line 34: ', selectedNode);
 
   function objDiver(data: any): TreeData {
-    console.log("objDiver is running");
-    console.log("typeof data: ", data);
+    // console.log("objDiver is running");
+    // console.log("typeof data: ", data);
     if (typeof data === "object") {
       const componentData: TreeData = {
         tagName: data.tagName, // Handle missing tagName
         children: [],
       };
-      console.log("data.children: ", data.children);
+      // console.log("data.children: ", data.children);
       if (data.children) {
         for (let i = 0; i < data.children.length; i++) {
-          console.log("staying loop to check data.children");
+          // console.log("staying loop to check data.children");
           componentData.children.push(objDiver(data.children[i]));
         }
       }
@@ -174,8 +174,8 @@
   function handleNodeClick(event, d) {
     // Access data associated with the clicked node
     const clickedNodeData = d.data;
-    console.log("d = ", d);
-    console.log("d.data = ", d.data);
+    // console.log("d = ", d);
+    // console.log("d.data = ", d.data);
     SelectedNodeAttributes.update((data: any) => {
       return clickedNodeData;
     });
@@ -185,7 +185,7 @@
     treeContainer = d3.select("#treeContainer");
     updateTree();
 
-    console.log("stay in onMount, updateTree is running");
+    // console.log("stay in onMount, updateTree is running");
 
     svg = d3.select("#treeComponent");
 

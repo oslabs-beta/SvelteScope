@@ -17,16 +17,16 @@ window.addEventListener('message', async (msg) => {
     return;
   }
 
-  console.log('Checking returnRootComponent');
+  // console.log('Checking returnRootComponent');
 
   switch (msg.data.type) {
     case 'updateRootComponent':
     case 'returnRootComponent':
     case 'returnTempRoot':
-      console.log(
-        'window.addEventListener from contentScriptIsolate, msg: ',
-        msg
-      );
+      // console.log(
+      //   'window.addEventListener from contentScriptIsolate, msg: ',
+      //   msg
+      // );
 
       chrome.runtime.sendMessage({
         type: msg.data.type,
@@ -54,8 +54,8 @@ window.addEventListener('message', async (msg) => {
 // Forwards them to ContentScriptMain/index.js
 //refresh the page
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  console.log('location.load() 1 is invoking from contentScriptIsolate.js')
-  console.log('request.message: ', request.message)
+  // console.log('location.load() 1 is invoking from contentScriptIsolate.js')
+  // console.log('request.message: ', request.message)
 
   if (request.message === 'refreshPage') {
     location.reload();
@@ -64,13 +64,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log('getRootComponent from contentScriptIsolate');
+  // console.log('getRootComponent from contentScriptIsolate');
 
   switch (request.message) {
     case 'getRootComponent':
     case 'getSvelteVersion':
     case 'handleClosedPanel':
-      console.log('getRootComponent from contentScriptIsolate');
+      // console.log('getRootComponent from contentScriptIsolate');
 
       window.postMessage({
         // target: node.parent ? node.parent.id : null,
