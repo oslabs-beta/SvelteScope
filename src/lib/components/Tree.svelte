@@ -5,6 +5,7 @@
     SelectedNodeAttributes,
   } from '../../stores/Store';
   import * as vis from 'vis';
+  import { tree } from 'd3';
 
   interface TreeData {
     tagName: string;
@@ -99,6 +100,7 @@
    * Set diagram options and build to render within 'treeContainer' div.
    */
   async function buildTree(treeData: any) {
+    treeContainer.innerHTML = ''; // clear existing tree content before each build
     if (!treeData) return;
     let allNodes: Node[] = [];
     let allEdges: Edge[] = [];
@@ -108,19 +110,45 @@
 
     const networkData = { nodes: allNodes, edges: allEdges };
     const options = {
+      autoResize: false,
       layout: {
         hierarchical: {
           enabled: true,
           parentCentralization: true,
           sortMethod: 'directed',
           direction: 'UD',
+          nodeSpacing: 500,
         },
       },
       interaction: {
         hover: true,
       },
+      nodes: {
+        shape: 'box',
+        borderWidth: 1,
+        borderWidthSelected: 3,
+        font: {
+          size: 16,
+          face: 'system-ui',
+          color: 'black',
+        },
+        margin: {
+          top: 15,
+          bottom: 15,
+          left: 15,
+          right: 15,
+        },
+      },
       edges: {
         hoverWidth: 0,
+        width: 1,
+        scaling: {
+          min: 1,
+          max: 1,
+        },
+      },
+      physics: {
+        enabled: true,
       },
     };
     network = new vis.Network(treeContainer, networkData, options);
@@ -130,9 +158,27 @@
       event.event.preventDefault();
     });
 
+    // Invoke handleNodeClick when node is selected
     network.on('selectNode', function (event: any, d: any) {
       const clickedNodeId = event.nodes[0];
+      treeContainer!.style.cursor = 'grab';
       handleNodeClick(event, clickedNodeId);
+    });
+
+    network.on('release', function () {
+      treeContainer!.style.cursor = 'default';
+    });
+
+    network.on('hoverNode', function () {
+      treeContainer!.style.cursor = 'pointer';
+    });
+
+    network.on('dragStart', function () {
+      treeContainer!.style.cursor = 'grabbing';
+    });
+
+    network.on('dragEnd', function () {
+      treeContainer!.style.cursor = 'grab';
     });
   }
 
@@ -177,6 +223,17 @@
 </script>
 
 <div
+  class="tree-container"
   bind:this={treeContainer}
   style="width: 100%; height: 100%; position: sticky;"
 ></div>
+
+<style>
+  /* .tree-container {
+    cursor: grab;
+  } */
+  /* 
+  .tree-container:active {
+    cursor: grabbing;
+  } */
+</style>
