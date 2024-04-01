@@ -6,11 +6,6 @@
   } from '../../stores/Store';
   import * as vis from 'vis';
 
-  interface TreeData {
-    tagName: string;
-    children: TreeData[];
-  }
-
   interface Node {
     id: string;
     label: string;
@@ -174,11 +169,11 @@
       treeContainer!.style.cursor = 'default';
     });
 
-    network.on('hoverNode', function (event) {
+    network.on('hoverNode', function (event: any) {
       treeContainer!.style.cursor = 'pointer';
     });
 
-    network.on('blurNode', function (event) {
+    network.on('blurNode', function (event: any) {
       const nodeId = event.node;
       network.body.nodes[nodeId].setOptions({
         color: {
@@ -199,7 +194,7 @@
   /**
    * Updated active selected node via SelectedNodeAttributes store on node click.
    */
-  function handleNodeClick(event, d) {
+  function handleNodeClick(event: any, d: any) {
     // Access data associated with the clicked node
     SelectedNodeAttributes.update((data: any) => {
       const originalObj = findComponentById(domData, d);
@@ -208,10 +203,7 @@
   }
 
   function findComponentById(obj: any, targetId: Number) {
-    // console.log('logging targetId: ', targetId);
-    let targetObj: any;
-
-    // base case if obj.id === targetId
+    // Recursive base case: if obj.id === targetId, return obj
     if (obj.id == targetId) {
       return obj;
     } else {
@@ -237,13 +229,3 @@
   bind:this={treeContainer}
   style="width: 100%; height: 100%; position: sticky;"
 ></div>
-
-<style>
-  /* .tree-container {
-    cursor: grab;
-  } */
-  /* 
-  .tree-container:active {
-    cursor: grabbing;
-  } */
-</style>
