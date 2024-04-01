@@ -242,19 +242,6 @@
   };
 
   const resetTab = async () => {
-    // try {
-    //   const [tab] = await chrome.tabs.query({
-    //     active: true,
-    //     lastFocusedWindow: true,
-    //   });
-
-    //   if (tab && tab.id !== undefined) {
-    //     chrome.tabs.sendMessage(tab.id, { message: "refreshPage" });
-    //     console.log("chrome.tabs.sendMessage -> refreshPage is invoking");
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
 
     //updating UI to default snapshot 1
     items = {
