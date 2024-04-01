@@ -40,8 +40,6 @@
    */
   RootComponentStore.subscribe((currentData) => {
     domData = currentData;
-    console.log('logging dom data: ', domData);
-    // console.log('subscribed to root component store', currentData);
     const processedTreeDataPromise = new Promise<void>((resolve, reject) => {
       try {
         idCounter = 0;
@@ -52,7 +50,6 @@
       }
     });
     treeDataPromise = processedTreeDataPromise;
-    console.log('logging tree data promise: ', treeDataPromise);
   });
 
   /**
@@ -60,10 +57,6 @@
    */
   SelectedNodeAttributes.subscribe((currentData) => {
     selectedNode = currentData;
-    console.log(
-      'logging selected node attributes current data: ',
-      selectedNode
-    );
   });
 
   /**
@@ -99,7 +92,7 @@
    * Set diagram options and build to render within 'treeContainer' div.
    */
   async function buildTree(treeData: any) {
-    treeContainer.innerHTML = ''; // clear existing tree content before each build
+    treeContainer!.innerHTML = ''; // clear existing tree content before each build
     if (!treeData) return;
     let allNodes: Node[] = [];
     let allEdges: Edge[] = [];
@@ -123,6 +116,18 @@
         hover: true,
       },
       nodes: {
+        color: {
+          background: '#FFA500',
+          border: '#808080',
+          highlight: {
+            border: '#000000',
+            background: '#FF4500',
+          },
+          hover: {
+            border: '#000000',
+            background: '#FFA500',
+          },
+        },
         shape: 'box',
         borderWidth: 1,
         borderWidthSelected: 3,
@@ -168,8 +173,17 @@
       treeContainer!.style.cursor = 'default';
     });
 
-    network.on('hoverNode', function () {
+    network.on('hoverNode', function (event) {
       treeContainer!.style.cursor = 'pointer';
+    });
+
+    network.on('blurNode', function (event) {
+      const nodeId = event.node;
+      network.body.nodes[nodeId].setOptions({
+        color: {
+          background: '#FFA500',
+        },
+      });
     });
 
     network.on('dragStart', function () {
@@ -187,21 +201,17 @@
   function handleNodeClick(event, d) {
     // Access data associated with the clicked node
     SelectedNodeAttributes.update((data: any) => {
-      console.log('logging d: ', d);
       const originalObj = findComponentById(domData, d);
-      console.log('logging original obj: ', originalObj);
       return originalObj;
     });
   }
 
   function findComponentById(obj: any, targetId: Number) {
-    console.log('logging obj: ', obj.id, obj.tagName);
-    // console.log('logging targetId: ', targetId);
+=    // console.log('logging targetId: ', targetId);
     let targetObj: any;
 
     // base case if obj.id === targetId
     if (obj.id == targetId) {
-      console.log('target id found!', obj);
       return obj;
     } else {
       if (obj.children) {
