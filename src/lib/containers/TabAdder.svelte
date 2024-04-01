@@ -1,31 +1,29 @@
 <script lang="ts">
   import SingleTab from "./SingleTab.svelte";
-  import Icon from '@iconify/svelte';
   import {
     CurrentTabStore,
     DefaultSnapShotStore,
     SnapshotStore,
     SelectedNodeAttributes,
     RootComponentStore,
-    SvelteVersionStore,
     DefaultRootComponentStore,
   } from '../../stores/Store';
 
-  /**
-   * @type {any}
-   */
+  // /**
+  //  * @type {any}
+  //  */
   export let items = {};
-  export let activeTabValue = 1;
+  export let activeTabValue: number = 1;
   let currentdata: any;
   let root: any;
-  let index = 2;
+  let index: number = 2;
   let currentTab: number;
   const errors: Record<string, string | undefined> = {};
   let snapshot: any;
   let defaultRootComponent: any;
 
   //-------------------------------------------------------------------------------
-  const handleClick = (/** @type {number} */ tabValue) => () => {
+  const handleClick = (tabValue: number) => () => {
     activeTabValue = tabValue;
     // console.log("activeTabValue: ", activeTabValue);
 
@@ -152,9 +150,9 @@
     currentTab = +currTab.currentTab;
   });
 
-  //-------------------------------------------------------------------------------
-  const addTab = (/** @type {number} */ tabValue) => () => {
-    const tab = `Snapshot${index}`;
+  //ADD TAB FUNCTION--------------------------------------------------------------------
+  const addTab = () => () => {
+    const tab: string = `Snapshot ${index}`;
     items[tab] = {
       value: index,
       component: SingleTab,
@@ -213,11 +211,11 @@
     index++;
   };
 
-  //RESET TAB-------------------------------------------------------------------------------
+  //RESET TAB FUNCTION-------------------------------------------------------------------------------
   const resetTab = () => {
     //updating UI to default snapshot 1
     items = {
-      Snapshot1: {
+      "Snapshot 1": {
         value: 1,
         component: SingleTab,
       },
@@ -307,8 +305,8 @@
     root = data.tagName;
   });
 
-  //-------------------------------------------------------------------------------
-  const removeTab = (/** @type {string} */ tabValue) => () => {
+  //REMOVE TAB FUNCTION-----------------------------------------------------------------------
+  const removeTab = (tabValue: number) => () => {
     //change activeTab to the last tab
     if (Object.keys(items).length > 1) {
       delete items[tabValue];
@@ -325,9 +323,8 @@
 
 <div id="headerBox">
   <h1>Sveltune</h1>
-  
   <button id="reset" on:click={resetTab}><img title="Reset Tabs" src="https://www.svgrepo.com/show/533701/refresh-cw.svg" height="20px" width="15px" alt="reset"></button>
-  </div>
+</div>
 
 
 <ul>
@@ -356,6 +353,8 @@
     </div>
   {/if}
 {/each}
+
+
 
 <style>
   .delete-button-container {
@@ -453,18 +452,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* transition: 0.25s ease-in; */
   }
 
   #delete:hover{
     color: red
   }
-
-  /* #delete:hover { */
-  /* background-color: orangered; */
-  /* border: 2px solid orangered; */
-  /* color: black; */
-  /* } */
 
   li.active > span {
     color: black;
@@ -482,7 +474,6 @@
 
   #reset {
     background-color: #dee2e6;
-    /* background-image: url('https://www.svgrepo.com/show/533701/refresh-cw.svg') ; */
     color: black;
     margin : 7px;
     transition: 0.25s ease-in;
@@ -496,9 +487,7 @@
     color: orangered;
     margin: 0px;
     padding: 20px 10px;
-
     border-radius: 0.5rem;
-
     letter-spacing: 1px;
   }
 </style>
