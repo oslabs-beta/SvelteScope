@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount } from "svelte";
   import {
     SnapshotStore,
     CurrentTabStore,
     RootComponentStore,
     SelectedNodeAttributes,
-  } from '../../stores/Store';
-  import Props from './Editor/Props.svelte';
+  } from "../../stores/Store";
+  import Props from "./Editor/Props.svelte";
   //-----------------------------------------------------------------------------------
   let snapshot: any;
   let currentTab: number;
@@ -45,20 +45,25 @@
 <main>
   <!-- //TYPE: COMPONENT----------------------------------------------------------- -->
 
-  {#if currentData2 && currentData2.type === 'component'}
+  {#if currentData2 && currentData2.type === "component"}
     <h2>Props - currentData2.detail.attributes</h2>
     <Props id={currentData2.id} currentProps={currentData2.detail.attributes} />
-
     <hr />
 
+    {@const events = currentData2.detail.listeners?.map((l) => {
+      const suffix = l.modifiers?.length ? `|${l.modifiers.join("|")}` : "";
+      const value = { __is: "function", source: l.handler };
+      return { key: l.event + suffix, value };
+    })}
     <h2>Events</h2>
+    <Props id={currentData2.id} currentProps={events} />
     <hr />
 
     <h2>State - currentProp.detail.ctx</h2>
     <Props id={currentData2.id} currentProps={currentData2.detail.ctx} />
 
     <!-- //TYPE: BLOCK AND ITERATION----------------------------------------------------------- -->
-  {:else if (currentData2 && currentData2.type === 'block') || (currentData2 && currentData2.type === 'iteration')}
+  {:else if (currentData2 && currentData2.type === "block") || (currentData2 && currentData2.type === "iteration")}
     <h2>State</h2>
     <Props
       readonly
@@ -67,16 +72,22 @@
     />
 
     <!-- //TYPE: ELEMENT----------------------------------------------------------- -->
-  {:else if currentData2 && currentData2.type === 'element'}
+  {:else if currentData2 && currentData2.type === "element"}
     <h2>Attributes</h2>
     <Props
       readonly
       id={currentData2.id}
       currentProps={currentData2.detail.attributes}
     />
+    <hr />
 
+    {@const events = currentData2.detail.listeners?.map((l) => {
+      const suffix = l.modifiers?.length ? `|${l.modifiers.join("|")}` : "";
+      const value = { __is: "function", source: l.handler };
+      return { key: l.event + suffix, value };
+    })}
     <h2>Events</h2>
-    <!-- <Props id={currentProp.id} currentProps={events} /> -->
+    <Props id={currentData2.id} currentProps={events} />
   {/if}
 </main>
 
