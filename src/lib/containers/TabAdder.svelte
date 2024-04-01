@@ -15,8 +15,8 @@
    * @type {any}
    */
   export let items = {};
-  export let activeTabValue = 1;
-  let index = 2;
+  export let activeTabValue: number = 1;
+  let index: number = 2;
   let currentTab: number;
   const errors: Record<string, string | undefined> = {};
   let snapshot: any;
@@ -152,7 +152,7 @@
 
   //-------------------------------------------------------------------------------
   const addTab = (/** @type {number} */ tabValue) => () => {
-    const tab = `Snapshot${index}`;
+    const tab = `Snapshot ${index}`;
     items[tab] = {
       value: index,
       component: SingleTab,
