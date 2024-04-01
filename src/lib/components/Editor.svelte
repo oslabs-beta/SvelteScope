@@ -1,12 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import {
-    SnapshotStore,
-    CurrentTabStore,
-    RootComponentStore,
-    SelectedNodeAttributes,
-  } from '../../stores/Store';
-  import Props from './Editor/Props.svelte';
+  import Props from "./Editor/Props.svelte";
   //-----------------------------------------------------------------------------------
   let snapshot: any;
   let currentTab: number;
@@ -23,23 +16,6 @@
   export let currentProps: any;
   export let currentData2: any;
 
-  //   SelectedNodeAttributes.subscribe((data: any) => {
-  //     currentData = data;
-  //     currentComponent = data.tagName;
-  //     id = data.id;
-  //     console.log('editor data: ', currentData);
-  //     console.log('editor id: ', id);
-  //   });
-
-  //   onMount(() => {
-  //     // default currentData to root component stores topmost tagName property
-  //     // const unsubscribe = SelectedNodeAttributes.subscribe((data: any) => {
-  //     //   currentData = data;
-  //     //   console.log('Data from SelectedNodeAttributes: ', currentData);
-  //     //   id = currentData.id;
-  //     // });
-  //     // return unsubscribe;
-  //   });
 </script>
 
 <main>

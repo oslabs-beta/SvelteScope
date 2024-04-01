@@ -229,6 +229,7 @@
   onDestroy(() => {
     if (network) network.destroy();
   });
+
 </script>
 
 <div

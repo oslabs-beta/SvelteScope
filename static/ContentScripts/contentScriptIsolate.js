@@ -3,7 +3,7 @@
   script. It can also communicate with the Popup and Panel. So it's kind of like
   the middle man of this Chrome extension
 */
-console.log('Hello from contentScriptIsolate');
+
 let port = null;
 // Listens to messages from ContentScriptMain
 // and forwards them to other parts of the extension
@@ -13,20 +13,16 @@ window.addEventListener('message', async (msg) => {
     msg === null ||
     msg.data?.source !== 'contentScript.js'
   ) {
-    // console.log('msg not qualified from contentScriptIsolate msg:', msg)
+
     return;
   }
 
-  console.log('Checking returnRootComponent');
 
   switch (msg.data.type) {
     case 'updateRootComponent':
     case 'returnRootComponent':
     case 'returnTempRoot':
-      console.log(
-        'window.addEventListener from contentScriptIsolate, msg: ',
-        msg
-      );
+
 
       chrome.runtime.sendMessage({
         type: msg.data.type,
@@ -49,19 +45,26 @@ window.addEventListener('message', async (msg) => {
   }
 });
 
+
 // Listens for a message from the Popup and Panel
 // Forwards them to ContentScriptMain/index.js
+//refresh the page
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+
+  if (request.message === 'refreshPage') {
+    location.reload();
+    console.log('location.load() 2 is invoking from contentScriptIsolate.js')
+  }
+});
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log('getRootComponent from contentScriptIsolate');
 
   switch (request.message) {
     case 'getRootComponent':
     case 'getSvelteVersion':
     case 'handleClosedPanel':
-      console.log('getRootComponent from contentScriptIsolate');
 
       window.postMessage({
-        // target: node.parent ? node.parent.id : null,
         type: request.message,
         source: 'contentScriptIsolate.js',
       });
@@ -70,7 +73,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     case 'injectState':
       window.postMessage({
-        // target: node.parent ? node.parent.id : null,
         type: request.message,
         newState: request.newState,
         componentId: request.componentId,
