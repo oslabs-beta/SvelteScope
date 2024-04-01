@@ -47,7 +47,7 @@
 
   {#if currentData2 && currentData2.type === 'component'}
     <div class="section">
-      <h2>Props - currentData2.detail.attributes</h2>
+      <h2>Props</h2>
       <Props
         id={currentData2.id}
         currentProps={currentData2.detail.attributes}
@@ -64,7 +64,7 @@
       <Props id={currentData2.id} currentProps={events} />
     </div>
     <div class="section">
-      <h2>State - currentProp.detail.ctx</h2>
+      <h2>State</h2>
       <Props id={currentData2.id} currentProps={currentData2.detail.ctx} />
     </div>
 
