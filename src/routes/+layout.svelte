@@ -2,12 +2,10 @@
   import SplitpaneContainer from "../lib/components/SplitpaneContainer.svelte";
   import { onMount } from "svelte";
   import {
-    // custom_rootData_Editor,
     RootComponentStore,
     SvelteVersionStore,
     DefaultRootComponentStore,
   } from "../stores/Store.js";
-  import items from "../lib/containers/TabAdder.svelte";
 
   let rootComponent: any;
   let svelteVersion: any;
@@ -17,15 +15,8 @@
     rootComponent = data;
   });
 
-  // custom_rootData_Editor.subcribe_rootData_Editor((data: any) => {
-  //   rootComponent = data;
-  // });
-  // custom_rootData_Editor.subcribe_rootData_Editor((data: any) => {
-  //   rootComponent = data;
-  // });
 
   SvelteVersionStore.subscribe((data) => {
-    // console.log("logging svelte version: ", data);
     svelteVersion = data;
   });
 

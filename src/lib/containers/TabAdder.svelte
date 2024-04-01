@@ -28,7 +28,6 @@
   //-------------------------------------------------------------------------------
   const handleClick = (tabValue: number) => () => {
     activeTabValue = tabValue;
-    // console.log("activeTabValue: ", activeTabValue);
 
     // Update currentTab value
     CurrentTabStore.update((tab) => {
@@ -115,9 +114,6 @@
           typeof id_inject_state,
           id_inject_state
         );
-        // let idLength = id_inject_state.toString().split('').length;
-        // let key_inject_state = key.split('').slice(0,  key.split('').length - idLength).join('');
-        // console.log('key_inject_state: ', typeof key_inject_state, key_inject_state)
 
         if (typeof value_inject_state === "string") {
           chrome.devtools.inspectedWindow.eval(
@@ -240,7 +236,6 @@
   };
 
   const resetTab = async () => {
-
     //updating UI to default snapshot 1
     items = {
       "Snapshot 1": {
@@ -351,8 +346,8 @@
     }
 
     // Set up message listener and panel on mount
-    chrome.runtime.onMessage.addListener(messageListener);
-    setUpPanel();
+    // chrome.runtime.onMessage.addListener(messageListener);
+    // setUpPanel();
   };
 
   //-------------------------------------------------------------------------------
@@ -376,9 +371,9 @@
         return { currentTab: activeTabValue };
       });
       items = items;
-    } else {
-      alert("Add new Tab if you want to delete the last tab?");
     }
+
+    //declare a true/false variable for if
   };
 </script>
 
@@ -415,14 +410,21 @@
         {#if currentdata === undefined}
           <h2 class="root">{root} Component</h2>
         {/if}
-        <button id="delete" on:click={removeTab(key)}>✖️</button>
+        {#if Object.keys(items).length > 1}
+          <button id="delete" on:click={removeTab(key)}>✖️</button>
+        {:else}
+          <button
+            id="delete"
+            disabled
+            style="cursor:default; opacity:.25"
+            on:click={removeTab(key)}>✖️</button
+          >
+        {/if}
       </div>
       <svelte:component this={value.component} />
     </div>
   {/if}
 {/each}
-
-
 
 <style>
   .delete-button-container {
@@ -522,6 +524,10 @@
     justify-content: center;
   }
 
+  #delete:focus {
+    outline: none;
+  }
+
   #delete:hover {
     color: red;
   }
@@ -543,7 +549,7 @@
   #reset {
     background-color: #dee2e6;
     color: black;
-    margin : 7px;
+    margin: 7px;
     transition: 0.25s ease-in;
   }
 
