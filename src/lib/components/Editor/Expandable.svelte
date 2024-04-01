@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { log } from "console";
-  import Editable from "./Editable.svelte";
+  import { log } from 'console';
+  import Editable from './Editable.svelte';
 
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte';
 
   export let key: string;
   export let value: any;
@@ -11,22 +11,22 @@
 
   function stringify(value: unknown, k?: any, v?: any): string {
     if (Array.isArray(value))
-      return `[${value.map((value, i) => (i == k ? v : stringify(value))).join(",")}]`;
-    if (value === null) return "null";
-    if (value === undefined) return "undefined";
+      return `[${value.map((value, i) => (i == k ? v : stringify(value))).join(',')}]`;
+    if (value === null) return 'null';
+    if (value === undefined) return 'undefined';
 
     switch (typeof value) {
-      case "string":
+      case 'string':
         return `"${value}"`;
-      case "number":
+      case 'number':
         return value.toString();
-      case "object":
+      case 'object':
         return `{${Object.entries(value)
           .map(([key, value]) => `"${key}":${key == k ? v : stringify(value)}`)
-          .join(",")}}`;
+          .join(',')}}`;
 
       default: // when is this ever the case?
-        return value?.toString() ?? "undefined";
+        return value?.toString() ?? 'undefined';
     }
   }
 
@@ -38,10 +38,10 @@
   $: expandable =
     value != null &&
     value === value &&
-    type === "object" &&
+    type === 'object' &&
     ((Array.isArray(value) && value.length) ||
-      value.__is === "function" ||
-      value.__is === "symbol" ||
+      value.__is === 'function' ||
+      value.__is === 'symbol' ||
       Object.keys(value).length);
 </script>
 
@@ -58,14 +58,14 @@
   <span>{key}:</span>
   <span>&nbsp;</span>
 
-  {#if type === "string"}
+  {#if type === 'string'}
     <Editable type="string" {value} {readonly} on:change />
   {:else if value == null || value !== value}
     <Editable type="null" {value} {readonly} on:change />
-  {:else if type === "number" || type === "boolean"}
+  {:else if type === 'number' || type === 'boolean'}
     <Editable type="number" {value} {readonly} on:change />
   {:else if Array.isArray(value)}
-    <span class="object">Array [{value.length || ""}]</span>
+    <span class="array">Array [{value.length || ''}]</span>
 
     {#if value.length && expanded}
       <ul>
@@ -75,18 +75,17 @@
             value={v}
             {readonly}
             on:change={(e) =>
-              dispatch("change", stringify(value, key, e.detail))}
+              dispatch('change', stringify(value, key, e.detail))}
           />
         {/each}
       </ul>
     {/if}
-
-  {:else if type === "object"}
-    {#if value.__is === "function"}
-      <span class="function">function {value.name || ""}()</span>
+  {:else if type === 'object'}
+    {#if value.__is === 'function'}
+      <span class="function">function {value.name || ''}()</span>
       {#if expanded}<pre style:width="100%">{value.source}</pre>{/if}
-    {:else if value.__is === "symbol"}
-      <span class="symbol">{value.name || "Symbol()"}</span>
+    {:else if value.__is === 'symbol'}
+      <span class="symbol">{value.name || 'Symbol()'}</span>
     {:else if Object.keys(value).length}
       <span class="object">Object &lbrace;&hellip;&rbrace;</span>
       {#if expanded}
@@ -97,7 +96,7 @@
               value={v}
               {readonly}
               on:change={(e) =>
-                dispatch("change", stringify(value, key, e.detail))}
+                dispatch('change', stringify(value, key, e.detail))}
             />
           {/each}
         </ul>
@@ -134,7 +133,10 @@
   .function,
   .symbol,
   .object {
-    color: red
+    color: purple;
+  }
+  .array {
+    color: green;
   }
 
   :global(.dark) .function,
