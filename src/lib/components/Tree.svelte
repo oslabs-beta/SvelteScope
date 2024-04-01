@@ -114,6 +114,7 @@
       },
       interaction: {
         hover: true,
+        zoomMin: 0.2,
       },
       nodes: {
         color: {
@@ -207,7 +208,7 @@
   }
 
   function findComponentById(obj: any, targetId: Number) {
-=    // console.log('logging targetId: ', targetId);
+    // console.log('logging targetId: ', targetId);
     let targetObj: any;
 
     // base case if obj.id === targetId
