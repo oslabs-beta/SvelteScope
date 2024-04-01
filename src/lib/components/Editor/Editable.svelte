@@ -54,13 +54,13 @@
 		cursor: pointer;
 	}
 	span.string {
-		color: rgb(221, 0, 169);
+		color: orangered
 	}
 	span.number {
-		color: rgb(5, 139, 0);
+		color: orangered
 	}
 	span.null {
-		color: rgb(115, 115, 115);
+		color: orangered
 	}
 
 	:global(.dark) span.string {
