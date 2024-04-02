@@ -40,6 +40,5 @@
   <!-- //TYPE: COMPONENT----------------------------------------------------------- -->
   {#if currentData}
     <Editor currentData2={currentData} id={currentData.id} {readonly} />
-    <hr />
   {/if}
 </main>

@@ -561,7 +561,7 @@
     font-size: 20px;
     color: orangered;
     margin: 0px;
-    padding: 20px 10px;
+  
     border-radius: 0.5rem;
     letter-spacing: 1px;
   }
