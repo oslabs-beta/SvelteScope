@@ -380,24 +380,43 @@
 <div id="headerBox">
   <h1>Sveltune</h1>
 
-  <button id="reset" on:click={resetAlertClick}
-    ><img
+  <button id="reset" on:click={resetAlertClick}>
+    <p>Reset all tabs</p>
+    <svg
+      class="reset-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="200"
+      height="200"
+      viewBox="0 0 21 21"
+    >
+      <g
+        fill="none"
+        fill-rule="evenodd"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M6.5 3.5c-2.414 1.377-4 4.022-4 7a8 8 0 1 0 8-8" />
+        <path d="M6.5 7.5v-4h-4" />
+      </g>
+    </svg>
+    <!-- <img
       title="Reset Tabs"
       src="https://www.svgrepo.com/show/533701/refresh-cw.svg"
       height="20px"
       width="15px"
       alt="reset"
-    /></button
-  >
+    /> -->
+  </button>
 </div>
 
 <ul>
   {#each Object.entries(items) as [key, value]}
     <li class={activeTabValue === value.value ? 'active' : ''}>
-      <span on:click={handleClick(value.value)}>{key}</span>
+      <span class="li-span" on:click={handleClick(value.value)}>{key}</span>
     </li>
   {/each}
-  <span class="button" on:click={addTab()}>+</span>
+  <span class="button li-span" on:click={addTab()}>+</span>
 </ul>
 
 {#each Object.entries(items) as [key, value]}
@@ -405,10 +424,14 @@
     <div class="box">
       <div class="delete-button-container">
         {#if currentdata !== undefined}
-          <h2 class="root">Editing: {currentdata} Component</h2>
+          <h2 class="root">
+            Editing: <span class="edit-component-span">{currentdata}</span>
+          </h2>
         {/if}
         {#if currentdata === undefined}
-          <h2 class="root">{root} Component</h2>
+          <h2 class="root">
+            Editing: <span class="edit-component-span">{root}</span>
+          </h2>
         {/if}
         {#if Object.keys(items).length > 1}
           <button id="delete" on:click={removeTab(key)}>✖️</button>
@@ -438,6 +461,11 @@
     margin: 0px;
     padding: 10px 10px;
     background-color: #dee2e6;
+  }
+
+  .delete-button-container > h2 {
+    font-size: 16px;
+    color: gray;
   }
 
   .box {
@@ -480,20 +508,27 @@
     color: #495057;
   }
 
-  span {
+  .li-span {
     border: 1px solid transparent;
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
     display: block;
     padding: 0.5rem 1rem;
     cursor: pointer;
-    transition: 0.25s ease-in;
+    transition: 0.15s ease-in;
     font-weight: 400;
+    box-shadow:
+      0 0 1px 0 white inset,
+      0 0 1px 0 white;
   }
 
-  span:hover {
+  .li-span:hover {
     border-color: #e9ecef #e9ecef #dee2e6;
     background-color: orangered;
+    color: black;
+  }
+
+  .edit-component-span {
     color: black;
   }
 
@@ -545,23 +580,47 @@
     flex: 2;
     justify-content: space-between;
     background-color: #dee2e6;
+    align-items: center;
   }
 
   #reset {
-    background-color: #dee2e6;
-    color: black;
+    background: none;
+    /* background-color: #dee2e6; */
+    color: gray;
     margin: 7px;
-    transition: 0.25s ease-in;
+    /* transition: 0.25s ease-in; */
+    display: flex;
+    align-items: center;
+    outline: none;
+    border: none;
+  }
+
+  #reset > svg {
+    width: 20px;
+    height: 20px;
+    color: gray;
+  }
+  #reset > p {
+    margin-right: 5px;
   }
 
   #reset:hover {
-    border-color: orangered;
+    /* border-color: orangered; */
+    border: none !important;
+    outline: none !important;
+    color: black !important;
+    transition: none;
   }
+
+  #reset:hover > * {
+    color: black;
+  }
+
   .root {
     font-size: 20px;
-    color: orangered;
+    color: black;
     margin: 0px;
-  
+    font-weight: normal;
     border-radius: 0.5rem;
     letter-spacing: 1px;
   }

@@ -50,17 +50,18 @@
     font-size: inherit;
   }
 
-	span:not(.readonly) {
-		cursor: pointer;
-	}
-	span.string {
-		color: rgb(67, 130, 237)	}
-	span.number {
-		color:  rgb(67, 130, 237)
-	}
-	span.null {
-		color: rgb(67, 130, 237)
-	}
+  span:not(.readonly) {
+    cursor: pointer;
+  }
+  span.string {
+    color: rgb(67, 130, 237);
+  }
+  span.number {
+    color: rgb(67, 130, 237);
+  }
+  span.null {
+    color: rgb(67, 130, 237);
+  }
 
   :global(.dark) span.string {
     color: rgb(255, 125, 233);
