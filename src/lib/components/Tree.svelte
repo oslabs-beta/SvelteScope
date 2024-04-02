@@ -40,6 +40,7 @@
    */
   RootComponentStore.subscribe((currentData) => {
     domData = currentData;
+    console.log("rootComponent: ", domData)
     const processedTreeDataPromise = new Promise<void>((resolve, reject) => {
       try {
         idCounter = 0;
