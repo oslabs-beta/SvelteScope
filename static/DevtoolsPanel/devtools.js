@@ -1,5 +1,5 @@
 chrome.devtools.panels.create(
-  'Svelte Component Explorer',
-  'icons/tuner.png',
+  'SvelteScope: Svelte Debugging Tool',
+  'icons/sveltescope-logo.png',
   'index.html'
 );

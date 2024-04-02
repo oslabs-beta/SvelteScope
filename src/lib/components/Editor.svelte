@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Props from "./Editor/Props.svelte";
+  import Props from './Editor/Props.svelte';
   //-----------------------------------------------------------------------------------
   let snapshot: any;
   let currentTab: number;
@@ -15,7 +15,6 @@
   export let readonly = false;
   export let currentProps: any;
   export let currentData2: any;
-
 </script>
 
 <main>
@@ -79,11 +78,32 @@
 </main>
 
 <style>
+  * {
+    font-size: 12px;
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      'Open Sans',
+      'Helvetica Neue',
+      sans-serif;
+  }
+
   .section {
     margin-bottom: 20px;
     padding: 10px;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .section > h2 {
+    margin-top: 0px;
+    margin-left: 5px;
   }
 </style>
