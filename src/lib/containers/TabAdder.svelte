@@ -465,6 +465,7 @@
   .delete-button-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .logo-container {
@@ -601,7 +602,7 @@
     color: black;
     background-color: orange;
     border-color: #dee2e6 #dee2e6 #fff;
-    font-weight: bold;
+    font-weight: 600;
   }
 
   #headerBox {
@@ -615,10 +616,8 @@
 
   #reset {
     background: none;
-    /* background-color: #dee2e6; */
     color: gray;
     margin: 7px;
-    /* transition: 0.25s ease-in; */
     display: flex;
     align-items: center;
     outline: none;
@@ -632,6 +631,8 @@
   }
   #reset > p {
     margin-right: 5px;
+    font-size: 14px;
+    font-weight: normal;
   }
 
   #reset:hover {
