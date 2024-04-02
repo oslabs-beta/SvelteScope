@@ -49,6 +49,7 @@
     margin-left: 10px;
     font-style: italic;
     color: gray;
+    position: sticky;
   }
 
   .panel {

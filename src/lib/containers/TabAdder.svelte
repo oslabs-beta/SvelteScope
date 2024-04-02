@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import SingleTab from "./SingleTab.svelte";
+  import { onMount } from 'svelte';
+  import SingleTab from './SingleTab.svelte';
   import {
     CurrentTabStore,
     DefaultSnapShotStore,
@@ -8,7 +8,7 @@
     SelectedNodeAttributes,
     RootComponentStore,
     DefaultRootComponentStore,
-  } from "../../stores/Store";
+  } from '../../stores/Store';
 
   // /**
   //  * @type {any}
@@ -35,7 +35,7 @@
     });
 
     CurrentTabStore.subscribe((tab) => {
-      console.log("currentTab when handleClick: ", tab);
+      console.log('currentTab when handleClick: ', tab);
     });
 
     //Step1: Because we change another tab, we need to make webpage back to original version
@@ -46,23 +46,23 @@
         let value_inject_state = data[key].value;
         let id_inject_state = data[key].id;
 
-        if (typeof value_inject_state === "string") {
+        if (typeof value_inject_state === 'string') {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  ? error.value.substring(0, error.value.indexOf('\n'))
                   : undefined;
             }
           );
-        } else if (typeof value_inject_state === "object") {
+        } else if (typeof value_inject_state === 'object') {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  ? error.value.substring(0, error.value.indexOf('\n'))
                   : undefined;
             }
           );
@@ -72,7 +72,7 @@
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  ? error.value.substring(0, error.value.indexOf('\n'))
                   : undefined;
             }
           );
@@ -86,52 +86,52 @@
       snapshot = data;
 
       console.log(
-        "SnapShotStore when invoking handleClick from <TabAdder />: ",
+        'SnapShotStore when invoking handleClick from <TabAdder />: ',
         snapshot
       );
 
       console.log(
-        "snapshot[currentTab] when invoking handleClick from <TabAdder />: ",
+        'snapshot[currentTab] when invoking handleClick from <TabAdder />: ',
         snapshot[currentTab]
       );
 
       for (let key in snapshot[currentTab]) {
         let key_inject_state = snapshot[currentTab][key].key;
         console.log(
-          "key_inject_state: ",
+          'key_inject_state: ',
           typeof key_inject_state,
           key_inject_state
         );
         let value_inject_state = snapshot[currentTab][key].value;
         console.log(
-          "value_inject_state: ",
+          'value_inject_state: ',
           typeof value_inject_state,
           value_inject_state
         );
         let id_inject_state = snapshot[currentTab][key].id;
         console.log(
-          "id_inject_state: ",
+          'id_inject_state: ',
           typeof id_inject_state,
           id_inject_state
         );
 
-        if (typeof value_inject_state === "string") {
+        if (typeof value_inject_state === 'string') {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  ? error.value.substring(0, error.value.indexOf('\n'))
                   : undefined;
             }
           );
-        } else if (typeof value_inject_state === "object") {
+        } else if (typeof value_inject_state === 'object') {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  ? error.value.substring(0, error.value.indexOf('\n'))
                   : undefined;
             }
           );
@@ -141,7 +141,7 @@
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  ? error.value.substring(0, error.value.indexOf('\n'))
                   : undefined;
             }
           );
@@ -172,7 +172,7 @@
     });
 
     CurrentTabStore.subscribe((tab) => {
-      console.log("currentTab when addTab: ", tab);
+      console.log('currentTab when addTab: ', tab);
     });
 
     //just subcribe the rootComponent --> DefaultRootComponent
@@ -184,23 +184,23 @@
         let value_inject_state = data[key].value;
         let id_inject_state = data[key].id;
 
-        if (typeof value_inject_state === "string") {
+        if (typeof value_inject_state === 'string') {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  ? error.value.substring(0, error.value.indexOf('\n'))
                   : undefined;
             }
           );
-        } else if (typeof value_inject_state === "object") {
+        } else if (typeof value_inject_state === 'object') {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  ? error.value.substring(0, error.value.indexOf('\n'))
                   : undefined;
             }
           );
@@ -210,7 +210,7 @@
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  ? error.value.substring(0, error.value.indexOf('\n'))
                   : undefined;
             }
           );
@@ -225,7 +225,7 @@
 
   const resetAlertClick = () => {
     const confirmed = window.confirm(
-      "Are you sure you want to reset all tabs?"
+      'Are you sure you want to reset all tabs?'
     );
 
     if (confirmed) {
@@ -238,7 +238,7 @@
   const resetTab = async () => {
     //updating UI to default snapshot 1
     items = {
-      "Snapshot 1": {
+      'Snapshot 1': {
         value: 1,
         component: SingleTab,
       },
@@ -248,7 +248,7 @@
 
     //make webpage come back to original version - original RootComponent
     DefaultSnapShotStore.subscribe((data: any) => {
-      console.log("DefaultSnapShotStore when invoking addTab: ", data);
+      console.log('DefaultSnapShotStore when invoking addTab: ', data);
 
       for (let key in data) {
         let key_inject_state = data[key].key;
@@ -257,25 +257,25 @@
 
         let id_inject_state = data[key].id;
 
-        if (typeof value_inject_state === "string") {
-          console.log("running for string");
+        if (typeof value_inject_state === 'string') {
+          console.log('running for string');
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
 
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  ? error.value.substring(0, error.value.indexOf('\n'))
                   : undefined;
             }
           );
-        } else if (typeof value_inject_state === "object") {
+        } else if (typeof value_inject_state === 'object') {
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', ${JSON.stringify(value_inject_state)})`,
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  ? error.value.substring(0, error.value.indexOf('\n'))
                   : undefined;
             }
           );
@@ -285,7 +285,7 @@
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
-                  ? error.value.substring(0, error.value.indexOf("\n"))
+                  ? error.value.substring(0, error.value.indexOf('\n'))
                   : undefined;
             }
           );
@@ -315,8 +315,8 @@
         });
 
         if (tab && tab.id !== undefined) {
-          chrome.tabs.sendMessage(tab.id, { message: "getRootComponent" });
-          chrome.tabs.sendMessage(tab.id, { message: "getSvelteVersion" });
+          chrome.tabs.sendMessage(tab.id, { message: 'getRootComponent' });
+          chrome.tabs.sendMessage(tab.id, { message: 'getSvelteVersion' });
         }
       } catch (err) {
         console.log(err);
@@ -325,14 +325,14 @@
 
     // Message listener function
     function messageListener(message: any) {
-      if (message.type === "updateRootComponent") {
+      if (message.type === 'updateRootComponent') {
         rootComponent = message.rootComponent;
         if (rootComponent) {
           RootComponentStore.update((currentData) => {
             return rootComponent;
           });
         }
-      } else if (message.type === "returnRootComponent") {
+      } else if (message.type === 'returnRootComponent') {
         rootComponent = message.rootComponent;
 
         if (rootComponent) {
@@ -340,7 +340,7 @@
             return rootComponent;
           });
         }
-      } else if (message.type === "returnTempRoot") {
+      } else if (message.type === 'returnTempRoot') {
         const tempRoot = message.rootComponent;
       }
     }
@@ -378,26 +378,55 @@
 </script>
 
 <div id="headerBox">
-  <h1>Sveltune</h1>
+  <div class="logo-container">
+    <svg
+      class="logo-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="200"
+      height="200"
+      viewBox="0 0 48 48"
+    >
+      <path
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="m28.072 17.405l7.05-10.424c.584-.864-.168-2.002-1.192-1.805L15.308 8.773L7.993 19.589a2.352 2.352 0 0 0 .63 3.266l10.817 7.314l21.397-4.132l-8.633 12.765l-18.622 3.596c-1.024.198-1.776-.941-1.192-1.805l7.05-10.424l8.632-12.764l12.765 8.632"
+      />
+    </svg>
+    <h1>Svelte<span class="scope-span">Scope</span></h1>
+  </div>
 
-  <button id="reset" on:click={resetAlertClick}
-    ><img
-      title="Reset Tabs"
-      src="https://www.svgrepo.com/show/533701/refresh-cw.svg"
-      height="20px"
-      width="15px"
-      alt="reset"
-    /></button
-  >
+  <button id="reset" on:click={resetAlertClick}>
+    <p>Reset all tabs</p>
+    <svg
+      class="reset-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="200"
+      height="200"
+      viewBox="0 0 21 21"
+    >
+      <g
+        fill="none"
+        fill-rule="evenodd"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M6.5 3.5c-2.414 1.377-4 4.022-4 7a8 8 0 1 0 8-8" />
+        <path d="M6.5 7.5v-4h-4" />
+      </g>
+    </svg>
+  </button>
 </div>
 
 <ul>
   {#each Object.entries(items) as [key, value]}
-    <li class={activeTabValue === value.value ? "active" : ""}>
-      <span on:click={handleClick(value.value)}>{key}</span>
+    <li class={activeTabValue === value.value ? 'active' : ''}>
+      <span class="li-span" on:click={handleClick(value.value)}>{key}</span>
     </li>
   {/each}
-  <span class="button" on:click={addTab()}>+</span>
+  <span class="button li-span" on:click={addTab()}>+</span>
 </ul>
 
 {#each Object.entries(items) as [key, value]}
@@ -405,10 +434,16 @@
     <div class="box">
       <div class="delete-button-container">
         {#if currentdata !== undefined}
-          <h2 class="root">Editing: {currentdata} Component</h2>
+          <h2 class="root">
+            Currently editing: <span class="edit-component-span"
+              >{currentdata}</span
+            >
+          </h2>
         {/if}
         {#if currentdata === undefined}
-          <h2 class="root">{root} Component</h2>
+          <h2 class="root">
+            Currently editing: <span class="edit-component-span">{root}</span>
+          </h2>
         {/if}
         {#if Object.keys(items).length > 1}
           <button id="delete" on:click={removeTab(key)}>✖️</button>
@@ -432,12 +467,35 @@
     justify-content: space-between;
   }
 
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-svg {
+    width: 30px;
+    height: 30px;
+    color: gray;
+    padding: 0px 10px;
+    stroke-width: 2px;
+  }
+
+  .scope-span {
+    font-weight: normal;
+  }
+
   h1 {
-    font-size: 24px;
-    font-weight: 300;
+    font-size: 20px;
+    font-weight: 100;
     margin: 0px;
-    padding: 10px 10px;
     background-color: #dee2e6;
+  }
+
+  .delete-button-container > h2 {
+    font-size: 14px;
+    color: gray;
+    font-weight: 300;
+    letter-spacing: normal;
   }
 
   .box {
@@ -457,9 +515,9 @@
       system-ui,
       -apple-system,
       BlinkMacSystemFont,
-      "Segoe UI",
-      "Open Sans",
-      "Helvetica Neue",
+      'Segoe UI',
+      'Open Sans',
+      'Helvetica Neue',
       sans-serif;
   }
 
@@ -480,22 +538,29 @@
     color: #495057;
   }
 
-  span {
+  .li-span {
     border: 1px solid transparent;
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
     display: block;
     padding: 0.5rem 1rem;
     cursor: pointer;
-    transition: 0.25s ease-in;
+    transition: 0.15s ease-in;
     font-weight: 400;
+    box-shadow:
+      0 0 1px 0 white inset,
+      0 0 1px 0 white;
   }
 
-  span:hover {
+  .li-span:hover {
     border-color: #e9ecef #e9ecef #dee2e6;
     background-color: orangered;
     color: black;
   }
+
+  /* .edit-component-span {
+    color: black;
+  } */
 
   .button {
     background-color: black;
@@ -505,9 +570,9 @@
       system-ui,
       -apple-system,
       BlinkMacSystemFont,
-      "Segoe UI",
-      "Open Sans",
-      "Helvetica Neue",
+      'Segoe UI',
+      'Open Sans',
+      'Helvetica Neue',
       sans-serif;
   }
 
@@ -536,6 +601,7 @@
     color: black;
     background-color: orange;
     border-color: #dee2e6 #dee2e6 #fff;
+    font-weight: bold;
   }
 
   #headerBox {
@@ -544,23 +610,47 @@
     flex: 2;
     justify-content: space-between;
     background-color: #dee2e6;
+    align-items: center;
   }
 
   #reset {
-    background-color: #dee2e6;
-    color: black;
+    background: none;
+    /* background-color: #dee2e6; */
+    color: gray;
     margin: 7px;
-    transition: 0.25s ease-in;
+    /* transition: 0.25s ease-in; */
+    display: flex;
+    align-items: center;
+    outline: none;
+    border: none;
+  }
+
+  #reset > svg {
+    width: 20px;
+    height: 20px;
+    color: gray;
+  }
+  #reset > p {
+    margin-right: 5px;
   }
 
   #reset:hover {
-    border-color: orangered;
+    /* border-color: orangered; */
+    border: none !important;
+    outline: none !important;
+    color: black !important;
+    transition: none;
   }
+
+  #reset:hover > * {
+    color: black;
+  }
+
   .root {
     font-size: 20px;
-    color: orangered;
+    color: black;
     margin: 0px;
-  
+    font-weight: normal;
     border-radius: 0.5rem;
     letter-spacing: 1px;
   }
