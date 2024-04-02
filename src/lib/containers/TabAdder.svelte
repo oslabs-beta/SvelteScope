@@ -378,7 +378,24 @@
 </script>
 
 <div id="headerBox">
-  <h1>Sveltune</h1>
+  <div class="logo-container">
+    <svg
+      class="logo-svg"
+      xmlns="http://www.w3.org/2000/svg"
+      width="200"
+      height="200"
+      viewBox="0 0 48 48"
+    >
+      <path
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="m28.072 17.405l7.05-10.424c.584-.864-.168-2.002-1.192-1.805L15.308 8.773L7.993 19.589a2.352 2.352 0 0 0 .63 3.266l10.817 7.314l21.397-4.132l-8.633 12.765l-18.622 3.596c-1.024.198-1.776-.941-1.192-1.805l7.05-10.424l8.632-12.764l12.765 8.632"
+      />
+    </svg>
+    <h1>Svelte<span class="scope-span">Scope</span></h1>
+  </div>
 
   <button id="reset" on:click={resetAlertClick}>
     <p>Reset all tabs</p>
@@ -400,13 +417,6 @@
         <path d="M6.5 7.5v-4h-4" />
       </g>
     </svg>
-    <!-- <img
-      title="Reset Tabs"
-      src="https://www.svgrepo.com/show/533701/refresh-cw.svg"
-      height="20px"
-      width="15px"
-      alt="reset"
-    /> -->
   </button>
 </div>
 
@@ -425,12 +435,14 @@
       <div class="delete-button-container">
         {#if currentdata !== undefined}
           <h2 class="root">
-            Editing: <span class="edit-component-span">{currentdata}</span>
+            Currently editing: <span class="edit-component-span"
+              >{currentdata}</span
+            >
           </h2>
         {/if}
         {#if currentdata === undefined}
           <h2 class="root">
-            Editing: <span class="edit-component-span">{root}</span>
+            Currently editing: <span class="edit-component-span">{root}</span>
           </h2>
         {/if}
         {#if Object.keys(items).length > 1}
@@ -455,17 +467,35 @@
     justify-content: space-between;
   }
 
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-svg {
+    width: 30px;
+    height: 30px;
+    color: gray;
+    padding: 0px 10px;
+    stroke-width: 2px;
+  }
+
+  .scope-span {
+    font-weight: normal;
+  }
+
   h1 {
-    font-size: 24px;
-    font-weight: 300;
+    font-size: 20px;
+    font-weight: 100;
     margin: 0px;
-    padding: 10px 10px;
     background-color: #dee2e6;
   }
 
   .delete-button-container > h2 {
-    font-size: 16px;
+    font-size: 14px;
     color: gray;
+    font-weight: 300;
+    letter-spacing: normal;
   }
 
   .box {
@@ -528,9 +558,9 @@
     color: black;
   }
 
-  .edit-component-span {
+  /* .edit-component-span {
     color: black;
-  }
+  } */
 
   .button {
     background-color: black;
