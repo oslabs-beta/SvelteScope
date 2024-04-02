@@ -12,7 +12,7 @@
 
   export let id: number;
   export let readonly = false;
-  export let currentData2: any;
+  export const currentData2 = {};
 
   //------------------------------------------------------------------------------
   
@@ -33,11 +33,11 @@
       });
     }
   });
-  //------------------------------------------------------------------------------
 </script>
 
+
 <main>
-  <!-- //TYPE: COMPONENT----------------------------------------------------------- -->
+  <!-- //TYPE: COMPONENT------------------------------------------------------------->
   {#if currentData}
     <Editor currentData2={currentData} id={currentData.id} {readonly} />
   {/if}

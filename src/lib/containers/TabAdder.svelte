@@ -35,7 +35,6 @@
     });
 
     CurrentTabStore.subscribe((tab) => {
-      console.log('currentTab when handleClick: ', tab);
     });
 
     //Step1: Because we change another tab, we need to make webpage back to original version
@@ -85,35 +84,11 @@
     SnapshotStore.subscribe((data: any) => {
       snapshot = data;
 
-      console.log(
-        'SnapShotStore when invoking handleClick from <TabAdder />: ',
-        snapshot
-      );
-
-      console.log(
-        'snapshot[currentTab] when invoking handleClick from <TabAdder />: ',
-        snapshot[currentTab]
-      );
-
       for (let key in snapshot[currentTab]) {
         let key_inject_state = snapshot[currentTab][key].key;
-        console.log(
-          'key_inject_state: ',
-          typeof key_inject_state,
-          key_inject_state
-        );
         let value_inject_state = snapshot[currentTab][key].value;
-        console.log(
-          'value_inject_state: ',
-          typeof value_inject_state,
-          value_inject_state
-        );
         let id_inject_state = snapshot[currentTab][key].id;
-        console.log(
-          'id_inject_state: ',
-          typeof id_inject_state,
-          id_inject_state
-        );
+       
 
         if (typeof value_inject_state === 'string') {
           chrome.devtools.inspectedWindow.eval(
@@ -150,8 +125,7 @@
     });
   };
 
-  //-------------------------------------------------------------------------------
-  //CURRENT TAB
+  //CURRENT TAB FUNCTIONALITY-------------------------------------------------------------------
   CurrentTabStore.subscribe((currTab) => {
     currentTab = +currTab.currentTab;
   });
@@ -172,11 +146,10 @@
     });
 
     CurrentTabStore.subscribe((tab) => {
-      console.log('currentTab when addTab: ', tab);
     });
 
-    //just subcribe the rootComponent --> DefaultRootComponent
-    //because <Editor /> get rootComponent, need to run this function to make changes for webpage
+    //Subscribe the rootComponent --> DefaultRootComponent
+    //because of <Editor /> get rootComponent, we  need to run this function to make changes for webpage
     //with inspectedWindow
     DefaultSnapShotStore.subscribe((data: any) => {
       for (let key in data) {
@@ -222,7 +195,6 @@
   };
 
   //RESET TAB-------------------------------------------------------------------------------
-
   const resetAlertClick = () => {
     const confirmed = window.confirm(
       'Are you sure you want to reset all tabs?'
@@ -252,9 +224,7 @@
 
       for (let key in data) {
         let key_inject_state = data[key].key;
-
         let value_inject_state = data[key].value;
-
         let id_inject_state = data[key].id;
 
         if (typeof value_inject_state === 'string') {
@@ -305,55 +275,11 @@
     DefaultSnapShotStore.update((update) => {
       return {};
     });
-
-    // Function to set up the panel
-    async function setUpPanel() {
-      try {
-        const [tab] = await chrome.tabs.query({
-          active: true,
-          lastFocusedWindow: true,
-        });
-
-        if (tab && tab.id !== undefined) {
-          chrome.tabs.sendMessage(tab.id, { message: 'getRootComponent' });
-          chrome.tabs.sendMessage(tab.id, { message: 'getSvelteVersion' });
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    // Message listener function
-    function messageListener(message: any) {
-      if (message.type === 'updateRootComponent') {
-        rootComponent = message.rootComponent;
-        if (rootComponent) {
-          RootComponentStore.update((currentData) => {
-            return rootComponent;
-          });
-        }
-      } else if (message.type === 'returnRootComponent') {
-        rootComponent = message.rootComponent;
-
-        if (rootComponent) {
-          RootComponentStore.update((currentData) => {
-            return rootComponent;
-          });
-        }
-      } else if (message.type === 'returnTempRoot') {
-        const tempRoot = message.rootComponent;
-      }
-    }
-
-    // Set up message listener and panel on mount
-    // chrome.runtime.onMessage.addListener(messageListener);
-    // setUpPanel();
   };
 
   //-------------------------------------------------------------------------------
 
   SelectedNodeAttributes.subscribe((data) => {
-    // console.log('subscribed to selected node attributes: ', data);
     currentdata = data.tagName;
   });
 
@@ -372,8 +298,6 @@
       });
       items = items;
     }
-
-    //declare a true/false variable for if
   };
 </script>
 
@@ -460,6 +384,8 @@
     </div>
   {/if}
 {/each}
+
+
 
 <style>
   .delete-button-container {
@@ -636,7 +562,6 @@
   }
 
   #reset:hover {
-    /* border-color: orangered; */
     border: none !important;
     outline: none !important;
     color: black !important;
