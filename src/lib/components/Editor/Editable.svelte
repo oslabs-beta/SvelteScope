@@ -38,6 +38,22 @@
 {/if}
 
 <style>
+  * {
+    font-size: 12px;
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      'Open Sans',
+      'Helvetica Neue',
+      sans-serif;
+  }
+
   span,
   input {
     flex-grow: 1;

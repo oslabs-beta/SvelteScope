@@ -78,6 +78,22 @@
 </main>
 
 <style>
+  * {
+    font-size: 12px;
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      'Open Sans',
+      'Helvetica Neue',
+      sans-serif;
+  }
+
   .section {
     margin-bottom: 20px;
     padding: 10px;
