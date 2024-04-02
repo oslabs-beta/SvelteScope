@@ -29,14 +29,10 @@
     "babel-jest": "^29.7.0",
     "esm": "^3.2.25",
     "hot-reload-extension-vite": "^1.0.13",
-<<<<<<< HEAD
-    "jest-preview": "^0.3.1",
-=======
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-preview": "^0.3.1",
     "jsdom": "^24.0.0",
->>>>>>> binh-donald/test
     "rollup-plugin-chrome-extension": "^3.6.12",
     "rollup-plugin-dev-server": "^0.4.3",
     "rollup-plugin-node-resolve": "^5.2.0",
