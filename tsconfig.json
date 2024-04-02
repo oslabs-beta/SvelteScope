@@ -3,7 +3,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "module": "commonjs",
+    "module": "ESNext",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -23,8 +23,7 @@
     "src/**/*.ts",
     "src/**/*.js",
     "src/**/*.svelte",
-    "static/Popup/popup.ts", 
-    "src/test/App/App.test.ts",
+    "static/Popup/popup.ts", "src/test/App/App.test.ts",
     
   ],
   "exclude": ["./build/**/*"],
