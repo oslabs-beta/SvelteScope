@@ -7,19 +7,36 @@
     "dev": "NODE_ENV=development vite build --watch",
     "build": "vite build && rollup -c",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "test": "npx --node-options=\"--experimental-vm-modules\" jest src",
+    "test:watch": "npx --node-options=\"--experimental-vm-modules\" jest src --watch"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.24.3",
+    "@babel/preset-typescript": "^7.24.1",
     "@iconify/svelte": "^3.1.6",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/svelte": "^4.1.0",
     "@tsconfig/svelte": "^5.0.2",
     "@types/chrome": "^0.0.263",
     "@types/d3": "^7.4.3",
+    "@types/jest": "^29.5.12",
     "@types/vis": "^4.21.27",
+    "@vitest/ui": "^1.4.0",
+    "babel-jest": "^29.7.0",
+    "esm": "^3.2.25",
     "hot-reload-extension-vite": "^1.0.13",
+<<<<<<< HEAD
     "jest-preview": "^0.3.1",
+=======
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-preview": "^0.3.1",
+    "jsdom": "^24.0.0",
+>>>>>>> binh-donald/test
     "rollup-plugin-chrome-extension": "^3.6.12",
     "rollup-plugin-dev-server": "^0.4.3",
     "rollup-plugin-node-resolve": "^5.2.0",
@@ -28,9 +45,11 @@
     "rollup-plugin-typescript2": "^0.36.0",
     "svelte": "^4.2.12",
     "svelte-check": "^3.6.6",
+    "svelte-jester": "^3.0.0",
     "svelte-listener": "git+https://github.com/RedHatter/svelte-listener.git",
+    "ts-jest": "^29.1.2",
     "tslib": "^2.6.2",
-    "typescript": "^5.2.2",
+    "typescript": "^5.4.3",
     "vite": "^5.1.6"
   },
   "dependencies": {
