@@ -235,7 +235,7 @@
     }
   };
 
-  const resetTab = async () => {
+  export const resetTab = async () => {
     //updating UI to default snapshot 1
     items = {
       'Snapshot 1': {
