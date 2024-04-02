@@ -1,14 +1,12 @@
 <script lang="ts">
-  import { Splitpanes, Pane } from 'svelte-splitpanes';
-  // import SnapShot from './SnapShot.svelte';
-  import Tree from './Tree.svelte';
-  import Tabs from '../containers/Tabs.svelte';
-  import { SvelteVersionStore } from '../../stores/Store.js';
+  import { Splitpanes, Pane } from "svelte-splitpanes";
+  import Tree from "./Tree.svelte";
+  import Tabs from "../containers/Tabs.svelte";
+  import { SvelteVersionStore } from "../../stores/Store.js";
 
   let svelteVersion: number;
 
   SvelteVersionStore.subscribe((data) => {
-    // console.log('logging svelte version: ', data);
     svelteVersion = data;
   });
 </script>
@@ -36,13 +34,13 @@
       system-ui,
       -apple-system,
       BlinkMacSystemFont,
-      'Segoe UI',
+      "Segoe UI",
       Roboto,
       Oxygen,
       Ubuntu,
       Cantarell,
-      'Open Sans',
-      'Helvetica Neue',
+      "Open Sans",
+      "Helvetica Neue",
       sans-serif;
     font-size: 14px;
     margin-top: 10px;

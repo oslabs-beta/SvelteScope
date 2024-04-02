@@ -9,8 +9,6 @@ export const SvelteVersionStore = writable();
 //Selected Node Store
 export const SelectedNodeAttributes = writable({});
 
-
-// export const DefaultRootComponentStore = writable({});
 export const CurrentTabStore = writable({
   currentTab: 1
 });

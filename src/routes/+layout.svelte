@@ -4,17 +4,15 @@
   import {
     RootComponentStore,
     SvelteVersionStore,
-    DefaultRootComponentStore,
   } from "../stores/Store.js";
 
   let rootComponent: any;
   let svelteVersion: any;
-  let defaultRootComponentSet = false; // Track if defaultRootComponent has been set
 
+  
   RootComponentStore.subscribe((data) => {
     rootComponent = data;
   });
-
 
   SvelteVersionStore.subscribe((data) => {
     svelteVersion = data;
@@ -52,10 +50,6 @@
         RootComponentStore.update((currentData) => {
           return rootComponent;
         });
-        if (!defaultRootComponentSet) {
-          DefaultRootComponentStore.update(() => rootComponent);
-          defaultRootComponentSet = true;
-        }
       }
     } else if (message.type === "returnRootComponent") {
       rootComponent = message.rootComponent;
@@ -64,19 +58,10 @@
         RootComponentStore.update((currentData) => {
           return rootComponent;
         });
-        if (!defaultRootComponentSet) {
-          DefaultRootComponentStore.update(() => rootComponent);
-          defaultRootComponentSet = true;
-        }
       }
     } else if (message.type === "returnTempRoot") {
       const tempRoot = message.rootComponent;
     } 
-    // else if (message.type === "handleBrowserRefresh") {
-    //   RootComponentStore.set({});
-    //   SvelteVersionStore.set(null)
-    //   setUpPanel();
-    // }
   }
 
   // Set up message listener and panel on mount
