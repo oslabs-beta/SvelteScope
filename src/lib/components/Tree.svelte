@@ -348,6 +348,10 @@
     align-items: center;
   }
 
+  .recenter-btn > p {
+    font-size: 14px;
+  }
+
   .recenter-btn:focus {
     outline: none;
   }
