@@ -4,7 +4,7 @@
     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m28.072 17.405l7.05-10.424c.584-.864-.168-2.002-1.192-1.805L15.308 8.773L7.993 19.589a2.352 2.352 0 0 0 .63 3.266l10.817 7.314l21.397-4.132l-8.633 12.765l-18.622 3.596c-1.024.198-1.776-.941-1.192-1.805l7.05-10.424l8.632-12.764l12.765 8.632" />
   </svg>
 </p>
-<h1 align="center"><a href="https://www.sveltescope.com">SvelteScope</a></h1>
+<h1 align="center"><a href="https://www.sveltescope.com" style="font-size: 36px;">SvelteScope</a></h1>
 
 
 SvelteScope is a Google Chrome Extension specifically designed for Svelte webpages, offering developers a platform to test webpage behaviors and conduct component experimentation within the browser environment. Its features include an interactive visual tree diagram, real-time rendering of state changes, and the ability for developers to create multiple snapshots, all aimed at streamlining front-end testing processes.
@@ -31,6 +31,7 @@ Front-end testing often involves extensive trials to pinpoint the source of issu
   <img src="./assets/tabs.gif" alt="Snapshot">
 </p>
 
+<div style="margin-bottom: 40px;"></div>
 
 ## Installation and Usage Guide for SvelteScope
 
@@ -64,7 +65,9 @@ SvelteScope only functions on locally hosted Svelte web pages.
 * Generate additional snapshots by clicking the "+" icon. Delete snapshots by clicking the "x" icon. Reset all tabs by clicking "reset".
 
 
-# Open Source Contribution
+<div style="margin-bottom: 40px;"></div>
+
+<h1 ><a  href="https://github.com/oslabs-beta/Sveltune" >Open Source Contribution</a></h1>
 
 We greatly encourage contributions from the community. Your input, suggestions, and feedback play a crucial role in advancing the project. Below are ways in which you can contribute:
 
@@ -89,7 +92,6 @@ Instructions to download repository.
 9. Navigate to the directory where your local repository is located and select the build folder to load.
 
 ## Contributors
-
 - Branden Basche • [LinkedIn](https://www.linkedin.com/in/brandenbasche/) • [Github](https://github.com/brandenrbasche)
 - James Lee • [LinkedIn](https://www.linkedin.com/in/james-lee-a7b2842b6/) • [Github](https://github.com/alphajames258)
 - Binh Nguyen • [LinkedIn](https://www.linkedin.com/in/binh-nguyen-a07731101/) • [Github](https://github.com/binhnguyen96/)
