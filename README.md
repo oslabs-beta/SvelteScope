@@ -97,3 +97,11 @@ Instructions to download repository.
 - Binh Nguyen • [LinkedIn](https://www.linkedin.com/in/binh-nguyen-a07731101/) • [Github](https://github.com/binhnguyen96/)
 - Gregory Valentin • [LinkedIn](https://www.linkedin.com/in/gregory-valentin-a389b3221/) • [Github](https://github.com/punkygreg)
 - Donald Wong  • [LinkedIn](https://www.linkedin.com/in/donald-wong-93702931) • [Github](https://github.com/dwong92)
+
+<p style="font-size: 14px; color: #888; margin-top: 20px; text-align: center;"><a href="https://www.sveltescope.com" style="text-decoration: none; color: #888;">Visit us online
+
+
+
+
+
+
