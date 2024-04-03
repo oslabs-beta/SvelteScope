@@ -184,7 +184,7 @@
 
     // Revert node text to black when deselected
     network.on('deselectNode', function (params) {
-      console.log('deselected node');
+  
       // check if there was a previously selected node
       if (params.previousSelection.nodes.length > 0) {
         var deselectedNodeId = params.previousSelection.nodes[0];
@@ -277,7 +277,6 @@
 
   // Recenter network diagram to center of screen if re-center button is clicked.
   function recenterDiagram() {
-    console.log('recenter button clicked!');
     network.fit({
       animation: {
         duration: 500,
