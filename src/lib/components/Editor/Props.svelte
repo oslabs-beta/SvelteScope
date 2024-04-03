@@ -5,38 +5,24 @@
     CurrentTabStore,
     DefaultSnapShotStore,
   } from "../../../stores/Store";
-  import SnapShot from "../SnapShot.svelte";
-
+  
   let currentTab: any;
   const errors: Record<string, string | undefined> = {};
-  // let defaultValueObject: any;
 
   export let currentProps: any = [];
   export let id: number;
   export let readonly = false;
 
-  //-------------------------------------------------------------------------------
 
   CurrentTabStore.subscribe((currTab) => {
     currentTab = +currTab.currentTab;
   });
 
-  //-------------------------------------------------------------------------------
   function change(key: string, value: any, defaultValue: any) {
     DefaultSnapShotStore.update((defaultValueObj) => {
-      //Because nested object or array will have same key,
-      //add id to key to make unique key
+      //Because nested object or array will have same key, add id to key to make unique key
       //if [key+id] property exist => not change anything
       if (!defaultValueObj[key + id]) {
-        // if (typeof defaultValue === "object") {
-        //   for (let keyObj in defaultValue) {
-        //     defaultValueObj[key + id + keyObj] = {
-        //       key: key,
-        //       id: id,
-        //       value: JSON.parse(JSON.stringify(defaultValue[keyObj])),
-        //     };
-        //   }
-        // }
         defaultValueObj[key + id] = {
           key: key,
           id: id,
@@ -45,14 +31,6 @@
       }
       return defaultValueObj;
     });
-
-    // DefaultSnapShotStore.subscribe((defaultValueObj) => {
-    //   // defaultValueObject = defaultValueObj;
-    //   console.log(
-    //     "DefaultSnapShotStore when invoking change from <Props />: ",
-    //     defaultValueObj
-    //   );
-    // });
 
     SnapshotStore.update((tabs) => {
       if (!tabs[currentTab]) {
@@ -68,18 +46,6 @@
       return tabs;
     });
 
-    // SnapshotStore.subscribe((snapshot) => {
-    //   console.log(
-    //     "SnapShotStore when invoking change from <Props />: ",
-    //     snapshot
-    //   );
-    //   console.log(
-    //     "snapshot[currentTab] when invoking change from <Props />: ",
-    //     snapshot[currentTab]
-    //   );
-    // });
-
-
     chrome.devtools.inspectedWindow.eval(
       `__svelte_devtools_inject_state(${id}, '${key}', ${value})`,
       (_, error) => {
@@ -92,7 +58,6 @@
   }
 </script>
 
-<!-- //------------------------------------------------------------------------------- -->
 
 {#if currentProps.length}
   <ul>

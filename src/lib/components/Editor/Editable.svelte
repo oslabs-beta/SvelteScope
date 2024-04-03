@@ -6,7 +6,6 @@
   export let readonly: boolean;
 
   const dispatch = createEventDispatcher();
-
   let editing = false;
 </script>
 

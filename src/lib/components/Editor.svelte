@@ -1,25 +1,14 @@
 <script lang="ts">
   import Props from './Editor/Props.svelte';
-  //-----------------------------------------------------------------------------------
-  let snapshot: any;
-  let currentTab: number;
-  const errors: Record<string, string | undefined> = {};
 
-  //solve conflits-----------------------------------
-  let currentData: any;
-
-  let currentComponent: any;
-  //-----------------------------------
-
-  export let id: number;
-  export let readonly = false;
-  export let currentProps: any;
+  export const id:number = 0;
+  export const readonly = false;
+  export const currentProps = {};
   export let currentData2: any;
 </script>
 
 <main>
   <!-- //TYPE: COMPONENT----------------------------------------------------------- -->
-
   {#if currentData2 && currentData2.type === 'component'}
     <div class="section">
       <h2>Props</h2>

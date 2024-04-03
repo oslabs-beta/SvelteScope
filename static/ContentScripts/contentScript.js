@@ -7,12 +7,12 @@
 
 import { getNode, getSvelteVersion, getRootNodes } from "svelte-listener";
 
+console.log('You are using SvelteScope: Svelte Debugging Tool')
 
 // @ts-ignore - possibly find an alternative
 window.__svelte_devtools_inject_state = function (id, key, value) {
   const { detail: component } = getNode(id) || {};
   if (typeof value === "object") {
-    console.log("value is object");
     component && component.$inject_state({ [key]: value });
   }
   component && component.$inject_state({ [key]: value });
@@ -133,7 +133,6 @@ function sendRootNodeToExtension(messageType) {
     messageType !== "returnRootComponent" &&
     messageType !== "returnTempRoot"
   ) {
-
     return;
   }
 

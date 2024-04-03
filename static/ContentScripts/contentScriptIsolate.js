@@ -13,17 +13,13 @@ window.addEventListener('message', async (msg) => {
     msg === null ||
     msg.data?.source !== 'contentScript.js'
   ) {
-
     return;
   }
-
 
   switch (msg.data.type) {
     case 'updateRootComponent':
     case 'returnRootComponent':
     case 'returnTempRoot':
-
-
       chrome.runtime.sendMessage({
         type: msg.data.type,
         rootComponent: msg.data.rootComponent,
@@ -48,14 +44,6 @@ window.addEventListener('message', async (msg) => {
 
 // Listens for a message from the Popup and Panel
 // Forwards them to ContentScriptMain/index.js
-//refresh the page
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-
-  if (request.message === 'refreshPage') {
-    location.reload();
-    console.log('location.load() 2 is invoking from contentScriptIsolate.js')
-  }
-});
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
@@ -63,12 +51,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     case 'getRootComponent':
     case 'getSvelteVersion':
     case 'handleClosedPanel':
-
       window.postMessage({
         type: request.message,
         source: 'contentScriptIsolate.js',
       });
-
       break;
 
     case 'injectState':
@@ -87,13 +73,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         source: 'contentScriptIsolate.js',
       });
       break;
-
-     case 'handleBrowserRefresh':
-      window.postMessage({
-        type: request.message,
-        source: 'contentScriptIsolate.js'
-      });
-     break;
   }
 });
 
@@ -103,4 +82,3 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 // Receiving end does not exist." This happened to Alex when he was
 // trying to send a message to a listener inside the Panel component.
 // The Panel component hadn't been rendered yet, so no listener had been added.
-// Don't be like Alex
