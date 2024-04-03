@@ -15,5 +15,3 @@ export const CurrentTabStore = writable({
 export const SnapshotStore = writable({})
 export const DefaultSnapShotStore = writable({})
 
-export const DefaultRootComponentStore = writable({})
-

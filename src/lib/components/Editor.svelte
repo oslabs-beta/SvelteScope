@@ -1,7 +1,7 @@
 <script lang="ts">
   import Props from './Editor/Props.svelte';
 
-  export let id: number;
+  export const id:number = 0;
   export const readonly = false;
   export const currentProps = {};
   export let currentData2: any;
