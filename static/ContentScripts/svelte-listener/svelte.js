@@ -261,17 +261,19 @@ function svelteDOMAddEventListener(e) {
 }
 
 function svelteDOMRemoveEventListener(e) {
-  const { node, event, handler, modifiers } = e.detail;
+    if(e.detail !== null){
+        const { node, event, handler, modifiers } = e.detail;
 
-  if (!node.__listeners) return;
-
-  const index = node.__listeners.findIndex(
-    (o) => o.event == event && o.handler == handler && o.modifiers == modifiers
-  );
-
-  if (index == -1) return;
-
-  node.__listeners.splice(index, 1);
+        if (!node.__listeners) return;
+      
+        const index = node.__listeners.findIndex(
+          (o) => o.event == event && o.handler == handler && o.modifiers == modifiers
+        );
+      
+        if (index == -1) return;
+      
+        node.__listeners.splice(index, 1);
+    }
 }
 
 function svelteUpdateNode(e) {
