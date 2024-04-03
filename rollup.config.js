@@ -12,7 +12,7 @@ export default {
   output: {
     dir: 'build',
     format: 'esm',
-    sourcemap: true,
+    // sourcemap: true,
   },
   plugins: [
     // always put chromeExtension() before other plugins
