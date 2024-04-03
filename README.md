@@ -1,10 +1,10 @@
 
 <p align="center">
-  <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 48 48">
+  <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 48 48" color='orangered'>
     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m28.072 17.405l7.05-10.424c.584-.864-.168-2.002-1.192-1.805L15.308 8.773L7.993 19.589a2.352 2.352 0 0 0 .63 3.266l10.817 7.314l21.397-4.132l-8.633 12.765l-18.622 3.596c-1.024.198-1.776-.941-1.192-1.805l7.05-10.424l8.632-12.764l12.765 8.632" />
   </svg>
 </p>
-<h1 align="center"><a href="https://www.sveltescope.com" style="font-size: 36px;">SvelteScope</a></h1>
+<h1 align="center"><a href="https://www.sveltescope.com" style="font-size: 56px; text-decoration: none;color: orangered;">SvelteScope</a></h1>
 
 
 SvelteScope is a Google Chrome Extension specifically designed for Svelte webpages, offering developers a platform to test webpage behaviors and conduct component experimentation within the browser environment. Its features include an interactive visual tree diagram, real-time rendering of state changes, and the ability for developers to create multiple snapshots, all aimed at streamlining front-end testing processes.
