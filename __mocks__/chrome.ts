@@ -48,29 +48,7 @@ export interface MockChrome {
 let listeners: ChromeMessageListener[] = [];
 let _sendEmptyDataOnNextRequest = false;
 
-// function updateState(id: number | undefined, newState: any): Boolean {
-//   function helper(component: Component): Boolean {
-//     if (component.id === id) {
-//       for (let i = 0; i < component.detail.ctx.length; i++) {
-//         const state = component.detail.ctx[i];
-//         if (state.key === Object.keys(newState)[0]) {
-//           const value = Object.values(newState)[0];
-//           if (state.value === value) return false;
-//           // Update state
-//           state.value = value;
-//           return true;
-//         }
-//       }
-//       return false;
-//     }
-//     for (let i = 0; i < component.children.length; i++) {
-//       const child = component.children[i];
-//       return helper(child);
-//     }
-//     return false;
-//   }
-//   return helper(data);
-// }
+
 
 const chrome: MockChrome = {
   runtime: {
@@ -119,32 +97,7 @@ const chrome: MockChrome = {
           {
           }
           break;
-        // case "injectState":
-        //   {
-        //     const stateUpdated = updateState(
-        //       request.componentId,
-        //       request.newState
-        //     ); // Don't send an update if nothing was changed
-        //     // This causes problems
-        //     if (!stateUpdated) return;
-        //     const message = {
-        //       type: "updateRootComponent",
-        //       rootComponent: JSON.parse(JSON.stringify(data)),
-        //     };
-        //     listeners.forEach((f) => f(message));
-        //   }
-        //   break;
-        // case "injectSnapshot":
-        //   {
-        //     if (!request.snapshot) return;
-        //     data = JSON.parse(JSON.stringify(request.snapshot));
-        //     const message = {
-        //       type: "returnTempRoot",
-        //       rootComponent: JSON.parse(JSON.stringify(data)),
-        //     };
-        //     listeners.forEach((f) => f(message));
-        //   }
-        //   break;
+       
       }
     },
   },
