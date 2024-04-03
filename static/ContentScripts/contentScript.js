@@ -20,20 +20,7 @@ window.__svelte_devtools_inject_state = function (id, key, value) {
 
 };
 
-/*
-  TODO:
-  State injection with arrays
-  Profiler tab
-  Icon color change when using/not using Svelte
-  Add types to the tree visualization files
 
-  IGNORE THIS:
-  webpack dev server gives us many ugly red errors when we load a page.
-  Ignore them; they're harmless. flipping the https option to true in
-  webserver.js fixes this problem, but creates a worse one where the webpage
-  refreshes endlessly. This doesn't happen in production builds anyway, so it's
-  safe to ignore
-*/
 
 
 function clone(value, seen = new Map()) {
