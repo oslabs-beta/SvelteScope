@@ -7,13 +7,13 @@
     SnapshotStore,
     SelectedNodeAttributes,
     RootComponentStore,
-    DefaultRootComponentStore,
   } from '../../stores/Store';
 
   // /**
   //  * @type {any}
   //  */
-  export let items = {};
+  // export let items = {};
+  export let items: Record<string, { value: number, component: typeof SingleTab }> = {};
   export let activeTabValue: number = 1;
   let currentdata: any;
   let root: any;
@@ -21,21 +21,15 @@
   let currentTab: number;
   const errors: Record<string, string | undefined> = {};
   let snapshot: any;
-  let defaultRootComponent: any;
   let rootComponent: any;
   let refresh = false;
 
-  //-------------------------------------------------------------------------------
   const handleClick = (tabValue: number) => () => {
     activeTabValue = tabValue;
 
     // Update currentTab value
     CurrentTabStore.update((tab) => {
       return { currentTab: activeTabValue };
-    });
-
-    CurrentTabStore.subscribe((tab) => {
-      console.log('currentTab when handleClick: ', tab);
     });
 
     //Step1: Because we change another tab, we need to make webpage back to original version
@@ -85,35 +79,10 @@
     SnapshotStore.subscribe((data: any) => {
       snapshot = data;
 
-      console.log(
-        'SnapShotStore when invoking handleClick from <TabAdder />: ',
-        snapshot
-      );
-
-      console.log(
-        'snapshot[currentTab] when invoking handleClick from <TabAdder />: ',
-        snapshot[currentTab]
-      );
-
       for (let key in snapshot[currentTab]) {
         let key_inject_state = snapshot[currentTab][key].key;
-        console.log(
-          'key_inject_state: ',
-          typeof key_inject_state,
-          key_inject_state
-        );
         let value_inject_state = snapshot[currentTab][key].value;
-        console.log(
-          'value_inject_state: ',
-          typeof value_inject_state,
-          value_inject_state
-        );
         let id_inject_state = snapshot[currentTab][key].id;
-        console.log(
-          'id_inject_state: ',
-          typeof id_inject_state,
-          id_inject_state
-        );
 
         if (typeof value_inject_state === 'string') {
           chrome.devtools.inspectedWindow.eval(
@@ -150,13 +119,10 @@
     });
   };
 
-  //-------------------------------------------------------------------------------
-  //CURRENT TAB
   CurrentTabStore.subscribe((currTab) => {
     currentTab = +currTab.currentTab;
   });
 
-  //ADD TAB FUNCTION--------------------------------------------------------------------
   const addTab = () => () => {
     const tab: string = `Snapshot ${index}`;
     items[tab] = {
@@ -171,13 +137,6 @@
       return { currentTab: index };
     });
 
-    CurrentTabStore.subscribe((tab) => {
-      console.log('currentTab when addTab: ', tab);
-    });
-
-    //just subcribe the rootComponent --> DefaultRootComponent
-    //because <Editor /> get rootComponent, need to run this function to make changes for webpage
-    //with inspectedWindow
     DefaultSnapShotStore.subscribe((data: any) => {
       for (let key in data) {
         let key_inject_state = data[key].key;
@@ -221,8 +180,6 @@
     index++;
   };
 
-  //RESET TAB-------------------------------------------------------------------------------
-
   const resetAlertClick = () => {
     const confirmed = window.confirm(
       'Are you sure you want to reset all tabs?'
@@ -248,20 +205,15 @@
 
     //make webpage come back to original version - original RootComponent
     DefaultSnapShotStore.subscribe((data: any) => {
-      console.log('DefaultSnapShotStore when invoking addTab: ', data);
 
       for (let key in data) {
         let key_inject_state = data[key].key;
-
         let value_inject_state = data[key].value;
-
         let id_inject_state = data[key].id;
 
         if (typeof value_inject_state === 'string') {
-          console.log('running for string');
           chrome.devtools.inspectedWindow.eval(
             `__svelte_devtools_inject_state(${id_inject_state}, '${key_inject_state}', '${value_inject_state}')`,
-
             (_, error) => {
               errors[key_inject_state] =
                 error && error.isException
@@ -305,55 +257,9 @@
     DefaultSnapShotStore.update((update) => {
       return {};
     });
-
-    // Function to set up the panel
-    async function setUpPanel() {
-      try {
-        const [tab] = await chrome.tabs.query({
-          active: true,
-          lastFocusedWindow: true,
-        });
-
-        if (tab && tab.id !== undefined) {
-          chrome.tabs.sendMessage(tab.id, { message: 'getRootComponent' });
-          chrome.tabs.sendMessage(tab.id, { message: 'getSvelteVersion' });
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    // Message listener function
-    function messageListener(message: any) {
-      if (message.type === 'updateRootComponent') {
-        rootComponent = message.rootComponent;
-        if (rootComponent) {
-          RootComponentStore.update((currentData) => {
-            return rootComponent;
-          });
-        }
-      } else if (message.type === 'returnRootComponent') {
-        rootComponent = message.rootComponent;
-
-        if (rootComponent) {
-          RootComponentStore.update((currentData) => {
-            return rootComponent;
-          });
-        }
-      } else if (message.type === 'returnTempRoot') {
-        const tempRoot = message.rootComponent;
-      }
-    }
-
-    // Set up message listener and panel on mount
-    // chrome.runtime.onMessage.addListener(messageListener);
-    // setUpPanel();
   };
 
-  //-------------------------------------------------------------------------------
-
   SelectedNodeAttributes.subscribe((data) => {
-    // console.log('subscribed to selected node attributes: ', data);
     currentdata = data.tagName;
   });
 
@@ -361,7 +267,6 @@
     root = data.tagName;
   });
 
-  //REMOVE TAB FUNCTION-----------------------------------------------------------------------
   const removeTab = (tabValue: number) => () => {
     //change activeTab to the last tab
     if (Object.keys(items).length > 1) {
@@ -372,8 +277,6 @@
       });
       items = items;
     }
-
-    //declare a true/false variable for if
   };
 </script>
 

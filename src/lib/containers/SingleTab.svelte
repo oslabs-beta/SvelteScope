@@ -12,9 +12,8 @@
 
   export let id: number;
   export let readonly = false;
-  export let currentData2: any;
+  export const currentData2 = {};
 
-  //------------------------------------------------------------------------------
   
   onMount(() => {
     const unsubscribe = CurrentTabStore.subscribe((data: any) => {
@@ -29,15 +28,12 @@
     if (Object.keys(currentData).length === 0) {
       RootComponentStore.subscribe((data) => {
         currentData = data;
-        
       });
     }
   });
-  //------------------------------------------------------------------------------
 </script>
 
 <main>
-  <!-- //TYPE: COMPONENT----------------------------------------------------------- -->
   {#if currentData}
     <Editor currentData2={currentData} id={currentData.id} {readonly} />
   {/if}
