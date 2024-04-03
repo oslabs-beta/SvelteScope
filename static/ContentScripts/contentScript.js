@@ -5,7 +5,8 @@
   Svelte applications.
 */
 
-import { getNode, getSvelteVersion, getRootNodes } from "svelte-listener";
+// import { getNode, getSvelteVersion, getRootNodes } from "svelte-listener";
+import { getNode, getSvelteVersion, getRootNodes } from './svelte-listener/index'
 
 console.log('You are using SvelteScope: Svelte Debugging Tool')
 
@@ -256,6 +257,7 @@ let recentlyUpdated = false;
 function sendUpdateToPanel() {
   // This should only happen after the DOM is fully loaded
   // And after the Panel is loaded.
+  // if (!pageLoaded || !readyForUpdates) return;
   if (!pageLoaded || !readyForUpdates) return;
   if (recentlyInjectedASnapshot) return;
   // This needs a setTimeout because it MUST run AFTER the svelte-listener events fire
