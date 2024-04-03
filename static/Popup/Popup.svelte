@@ -1,7 +1,6 @@
 <script lang="ts">
   let version;
 
-  //-------------------------------------------------------------------------------------
   // Sends a message to ContentScriptIsolated, telling it to get the
   // current tab's Svelte version. If our response is null, that means
   // the app on the current tab is not using Svelte
@@ -17,8 +16,6 @@
       // All start like 'chrome://' We obviously can't get any DOM data from
       // them, so we'll exit the function here, and display an error message
       if (tab.url && tab.url.startsWith("chrome://")) {
-        // version = `<p>This webpage is <span>NOT</span> using Svelte</p>
-        //    <p><span class='name'>Svelte Component Explorer</span> cannot inject this page. </p>`;
         return;
       }
       chrome.tabs.sendMessage(tab.id, { message: "getSvelteVersion" });
@@ -31,7 +28,7 @@
 
   // Listen for response from ContentScriptIsolated. This is where we
   // get the current tab's Svelte version, and update Popup's state
-  chrome.runtime.onMessage.addListener(function (message) {
+  chrome.runtime.onMessage.addListener(function (message){
     if (message.type === "returnSvelteVersion") {
       if (message.svelteVersion) {
         version = message.svelteVersion;
@@ -44,7 +41,7 @@
 
   {#if version}
     <p>This webpage is using <span>Svelte</span> framework.</p>
-    <p>Svelte version: <span>${version}</span></p>
+    <p>Svelte version: <span>{version}</span></p>
   {:else}
     <p>This webpage is <span>NOT</span> using Svelte</p>
     <p>
