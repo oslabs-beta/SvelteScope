@@ -40,12 +40,12 @@
 <div>
 
   {#if version}
-    <p>This webpage is using <span>Svelte</span> framework.</p>
+    <p>This webpage is using <span>Svelte</span></p>
     <p>Svelte version: <span>{version}</span></p>
   {:else}
     <p>This webpage is <span>NOT</span> using Svelte</p>
     <p>
-      <span class="name">Svelte Component Explorer</span> cannot inject this page.
+      <span class="name">SvelteScope</span> cannot inject this page
     </p>
   {/if}
 </div>
