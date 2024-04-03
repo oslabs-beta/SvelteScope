@@ -4,8 +4,6 @@
   the middle man of this Chrome extension
 */
 
-console.log('Listening from SvelteScope ContentScriptIsolate')
-
 let port = null;
 // Listens to messages from ContentScriptMain
 // and forwards them to other parts of the extension
